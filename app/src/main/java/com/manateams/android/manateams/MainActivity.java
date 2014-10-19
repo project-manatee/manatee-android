@@ -8,6 +8,8 @@ import android.view.MenuItem;
 
 public class MainActivity extends Activity {
 
+    /* Solely used for login. If the user is already logged in, forwards to showing the grades. */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
