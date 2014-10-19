@@ -1,8 +1,15 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/app_primary</item>
+        <item name="colorPrimaryDark">@color/app_primary_dark</item>
+        <item name="colorAccent">@color/app_acccent</item>
+       <!-- <item name="colorControlHighlight">@color/accent_highlight</item> -->
     </style>
+    <!-- inherit from the material theme -->
+    <style name="AppTheme.Base" parent="AppTheme">
 
+    </style>
 </resources>
