@@ -1,0 +1,3 @@
+[submodule "Teams-Scraper"]
+	path = Teams-Scraper
+	url = https://github.com/Oksisane/Teams-Scraper.git

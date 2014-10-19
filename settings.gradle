@@ -1,1 +1,2 @@
-include ':app'
+include ':app', ':scraper'
+project(':scraper').projectDir = new File('Teams-Scraper/app')
