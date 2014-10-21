@@ -4,5 +4,6 @@
         <item name="android:colorPrimary">@color/app_primary</item>
         <item name="android:colorPrimaryDark">@color/app_primary_dark</item>
         <item name="android:colorAccent">@color/app_acccent</item>
+        <item name="android:navigationBarColor">@color/app_primary</item>
     </style>
 </resources>

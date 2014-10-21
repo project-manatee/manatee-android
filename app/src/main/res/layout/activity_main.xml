@@ -6,45 +6,50 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:animateLayoutChanges="true"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/text_login"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/text_login"
-        android:layout_marginTop="12dp"
-        android:textSize="56sp" />
-
-    <TextView
-        android:id="@+id/text_login_quote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_login"
-        android:layout_marginTop="24dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:paddingTop="12dp"
-        android:text="@string/text_login_quote"
-        android:textSize="16sp" />
+        android:id="@+id/layout_loginText">
 
-    <TextView
-        android:id="@+id/text_login_quote_author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/text_login_quote"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:text="@string/text_login_quote_author"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/text_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/text_login"
+            android:layout_marginTop="12dp"
+            android:textSize="56sp" />
+
+        <TextView
+            android:id="@+id/text_login_quote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_below="@id/text_login"
+            android:paddingTop="12dp"
+            android:text="@string/text_login_quote"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/text_login_quote_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/text_login_quote"
+            android:text="@string/text_login_quote_author"
+            android:textSize="16sp" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_marginTop="24dp"
-        android:layout_below="@id/text_login_quote_author"
+        android:layout_below="@id/layout_loginText"
         android:layout_height="wrap_content">
         <EditText
             android:layout_width="match_parent"
@@ -70,6 +75,7 @@
             android:elevation="5dp"
             android:padding="18dp"
             android:text="@string/button_login"
+            android:onClick="onLoginClick"
             android:layout_below="@id/edittext_login_password"/>
     </RelativeLayout>
 
