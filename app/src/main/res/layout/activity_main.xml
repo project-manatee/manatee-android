@@ -51,6 +51,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/layout_loginParams"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/layout_loginText"
@@ -80,11 +81,29 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:onClick="onLoginClick"
                 android:layout_below="@id/edittext_login_password"
                 android:elevation="5dp"
+                android:onClick="onLoginClick"
                 android:padding="18dp"
                 android:text="@string/button_login" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_below="@id/layout_loginParams"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/marker_progress"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:indeterminate="true" />
         </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

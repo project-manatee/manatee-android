@@ -1,24 +1,22 @@
 package com.manateams.android.manateams;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
 
     /* Solely used for login. If the user is already logged in, forwards to showing the grades. */
 
-    boolean loggingIn;
+    private boolean loggingIn;
+    private RelativeLayout loginTextLayout;
+    private RelativeLayout loginLoadingLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +30,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void setupViews() {
-
+        loginTextLayout = (RelativeLayout) findViewById(R.id.layout_loginText);
+        loginLoadingLayout = (RelativeLayout) findViewById(R.id.layout_loading);
     }
 
     @Override
@@ -55,13 +54,14 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void onLoginClick(View v) {
-        RelativeLayout loginTextLayout = (RelativeLayout) findViewById(R.id.layout_loginText);
         if (!loggingIn) {
             loginTextLayout.setVisibility(View.GONE);
             loggingIn = true;
+            loginLoadingLayout.setVisibility(View.VISIBLE);
         } else {
             loginTextLayout.setVisibility(View.VISIBLE);
             loggingIn = false;
+            loginLoadingLayout.setVisibility(View.GONE);
         }
     }
 }
