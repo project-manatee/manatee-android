@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< HEAD
     <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
         <item name="android:colorPrimary">@color/app_primary</item>
         <item name="android:colorPrimaryDark">@color/app_primary_dark</item>
         <item name="android:colorAccent">@color/app_acccent</item>
         <item name="android:navigationBarColor">@color/app_primary</item>
+=======
+    <style name="AppTheme.Base" parent="AppTheme">
+        <!-- Navigation/Status bar color is primary dark -->
+        <item name="android:navigationBarColor">@color/app_primary_dark</item>
+        <item name="android:statusBarColor">@color/app_primary_dark</item>
+>>>>>>> c25f4df630c5e910fa6c5255000c5701a54f6365
     </style>
 </resources>
