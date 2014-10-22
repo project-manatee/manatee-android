@@ -21,7 +21,7 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
     }
 
     @Override
-    protected Course[] doInBackground(String... params)  {
+    protected Course[] doInBackground(String... params) {
         final String username = params[0];
         final String password = params[1];
         final String studentId = params[2];
@@ -31,24 +31,22 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
         } else {
             userType = new AustinISDParent();
         }
-        //////////////////////////////
         try {
             final TEAMSGradeParser p = new TEAMSGradeParser();
 
             //Get cookies
             final String cstonecookie = TEAMSGradeRetriever.getAustinisdCookie(username, password);
-            final String teamscookie = TEAMSGradeRetriever.getTEAMSCookie(cstonecookie,userType);
+            final String teamscookie = TEAMSGradeRetriever.getTEAMSCookie(cstonecookie, userType);
 
             //Generate final cookie
             final String finalcookie = teamscookie + ';' + cstonecookie;
 
             //POST to login to TEAMS
-            String userIdentification = TEAMSGradeRetriever.postTEAMSLogin(username, password, finalcookie,userType);
-            final String averageHtml = TEAMSGradeRetriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", finalcookie,userType,userIdentification);
+            String userIdentification = TEAMSGradeRetriever.postTEAMSLogin(username, password, finalcookie, userType);
+            final String averageHtml = TEAMSGradeRetriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", finalcookie, userType, userIdentification);
             Course[] courses = p.parseAverages(averageHtml);
             return courses;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

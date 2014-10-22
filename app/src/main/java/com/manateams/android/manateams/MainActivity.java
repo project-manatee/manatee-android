@@ -11,20 +11,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.quickhac.common.data.Course;
-
 import com.manateams.android.manateams.asynctask.AsyncTaskCompleteListener;
 import com.manateams.android.manateams.asynctask.CourseLoadTask;
 import com.manateams.android.manateams.util.DataManager;
+import com.quickhac.common.data.Course;
 
 
 public class MainActivity extends ActionBarActivity implements AsyncTaskCompleteListener {
 
-    Course[] courses;
 
     /* Solely used for login. If the user is already logged in, forwards to showing the grades. */
 
     private boolean loggingIn;
+
+    private String username;
+    private String password;
+    private String studentId;
 
     private RelativeLayout loginTextLayout;
     private RelativeLayout loginLoadingLayout;
@@ -45,6 +47,12 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         dataManager = new DataManager(this);
+        if(dataManager.getUsername() != null && dataManager.getPassword() != null && dataManager.getStudentId() != null) {
+            usernameText.setText(dataManager.getUsername());
+            passwordText.setText(dataManager.getPassword());
+            studentIdText.setText(dataManager.getStudentId());
+            login();
+        }
     }
 
     public void setupViews() {
@@ -75,12 +83,19 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     }
 
     public void onLoginClick(View v) {
+        login();
+    }
+
+    private void login() {
         if (!loggingIn) {
             if (usernameText.getText().toString().length() > 0 && passwordText.getText().toString().length() > 0) {
                 loginTextLayout.setVisibility(View.GONE);
                 loggingIn = true;
                 loginLoadingLayout.setVisibility(View.VISIBLE);
-                new CourseLoadTask(this, this).execute(usernameText.getText().toString(), passwordText.getText().toString(), studentIdText.getText().toString());
+                username = usernameText.getText().toString();
+                password = passwordText.getText().toString();
+                studentId = studentIdText.getText().toString();
+                new CourseLoadTask(this, this).execute(username, password, studentId);
             } else {
                 Toast.makeText(this, getString(R.string.toast_fill_info), Toast.LENGTH_SHORT).show();
             }
@@ -93,8 +108,17 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
 
     @Override
     public void onCoursesLoaded(Course[] courses) {
-        dataManager.setCourseGrades(courses);
-        Intent intent = new Intent(this, CoursesActivity.class);
-        startActivity(intent);
+        if(courses != null) {
+            dataManager.setCourseGrades(courses);
+            dataManager.setCredentials(username, password, studentId);
+            Intent intent = new Intent(this, CoursesActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            username = "";
+            password = "";
+            studentId = "";
+            Toast.makeText(this, getString(R.string.toast_login_failed), Toast.LENGTH_SHORT).show();
+        }
     }
 }
