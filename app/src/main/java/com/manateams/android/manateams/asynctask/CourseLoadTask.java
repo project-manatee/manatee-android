@@ -1,4 +1,4 @@
-package asynctask;
+package com.manateams.android.manateams.asynctask;
 
 import android.content.Context;
 import android.os.AsyncTask;

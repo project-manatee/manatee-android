@@ -24,4 +24,6 @@ dependencies {
     compile project(':scraper')
     compile 'com.android.support:appcompat-v7:21.0.+'
     compile 'com.android.support:cardview-v7:+'
+    compile 'com.android.support:recyclerview-v7:21.+'
+    compile files('libs/gson-2.2.4.jar')
 }

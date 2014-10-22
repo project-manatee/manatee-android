@@ -1,4 +1,4 @@
-package asynctask;
+package com.manateams.android.manateams.asynctask;
 
 import com.quickhac.common.data.Course;
 

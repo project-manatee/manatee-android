@@ -1,9 +1,9 @@
 package com.manateams.android.manateams;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,8 +13,9 @@ import android.widget.Toast;
 
 import com.quickhac.common.data.Course;
 
-import asynctask.AsyncTaskCompleteListener;
-import asynctask.CourseLoadTask;
+import com.manateams.android.manateams.asynctask.AsyncTaskCompleteListener;
+import com.manateams.android.manateams.asynctask.CourseLoadTask;
+import com.manateams.android.manateams.util.DataManager;
 
 
 public class MainActivity extends ActionBarActivity implements AsyncTaskCompleteListener {
@@ -24,11 +25,14 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     /* Solely used for login. If the user is already logged in, forwards to showing the grades. */
 
     private boolean loggingIn;
+
     private RelativeLayout loginTextLayout;
     private RelativeLayout loginLoadingLayout;
     private TextView usernameText;
     private TextView passwordText;
     private TextView studentIdText;
+
+    private DataManager dataManager;
 
 
     @Override
@@ -40,6 +44,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
         //Define Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        dataManager = new DataManager(this);
     }
 
     public void setupViews() {
@@ -88,9 +93,8 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
 
     @Override
     public void onCoursesLoaded(Course[] courses) {
-        Log.d("ResultResult", String.valueOf(courses.length));
-        for(int i = 0; i < courses.length; i++) {
-            Log.d("ResultResult", courses[i].title);
-        }
+        dataManager.setCourseGrades(courses);
+        Intent intent = new Intent(this, CoursesActivity.class);
+        startActivity(intent);
     }
 }
