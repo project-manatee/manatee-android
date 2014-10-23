@@ -4,21 +4,18 @@
     android:orientation="vertical">
 
     <include layout="@layout/toolbar_layout" />
-
-
-    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="4dp"
-        tools:context="com.manateams.android.manateams.CoursesActivity">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_courses"
+        <FrameLayout
+            android:id="@+id/content_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+        </FrameLayout>
 
+        <include layout="@layout/navdrawer" />
+    </android.support.v4.widget.DrawerLayout>
 
-        </android.support.v7.widget.RecyclerView>
-
-    </RelativeLayout>
 </LinearLayout>
