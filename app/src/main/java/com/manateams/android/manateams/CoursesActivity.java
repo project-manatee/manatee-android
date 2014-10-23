@@ -35,7 +35,7 @@ public class CoursesActivity extends Activity {
         coursesList.setItemAnimator(new DefaultItemAnimator());
 
         // Set the grade cards
-        adapter = new CourseAdapter(courses);
+        adapter = new CourseAdapter(this, courses);
         coursesList.setAdapter(adapter);
     }
 
