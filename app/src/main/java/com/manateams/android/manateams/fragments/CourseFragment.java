@@ -49,7 +49,7 @@ public class CourseFragment extends Fragment {
         coursesList.setItemAnimator(new DefaultItemAnimator());
 
         // Set the grade cards
-        adapter = new CourseAdapter(courses);
+        adapter = new CourseAdapter(getActivity(), courses);
         coursesList.setAdapter(adapter);
     }
 }

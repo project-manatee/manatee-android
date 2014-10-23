@@ -23,4 +23,7 @@
         <item>Settings</item>
         <item>About</item>
     </string-array>
+    <string name="misc_cycle">C</string>
+    <string name="misc_final">Exam</string>
+    <string name="misc_average">Avg</string>
 </resources>
