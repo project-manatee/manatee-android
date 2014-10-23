@@ -15,5 +15,12 @@
     <string name="text_card_class_title_default">AP US HIST</string>
     <string name="title_activity_courses">CoursesActivity</string>
     <string name="toast_login_failed">Login failed. Please try again.</string>
-
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
+    <string-array name="drawer_array">
+        <item>Grades</item>
+        <item>GPA</item>
+        <item>Settings</item>
+        <item>About</item>
+    </string-array>
 </resources>
