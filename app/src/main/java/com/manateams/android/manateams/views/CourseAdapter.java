@@ -72,7 +72,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             text.setText("");
         }
         text.setTypeface(sansSerifLight);
-        text.setPadding(8, 12, 8, 12);
+        text.setPadding(8, 16, 8, 16);
         return text;
     }
 

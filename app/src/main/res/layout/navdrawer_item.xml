@@ -4,15 +4,24 @@
     android:orientation="horizontal"
     android:background="?android:selectableItemBackground"
     android:gravity="start|center_vertical"
-    android:paddingLeft="@dimen/keyline_1"
-    android:paddingRight="@dimen/keyline_1"
+    android:padding="12dp"
     android:layout_width="match_parent"
     android:layout_height="48dp">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_launcher" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"/>
+        android:layout_gravity="start|center_vertical"
+        android:gravity="start|center_vertical"
+        android:textSize="16sp"
+        android:layout_marginLeft="8dp"
+        android:text="@string/text_navigation_default" />
 
 </LinearLayout>

@@ -1,27 +1,19 @@
 package com.manateams.android.manateams;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.manateams.android.manateams.fragments.CourseFragment;
-import com.manateams.android.manateams.util.DataManager;
-import com.manateams.android.manateams.views.CourseAdapter;
 import com.manateams.android.manateams.views.DrawerAdapter;
-import com.quickhac.common.data.Course;
 
 
 public class CoursesActivity extends ActionBarActivity {
