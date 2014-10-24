@@ -37,8 +37,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         return vh;
     }
 
-
-
     private int getGradeColor(GradeValue value) {
         // default of white
         int[] values = new int[] { 255, 255, 255 };
@@ -93,8 +91,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                     TableRow footerRow = new TableRow(context);
                     for (int d = 0; d < course.semesters[i].cycles.length; d++) {
                         if (course.semesters[i].cycles[d].average != null) {
+                            Log.d("DEBUGGY", "Course " + "Semester " + String.valueOf(i) + " cycle " + String.valueOf(d) + course.semesters[i].cycles[d].average.toString());
                             gradeRow.addView(makeGradeText(course.semesters[i].cycles[d].average));
                         } else {
+                             Log.d("DEBUGGY", "Course " + "semester " + String.valueOf(i) + " cycle " + String.valueOf(d) + "average is nul");
                             gradeRow.addView(makeGradeText(null));
                         }
                         footerRow.addView(makeFooterText(((context.getString(R.string.misc_cycle) + (i * course.semesters[0].cycles.length + (d + 1)))).toUpperCase()));
