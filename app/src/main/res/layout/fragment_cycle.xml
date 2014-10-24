@@ -6,11 +6,10 @@
     android:paddingTop="4dp"
     tools:context="com.manateams.android.manateams.AssignmentActivity">
 
-    <TextView
-        android:id="@+id/cycle_list"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_grades"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="blah">
-    </TextView>
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

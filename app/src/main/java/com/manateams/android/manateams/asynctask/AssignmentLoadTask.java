@@ -3,6 +3,7 @@ package com.manateams.android.manateams.asynctask;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.manateams.android.manateams.R;
 import com.quickhac.common.TEAMSGradeParser;
@@ -64,7 +65,9 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
             ClassGrades[] grades = new ClassGrades[6]; // TODO don't hardcode length
             for(int i = 0; i < grades.length; i++) {
                 grades[i] = TEAMSGradeRetriever.getCycleClassGrades(courses[courseIndex], i, averageHtml, finalcookie, userType, userIdentification);
-
+            }
+            if(grades == null) {
+                Log.d("WATWAT", "grades null at load");
             }
             return grades;
         } catch (Exception e) {

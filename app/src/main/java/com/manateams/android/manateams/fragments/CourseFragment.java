@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,9 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
     @Override
     public void onClassGradesLoaded(ClassGrades[] grades, int courseIndex) {
         dataManager.setClassGrades(grades, courseIndex);
+        if(grades == null) {
+            Log.d("WATWAT", "grades null in onClassGradesLoaded");
+        }
         Intent intent = new Intent(getActivity(), AssignmentActivity.class);
         intent.putExtra("courseIndex", courseIndex);
         startActivity(intent);

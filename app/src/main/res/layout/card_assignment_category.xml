@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="4dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="4dp"><!-- A CardView that contains a TextView -->
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        card_view:cardCornerRadius="2dp"
+        card_view:cardElevation="2dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/layout_title_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/app_primary_dark"
+                android:orientation="horizontal"
+                android:padding="6dp"
+                android:weightSum="100">
+
+                <TextView
+                    android:id="@+id/text_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="80"
+                    android:ellipsize="end"
+                    android:padding="8dp"
+                    android:singleLine="true"
+                    android:text="@string/text_card_category_assignment_title_default"
+                    android:textColor="@color/white"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:text="@string/text_card_category_assignment_weight_default"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:id="@+id/text_weight"
+                    android:textSize="22sp"
+                    android:padding="8dp"
+                    android:textColor="@color/white"
+                    android:layout_weight="20"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <TableLayout
+                android:id="@+id/table_assignments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_title_color"
+                android:shrinkColumns="*"
+                android:stretchColumns="*"></TableLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:id="@+id/text_average"
+                android:layout_below="@id/table_assignments"
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/text_card_category_assignment_average_default"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

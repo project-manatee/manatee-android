@@ -7,11 +7,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.google.gson.Gson;
 import com.manateams.android.manateams.fragments.CycleFragment;
+import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
 import com.quickhac.common.data.ClassGrades;
 
@@ -73,6 +76,7 @@ public class AssignmentActivity extends ActionBarActivity {
     public void onDestroy() {
         super.onDestroy();
     }
+
     public class Adapter extends FragmentPagerAdapter {
         public Adapter(FragmentManager fm) {
             super(fm);
@@ -83,6 +87,16 @@ public class AssignmentActivity extends ActionBarActivity {
             Bundle args = new Bundle();
             // Our object is just an integer :-P
             args.putInt("request", i);
+            // TODO change this, it's kinda hacky
+            Log.d("WATWAT", "test wat");
+            if (grades != null && grades[i] != null) {
+                args.putString(Constants.EXTRA_GRADES, new Gson().toJson(grades[i]));
+            } else if (grades == null) {
+                Log.d("WATWAT", "grades null");
+                args.putString(Constants.EXTRA_GRADES, null);
+            } else {
+                Log.d("WATWAT", "grades at index " + String.valueOf(i) + " null");
+            }
             CycleFragment fragment = new CycleFragment();
             fragment.setArguments(args);
             return fragment;
