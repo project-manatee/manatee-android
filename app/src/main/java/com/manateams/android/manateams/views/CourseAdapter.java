@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,10 +90,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                     TableRow footerRow = new TableRow(context);
                     for (int d = 0; d < course.semesters[i].cycles.length; d++) {
                         if (course.semesters[i].cycles[d].average != null) {
-                            Log.d("DEBUGGY", "Course " + "Semester " + String.valueOf(i) + " cycle " + String.valueOf(d) + course.semesters[i].cycles[d].average.toString());
                             gradeRow.addView(makeGradeText(course.semesters[i].cycles[d].average));
                         } else {
-                             Log.d("DEBUGGY", "Course " + "semester " + String.valueOf(i) + " cycle " + String.valueOf(d) + "average is nul");
                             gradeRow.addView(makeGradeText(null));
                         }
                         footerRow.addView(makeFooterText(((context.getString(R.string.misc_cycle) + (i * course.semesters[0].cycles.length + (d + 1)))).toUpperCase()));
