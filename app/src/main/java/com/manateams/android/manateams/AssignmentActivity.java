@@ -1,28 +1,51 @@
 package com.manateams.android.manateams;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.manateams.android.manateams.fragments.CycleFragment;
+import com.manateams.android.manateams.util.DataManager;
+import com.quickhac.common.data.ClassGrades;
 
 
-public class AssignmentActivity extends Activity {
+public class AssignmentActivity extends ActionBarActivity {
+
+    private DataManager dataManager;
+    private ClassGrades[] grades;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assignment);
+
+        //Define Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        //Configure Toolbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+
         int courseIndex = getIntent().getIntExtra("courseIndex", 0);
+        dataManager = new DataManager(this);
+        grades = dataManager.getClassGrades(courseIndex);
 
         // Initialize the ViewPager and set an adapter
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(new TestAdapter(getSupportFragmentManager()));
+        pager.setAdapter(new Adapter(getSupportFragmentManager()));
 
         // Bind the tabs to the ViewPager
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        tabs.setTextColor(getResources().getColor(R.color.white));
+        tabs.setBackgroundColor(getResources().getColor(R.color.app_primary));
         tabs.setViewPager(pager);
     }
 
@@ -45,4 +68,37 @@ public class AssignmentActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+    public class Adapter extends FragmentPagerAdapter {
+        public Adapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            Bundle args = new Bundle();
+            // Our object is just an integer :-P
+            args.putInt("request", i);
+            CycleFragment fragment = new CycleFragment();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Cycle " + ++position;
+        }
+
+        @Override
+        public int getCount() {
+            //TODO Hardcoded cycle count
+            return 6;
+        }
+    }
 }
+
+

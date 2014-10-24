@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/app_primary</item>
         <item name="colorPrimaryDark">@color/app_primary_dark</item>
-        <item name="colorAccent">@color/app_acccent</item>
+        <item name="colorAccent">@color/app_accent</item>
         <!-- <item name="colorControlHighlight">@color/accent_highlight</item> -->
     </style>
     <!-- inherit from the material theme -->

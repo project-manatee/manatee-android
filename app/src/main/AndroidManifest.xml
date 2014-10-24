@@ -24,6 +24,9 @@
         <activity
             android:name=".AssignmentActivity"
             android:label="@string/title_activity_assignment" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CoursesActivity" />
         </activity>
     </application>
 

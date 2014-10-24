@@ -1,8 +1,10 @@
 package com.manateams.android.manateams.asynctask;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.manateams.android.manateams.R;
 import com.quickhac.common.TEAMSGradeParser;
 import com.quickhac.common.TEAMSGradeRetriever;
 import com.quickhac.common.data.ClassGrades;
@@ -16,10 +18,21 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
     private AsyncTaskCompleteListener callback;
     private Context context;
     private int courseIndex;
+    ProgressDialog dialog;
 
     public AssignmentLoadTask(AsyncTaskCompleteListener callback, Context context) {
         this.callback = callback;
         this.context = context;
+    }
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        if (dialog == null) {
+            this.dialog = new ProgressDialog(context);
+            this.dialog.setMessage(context.getString(R.string.dialog_assignment_loading));
+            this.dialog.setCancelable(false);
+            this.dialog.show();
+        }
     }
 
     @Override
@@ -62,6 +75,7 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
 
     @Override
     protected void onPostExecute(ClassGrades[] grades) {
+        dialog.dismiss();
         callback.onClassGradesLoaded(grades, courseIndex);
     }
 }

@@ -1,2 +1,2 @@
 include ':app', ':scraper'
-project(':scraper').projectDir = new File('Teams-Scraper/app')
+project(':scraper').projectDir = new File('manatee-scraper-java/app')
