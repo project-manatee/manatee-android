@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.manateams.android.manateams.asynctask.AsyncTaskCompleteListener;
 import com.manateams.android.manateams.asynctask.CourseLoadTask;
 import com.manateams.android.manateams.util.DataManager;
+import com.quickhac.common.data.ClassGrades;
 import com.quickhac.common.data.Course;
 
 
@@ -120,5 +121,10 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
             studentId = "";
             Toast.makeText(this, getString(R.string.toast_login_failed), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onClassGradesLoaded(ClassGrades[] grades, int courseIndex) {
+
     }
 }

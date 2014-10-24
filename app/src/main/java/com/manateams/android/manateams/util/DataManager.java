@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.quickhac.common.data.ClassGrades;
 import com.quickhac.common.data.Course;
 
 import java.io.BufferedReader;
@@ -77,6 +78,15 @@ public class DataManager {
         String data = readFromFile(Constants.FILE_COURSES);
         return new Gson().fromJson(data, new TypeToken<Course[]>() {
         }.getType());
+    }
+
+    public void setClassGrades(ClassGrades[] grades, int courseIndex) {
+        writeToFile(Constants.FILE_BASE_CLASSGRADES + String.valueOf(courseIndex), new Gson().toJson(grades));
+    }
+
+    public ClassGrades[] getClassGrades(int courseIndex) {
+        String data = readFromFile(Constants.FILE_BASE_CLASSGRADES + String.valueOf(courseIndex));
+        return new Gson().fromJson(data, new TypeToken<ClassGrades[]>(){}.getType());
     }
 
     private String readFromFile(String name) {

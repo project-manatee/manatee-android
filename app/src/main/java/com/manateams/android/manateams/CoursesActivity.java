@@ -35,6 +35,9 @@ public class CoursesActivity extends ActionBarActivity {
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
+
+
+
     private void setupDrawer(){
         //Define Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

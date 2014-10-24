@@ -21,6 +21,10 @@
             android:name=".CoursesActivity"
             android:label="@string/title_activity_courses" >
         </activity>
+        <activity
+            android:name=".AssignmentActivity"
+            android:label="@string/title_activity_assignment" >
+        </activity>
     </application>
 
 </manifest>
