@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,7 +80,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Course course = courses[position];
-        viewHolder.titleText.setText(courses[position].title);
+        viewHolder.setIsRecyclable(false);
+        viewHolder.titleText.setText(course.title);
         // Set a different color
         viewHolder.colorBar.setBackgroundColor(Color.parseColor(Constants.COLORS[position % Constants.COLORS.length]));
 
@@ -89,7 +91,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 if(course.semesters[i].average != null && !(course.semesters[i].average.toString().length() == 0)) {
                     TableRow gradeRow = new TableRow(context);
                     TableRow footerRow = new TableRow(context);
-                    for (int d = 0; d < course.semesters[0].cycles.length; d++) {
+                    for (int d = 0; d < course.semesters[i].cycles.length; d++) {
                         if (course.semesters[i].cycles[d].average != null) {
                             gradeRow.addView(makeGradeText(course.semesters[i].cycles[d].average));
                         } else {
