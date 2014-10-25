@@ -77,7 +77,7 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
         dataManager.setClassGrades(grades, courseIndex);
         Intent intent = new Intent(getActivity(), AssignmentActivity.class);
         intent.putExtra(Constants.EXTRA_COURSEINDEX, courseIndex);
-        intent.putExtra(Constants.EXTRA_COURSETITLE, grades[courseIndex].title);
+        intent.putExtra(Constants.EXTRA_COURSETITLE, courses[courseIndex].title);
         startActivity(intent);
     }
 }
