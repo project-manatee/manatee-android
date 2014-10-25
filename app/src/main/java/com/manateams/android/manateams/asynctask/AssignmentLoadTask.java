@@ -43,7 +43,7 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
         final String studentId = params[2];
         courseIndex = Integer.valueOf(params[3]);
         final TEAMSUserType userType;
-        if (username.matches("^s\\d{7}$")) {
+        if (username.matches("^[sS]\\d{7}\\d?$")) {
             userType = new AustinISDStudent();
         } else {
             userType = new AustinISDParent();
