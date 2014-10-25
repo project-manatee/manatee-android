@@ -107,7 +107,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                     } else {
                         gradeRow.addView(makeGradeText(null));
                     }
-                    footerRow.addView(makeFooterText(context.getString(R.string.misc_average).toUpperCase()));
+                    footerRow.addView(makeFooterText(context.getString(R.string.misc_avg).toUpperCase()));
                     viewHolder.gradeTable.addView(gradeRow);
                     viewHolder.gradeTable.addView(footerRow);
                 }

@@ -2,8 +2,8 @@ package com.manateams.android.manateams.views;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,19 +48,42 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                         // Set a different color
                         viewHolder.colorBar.setBackgroundColor(Color.parseColor(Constants.COLORS[position % Constants.COLORS.length]));
 
+                        if(category.weight >= 0) {
+                            viewHolder.weightText.setText(((int) category.weight) + "%");
+                        } else {
+                            viewHolder.weightText.setText(context.getString(R.string.text_card_category_assignment_weight_null));
+                        }
+
                         for (int i = 0; i < assignments.length; i++) {
                             TableRow assignmentRow = new TableRow(context);
                             Assignment assignment = assignments[i];
                             if (assignment != null) {
                                 LinearLayout row = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.row_assignment, null);
-                                Log.d("WATWAT", "Adding assignment " + assignment.title);
                                 TextView assignmentText = (TextView) row.findViewById(R.id.text_assignment);
                                 TextView gradeText = (TextView) row.findViewById(R.id.text_grade);
                                 assignmentText.setText(assignment.title);
-                                gradeText.setText(assignment.pointsString());
+                                if(!assignment.pointsString().equals("0")) {
+                                    gradeText.setText(assignment.pointsString());
+                                } else {
+                                    gradeText.setText(" ");
+                                }
                                 assignmentRow.addView(row);
                                 viewHolder.assignmentTable.addView(assignmentRow);
                             }
+                        }
+
+                        if(category.average != null) {
+                            // Add category average
+                            TableRow averageRow = new TableRow(context);
+                            LinearLayout row = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.row_assignment, null);
+                            TextView assignmentText = (TextView) row.findViewById(R.id.text_assignment);
+                            TextView gradeText = (TextView) row.findViewById(R.id.text_grade);
+                            assignmentText.setText(context.getString(R.string.misc_average));
+                            assignmentText.setTypeface(assignmentText.getTypeface(), Typeface.BOLD);
+                            gradeText.setText(String.valueOf(category.average.intValue()));
+                            gradeText.setTypeface(assignmentText.getTypeface(), Typeface.BOLD);
+                            averageRow.addView(row);
+                            viewHolder.assignmentTable.addView(averageRow);
                         }
                     }
                 }
@@ -82,7 +105,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         public TextView weightText;
         public LinearLayout colorBar;
         public TableLayout assignmentTable;
-        public TextView averageText;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -90,7 +112,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             weightText = (TextView) itemView.findViewById(R.id.text_weight);
             colorBar = (LinearLayout) itemView.findViewById(R.id.layout_title_color);
             assignmentTable = (TableLayout) itemView.findViewById(R.id.table_assignments);
-            averageText = (TextView) itemView.findViewById(R.id.text_average);
         }
     }
 }

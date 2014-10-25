@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import com.manateams.android.manateams.AssignmentActivity;
 import com.manateams.android.manateams.R;
 import com.manateams.android.manateams.asynctask.AssignmentLoadTask;
 import com.manateams.android.manateams.asynctask.AsyncTaskCompleteListener;
+import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.views.CourseAdapter;
 import com.manateams.android.manateams.views.RecyclerItemClickListener;
@@ -75,11 +75,9 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
     @Override
     public void onClassGradesLoaded(ClassGrades[] grades, int courseIndex) {
         dataManager.setClassGrades(grades, courseIndex);
-        if(grades == null) {
-            Log.d("WATWAT", "grades null in onClassGradesLoaded");
-        }
         Intent intent = new Intent(getActivity(), AssignmentActivity.class);
-        intent.putExtra("courseIndex", courseIndex);
+        intent.putExtra(Constants.EXTRA_COURSEINDEX, courseIndex);
+        intent.putExtra(Constants.EXTRA_COURSETITLE, grades[courseIndex].title);
         startActivity(intent);
     }
 }

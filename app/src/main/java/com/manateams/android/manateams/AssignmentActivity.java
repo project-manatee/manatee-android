@@ -36,8 +36,9 @@ public class AssignmentActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setTitle(getIntent().getStringExtra(Constants.EXTRA_COURSETITLE));
 
-        int courseIndex = getIntent().getIntExtra("courseIndex", 0);
+        int courseIndex = getIntent().getIntExtra(Constants.EXTRA_COURSEINDEX, 0);
         dataManager = new DataManager(this);
         grades = dataManager.getClassGrades(courseIndex);
 
@@ -66,9 +67,6 @@ public class AssignmentActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -85,17 +83,12 @@ public class AssignmentActivity extends ActionBarActivity {
         @Override
         public Fragment getItem(int i) {
             Bundle args = new Bundle();
-            // Our object is just an integer :-P
             args.putInt("request", i);
-            // TODO change this, it's kinda hacky
-            Log.d("WATWAT", "test wat");
             if (grades != null && grades[i] != null) {
                 args.putString(Constants.EXTRA_GRADES, new Gson().toJson(grades[i]));
-            } else if (grades == null) {
+            } else {
                 Log.d("WATWAT", "grades null");
                 args.putString(Constants.EXTRA_GRADES, null);
-            } else {
-                Log.d("WATWAT", "grades at index " + String.valueOf(i) + " null");
             }
             CycleFragment fragment = new CycleFragment();
             fragment.setArguments(args);

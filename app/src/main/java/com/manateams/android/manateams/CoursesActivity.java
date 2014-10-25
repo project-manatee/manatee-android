@@ -105,9 +105,6 @@ public class CoursesActivity extends ActionBarActivity {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        if (id == R.id.action_settings) {
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
