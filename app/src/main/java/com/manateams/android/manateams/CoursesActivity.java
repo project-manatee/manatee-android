@@ -1,5 +1,6 @@
 package com.manateams.android.manateams;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -82,6 +83,13 @@ public class CoursesActivity extends ActionBarActivity {
                 //TODO Possible animation here?
                 fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
                 break;
+            case 1:
+                break;
+            case 2:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+
         }
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position,true);

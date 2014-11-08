@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <PreferenceCategory android:title="@string/pref_category_grades" >
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_showGradeColor"
+            android:summary="@string/pref_showGradeColor_summ"
+            android:title="@string/pref_showGradeColor" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_gpa" >
+
+        <MultiSelectListPreference
+            android:dialogTitle="@string/pref_chooseWeighted"
+            android:key="pref_weightedClasses"
+            android:title="@string/pref_chooseWeighted" />
+
+        <MultiSelectListPreference
+            android:dialogTitle="@string/pref_chooseExcluded"
+            android:key="pref_excludedClasses"
+            android:title="@string/pref_chooseExcluded" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="category_notifications"
+        android:title="@string/pref_category_notifications" >
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_showNotifications"
+            android:summary="@string/pref_showNotifications_summ"
+            android:title="@string/pref_showNotifications" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
