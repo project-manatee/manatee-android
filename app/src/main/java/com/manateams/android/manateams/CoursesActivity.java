@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.manateams.android.manateams.fragments.CourseFragment;
+import com.manateams.android.manateams.fragments.GPAFragment;
 import com.manateams.android.manateams.views.DrawerAdapter;
 
 
@@ -79,11 +80,13 @@ public class CoursesActivity extends ActionBarActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch(position){
             case 0:
-                CourseFragment fragment = new CourseFragment();
+                CourseFragment courseFragment = new CourseFragment();
                 //TODO Possible animation here?
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, courseFragment).commit();
                 break;
             case 1:
+                GPAFragment gpaFragment = new GPAFragment();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, gpaFragment).commit();
                 break;
             case 2:
                 Intent intent = new Intent(this, SettingsActivity.class);
