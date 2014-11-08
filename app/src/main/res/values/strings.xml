@@ -49,6 +49,7 @@
     <string name="pref_showNotifications">Show notifications</string>
     <string name="pref_showNotifications_summ">Notify me when my grade changes in a class</string>
     <string name="text_gpa_unweighted">Unweighted GPA</string>
+    <string name="text_gpa_weighted">Weighted</string>
 
 
 </resources>
