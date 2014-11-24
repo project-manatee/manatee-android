@@ -48,11 +48,17 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         dataManager = new DataManager(this);
-        if(dataManager.getUsername() != null && dataManager.getPassword() != null && dataManager.getStudentId() != null) {
-            usernameText.setText(dataManager.getUsername());
-            passwordText.setText(dataManager.getPassword());
-            studentIdText.setText(dataManager.getStudentId());
-            login();
+        if(dataManager.getCourseGrades() != null) {
+            Intent intent = new Intent(this, CoursesActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            if (dataManager.getUsername() != null && dataManager.getPassword() != null && dataManager.getStudentId() != null) {
+                usernameText.setText(dataManager.getUsername());
+                passwordText.setText(dataManager.getPassword());
+                studentIdText.setText(dataManager.getStudentId());
+                login();
+            }
         }
     }
 
