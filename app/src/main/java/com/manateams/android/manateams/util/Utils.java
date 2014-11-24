@@ -1,6 +1,17 @@
 package com.manateams.android.manateams.util;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+
+import com.manateams.android.manateams.service.AlarmReceiver;
+
 public class Utils {
+
+
+
+
     /*
 	 * Returns a color for a grade. Colors according to severity. Returned is an
 	 * array of ints, with rgb values hexColor is supplied if you want the grade
@@ -81,5 +92,23 @@ public class Utils {
         }
 
         return new int[] { (int) (r * 255), (int) (g * 255), (int) (b * 255) };
+    }
+
+    /* Sets recurring alarms for running APIService. */
+    public static void setAlarms(long interval, Context context) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, 0, interval, alarmIntent);
+    }
+
+    /* Returns true if alarms are already set. */
+    public static boolean isAlarmsSet(Context context) {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+
+        boolean alarmsSet = (PendingIntent.getBroadcast(context, 0,
+                intent,
+                PendingIntent.FLAG_NO_CREATE) != null);
+        return alarmsSet;
     }
 }

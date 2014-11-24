@@ -32,6 +32,19 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+
+        <service
+            android:name=".service.GradeScrapeService"
+            android:exported="false" >
+        </service>
+
+        <receiver android:name=".service.BootReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".service.AlarmReceiver"></receiver>
     </application>
 
 </manifest>

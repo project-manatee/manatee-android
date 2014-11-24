@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +14,9 @@ import android.widget.Toast;
 
 import com.manateams.android.manateams.asynctask.AsyncTaskCompleteListener;
 import com.manateams.android.manateams.asynctask.CourseLoadTask;
+import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
+import com.manateams.android.manateams.util.Utils;
 import com.quickhac.common.data.ClassGrades;
 import com.quickhac.common.data.Course;
 
@@ -116,6 +119,10 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     @Override
     public void onCoursesLoaded(Course[] courses) {
         if(courses != null) {
+            if(!Utils.isAlarmsSet(this)) {
+                Log.d("BitBitBit", "registering alarms");
+                Utils.setAlarms(Constants.INTERVAL_GRADE_SCRAPE, this);
+            }
             dataManager.setCourseGrades(courses);
             dataManager.setCredentials(username, password, studentId);
             Intent intent = new Intent(this, CoursesActivity.class);

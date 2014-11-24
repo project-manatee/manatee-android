@@ -14,10 +14,12 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
 
     private AsyncTaskCompleteListener callback;
     private Context context;
+    private boolean showDialog;
 
     public CourseLoadTask(AsyncTaskCompleteListener callback, Context context) {
         this.callback = callback;
         this.context = context;
+        this.showDialog = showDialog;
     }
 
     @Override
