@@ -28,7 +28,7 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
         final String password = params[1];
         final String studentId = params[2];
         final TEAMSUserType userType;
-        if (username.matches("^[sS]\\d{7}\\d?$")) {
+        if (username.matches("^[sS]\\d{6,8}\\d?$")) {
             userType = new AustinISDStudent();
         } else {
             userType = new AustinISDParent();
