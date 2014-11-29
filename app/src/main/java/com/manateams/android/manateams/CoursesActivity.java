@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.manateams.android.manateams.fragments.CourseFragment;
 import com.manateams.android.manateams.fragments.GPAFragment;
+import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.views.DrawerAdapter;
 
 
@@ -24,13 +25,17 @@ public class CoursesActivity extends ActionBarActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mTitle;
+    private DataManager dataManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses);
         setupDrawer();
         selectItem(0);
+        dataManager = new DataManager(this);
     }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -39,8 +44,7 @@ public class CoursesActivity extends ActionBarActivity {
     }
 
 
-
-    private void setupDrawer(){
+    private void setupDrawer() {
         //Define Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,10 +79,11 @@ public class CoursesActivity extends ActionBarActivity {
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
+
     private void selectItem(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        switch(position){
+        switch (position) {
             case 0:
                 CourseFragment courseFragment = new CourseFragment();
                 //TODO Possible animation here?
@@ -95,11 +100,12 @@ public class CoursesActivity extends ActionBarActivity {
 
         }
         // update selected item and title, then close the drawer
-        mDrawerList.setItemChecked(position,true);
+        mDrawerList.setItemChecked(position, true);
         mTitle = getResources().getStringArray(R.array.drawer_array)[position];
         getSupportActionBar().setTitle(mTitle);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -118,6 +124,7 @@ public class CoursesActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

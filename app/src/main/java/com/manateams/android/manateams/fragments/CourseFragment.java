@@ -2,7 +2,9 @@ package com.manateams.android.manateams.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +16,7 @@ import com.manateams.android.manateams.AssignmentActivity;
 import com.manateams.android.manateams.R;
 import com.manateams.android.manateams.asynctask.AssignmentLoadTask;
 import com.manateams.android.manateams.asynctask.AsyncTaskCompleteListener;
+import com.manateams.android.manateams.asynctask.CourseLoadTask;
 import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.views.CourseAdapter;
@@ -21,12 +24,13 @@ import com.manateams.android.manateams.views.RecyclerItemClickListener;
 import com.quickhac.common.data.ClassGrades;
 import com.quickhac.common.data.Course;
 
-public class CourseFragment extends Fragment implements AsyncTaskCompleteListener {
+public class CourseFragment extends Fragment implements AsyncTaskCompleteListener, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView coursesList;
     private Course[] courses;
     private DataManager dataManager;
     private CourseAdapter adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,11 +60,26 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
         coursesList.setAdapter(adapter);
         coursesList.addOnItemTouchListener(
                 new RecyclerItemClickListener(this.getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
+                    @Override
+                    public void onItemClick(View view, int position) {
                         loadAssignmentsForCourse(position);
                     }
                 })
         );
+        swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_container);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeColors(android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefreshLayout.setEnabled(true);
+    }
+
+    public void restartActivity() {
+        Intent intent = getActivity().getIntent();
+        getActivity().overridePendingTransition(0, 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        getActivity().finish();
+
+        getActivity().overridePendingTransition(0, 0);
+        startActivity(intent);
     }
 
     public void loadAssignmentsForCourse(int position) {
@@ -69,7 +88,10 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
 
     @Override
     public void onCoursesLoaded(Course[] courses) {
-
+        if(courses != null) {
+            dataManager.setCourseGrades(courses);
+            restartActivity();
+        }
     }
 
     @Override
@@ -79,5 +101,15 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
         intent.putExtra(Constants.EXTRA_COURSEINDEX, courseIndex);
         intent.putExtra(Constants.EXTRA_COURSETITLE, courses[courseIndex].title);
         startActivity(intent);
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }, 5000);
+        new CourseLoadTask(this, getActivity()).execute(dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId());
     }
 }
