@@ -44,9 +44,9 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loggingIn = false;
         setContentView(R.layout.activity_main);
         setupViews();
-        loggingIn = false;
         //Define Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
