@@ -2,6 +2,7 @@ package com.manateams.android.manateams;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -24,6 +25,7 @@ public class CoursesActivity extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
+    private Handler mHandler = new Handler();
     private String mTitle;
     private DataManager dataManager;
 
@@ -103,7 +105,13 @@ public class CoursesActivity extends ActionBarActivity {
         mDrawerList.setItemChecked(position, true);
         mTitle = getResources().getStringArray(R.array.drawer_array)[position];
         getSupportActionBar().setTitle(mTitle);
-        mDrawerLayout.closeDrawer(mDrawerList);
+        mHandler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                mDrawerLayout.closeDrawer(mDrawerList);
+            }
+        }, 150);
     }
 
     @Override
