@@ -23,6 +23,7 @@ public class AssignmentActivity extends ActionBarActivity {
 
     private DataManager dataManager;
     private ClassGrades[] grades;
+    private String courseID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,8 @@ public class AssignmentActivity extends ActionBarActivity {
         int courseIndex = getIntent().getIntExtra(Constants.EXTRA_COURSEINDEX, 0);
         dataManager = new DataManager(this);
         grades = dataManager.getClassGrades(courseIndex);
+
+        courseID = getIntent().getStringExtra(Constants.EXTRA_COURSEID);
 
         // Initialize the ViewPager and set an adapter
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
@@ -83,7 +86,7 @@ public class AssignmentActivity extends ActionBarActivity {
         @Override
         public Fragment getItem(int i) {
             Bundle args = new Bundle();
-            args.putInt("request", i);
+            args.putString(Constants.EXTRA_COURSEID, courseID);
             if (grades != null && grades[i] != null) {
                 args.putString(Constants.EXTRA_GRADES, new Gson().toJson(grades[i]));
             } else {

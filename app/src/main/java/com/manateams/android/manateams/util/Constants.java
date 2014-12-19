@@ -5,6 +5,7 @@ public class Constants {
     public static final String EXTRA_GRADES = "grades";
     public static final String EXTRA_COURSEINDEX = "courseIndex";
     public static final String EXTRA_COURSETITLE = "courseTitle";
+    public static final String EXTRA_COURSEID = "courseID";
     public static final String FILE_COURSES = "courses";
     public static final String FILE_BASE_CLASSGRADES = "classgrades";
     public static final String FILE_BASE_DATAPOINTS = "datapoints";

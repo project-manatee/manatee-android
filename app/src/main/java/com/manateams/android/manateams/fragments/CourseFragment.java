@@ -115,9 +115,11 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
     @Override
     public void onClassGradesLoaded(ClassGrades[] grades, int courseIndex) {
         dataManager.setClassGrades(grades, courseIndex);
+        dataManager.setCourseGradesLastUpdated(courses[courseIndex].courseId);
         Intent intent = new Intent(getActivity(), AssignmentActivity.class);
         intent.putExtra(Constants.EXTRA_COURSEINDEX, courseIndex);
         intent.putExtra(Constants.EXTRA_COURSETITLE, courses[courseIndex].title);
+        intent.putExtra(Constants.EXTRA_COURSEID, courses[courseIndex].courseId);
         startActivity(intent);
     }
 

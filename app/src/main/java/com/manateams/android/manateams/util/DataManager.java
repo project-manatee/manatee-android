@@ -89,7 +89,7 @@ public class DataManager {
         return preferences.getLong(courseId, -1);
     }
 
-    public void setOverallGradesLastUpdated(String courseId) {
+    public void setCourseGradesLastUpdated(String courseId) {
         SharedPreferences preferences = context.getSharedPreferences(Constants.PREFERENCE_LASTUPDATED, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();
         edit.putLong(courseId, System.currentTimeMillis());
