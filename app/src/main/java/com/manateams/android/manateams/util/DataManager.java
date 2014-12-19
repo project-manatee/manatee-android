@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.quickhac.common.data.ClassGrades;
 import com.quickhac.common.data.Course;
+import com.quickhac.common.data.GradeValue;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 public class DataManager {
     private Context context;
@@ -78,6 +80,19 @@ public class DataManager {
         String data = readFromFile(Constants.FILE_COURSES);
         return new Gson().fromJson(data, new TypeToken<Course[]>() {
         }.getType());
+    }
+
+    public void addCourseDatapoint(GradeValue g,String courseID){
+        ArrayList<GradeValue> currentValues = getCourseDatapoints(courseID);
+        if(currentValues == null){
+            currentValues = new ArrayList<GradeValue>();
+        }
+        currentValues.add(g);
+        writeToFile(Constants.FILE_BASE_DATAPOINTS + courseID ,new Gson().toJson(currentValues));
+    }
+    public ArrayList<GradeValue> getCourseDatapoints(String courseID){
+        String data = readFromFile(Constants.FILE_BASE_DATAPOINTS + courseID);
+        return new Gson().fromJson(data, new TypeToken<ArrayList<GradeValue>>(){}.getType());
     }
 
     public void setClassGrades(ClassGrades[] grades, int courseIndex) {

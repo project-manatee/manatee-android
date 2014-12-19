@@ -68,7 +68,7 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
         );
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_container);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeColors(android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefreshLayout.setColorSchemeColors(R.color.app_primary, R.color.app_accent);
         swipeRefreshLayout.setEnabled(true);
     }
 
@@ -90,6 +90,10 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
     public void onCoursesLoaded(Course[] courses) {
         if(courses != null) {
             dataManager.setCourseGrades(courses);
+            //Todo Detection of current cycle
+            for (Course c: courses){
+                dataManager.addCourseDatapoint(c.semesters[0].average,c.courseId);
+            }
             restartActivity();
         }
     }

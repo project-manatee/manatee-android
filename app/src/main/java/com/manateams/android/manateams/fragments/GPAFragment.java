@@ -4,12 +4,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.manateams.android.manateams.R;
 import com.manateams.android.manateams.util.DataManager;
 import com.quickhac.common.GPACalc;
@@ -26,11 +30,12 @@ public class GPAFragment extends Fragment {
 
     private DataManager dataManager;
     private Course[] courses;
+    ViewPager pager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(false);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -44,11 +49,18 @@ public class GPAFragment extends Fragment {
         dataManager = new DataManager(getActivity());
         courses = dataManager.getCourseGrades();
         setupViews();
+        setupPager(dataManager);
         populateGPASummaries();
     }
 
     private void setupViews() {
         rootLayout = (LinearLayout) getActivity().findViewById(R.id.layout_root);
+    }
+    private void setupPager(DataManager dataManager){
+        pager = (ViewPager)getActivity().findViewById(R.id.pager);
+        pager.setAdapter(new GraphAdapter (getChildFragmentManager(), dataManager));
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) getActivity().findViewById(R.id.tabs);
+        tabs.setViewPager(pager);
     }
 
     private void populateGPASummaries() {
@@ -115,5 +127,30 @@ public class GPAFragment extends Fragment {
             }
         }
         return GPACalc.weighted(courses, toWeighted, 0);
+    }
+    public class GraphAdapter extends FragmentPagerAdapter {
+        Course[] courses;
+        public GraphAdapter(FragmentManager fm,DataManager d) {
+            super(fm);
+            courses = d.getCourseGrades();
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            Bundle args = new Bundle();
+            // Our object is just an integer :-P
+            args.putString("request", courses[i].courseId);
+            GraphFragment fragment = new GraphFragment();
+            fragment.setArguments(args);
+            return fragment;
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return courses[position].title;
+        }
+        @Override
+        public int getCount() {
+            return courses.length;
+        }
     }
 }
