@@ -75,7 +75,11 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
                 new RecyclerItemClickListener(this.getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        loadAssignmentsForCourse(position);
+                        if(dataManager.getClassGrades(position) != null) {
+                            startAssignmentActivity(position);
+                        } else {
+                            loadAssignmentsForCourse(position);
+                        }
                     }
                 })
         );
@@ -116,11 +120,16 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
     public void onClassGradesLoaded(ClassGrades[] grades, int courseIndex) {
         dataManager.setClassGrades(grades, courseIndex);
         dataManager.setCourseGradesLastUpdated(courses[courseIndex].courseId);
+        startAssignmentActivity(courseIndex);
+    }
+
+    public void startAssignmentActivity(int courseIndex) {
         Intent intent = new Intent(getActivity(), AssignmentActivity.class);
         intent.putExtra(Constants.EXTRA_COURSEINDEX, courseIndex);
         intent.putExtra(Constants.EXTRA_COURSETITLE, courses[courseIndex].title);
         intent.putExtra(Constants.EXTRA_COURSEID, courses[courseIndex].courseId);
         startActivity(intent);
+
     }
 
     @Override
