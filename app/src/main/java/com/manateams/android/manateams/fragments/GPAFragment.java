@@ -140,6 +140,7 @@ public class GPAFragment extends Fragment {
             Bundle args = new Bundle();
             // Our object is just an integer :-P
             args.putString("request", courses[i].courseId);
+            args.putInt("index",i);
             GraphFragment fragment = new GraphFragment();
             fragment.setArguments(args);
             return fragment;

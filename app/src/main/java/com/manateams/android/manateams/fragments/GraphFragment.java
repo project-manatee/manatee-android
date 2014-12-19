@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.manateams.android.manateams.R;
+import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.util.DataPoint;
 import com.quickhac.common.data.GradeValue;
@@ -41,20 +42,25 @@ public class GraphFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_graph, container, false);
         String classID = getArguments().getString("request");
-        setupGraph(classID,v);
+        int index = getArguments().getInt("index");
+        setupGraph(classID,index,v);
         return v;
     }
 
-    public void setupGraph(String courseID,View v) {
+    public void setupGraph(String courseID,int index,View v) {
         LineChart l = (LineChart) v.findViewById(R.id.linechart);
+        l.setDragEnabled(false);
+        l.setPinchZoom(false);
+        l.setDoubleTapToZoomEnabled(false);
+        l.setStartAtZero(false);
         ArrayList<DataPoint> grades = new DataManager(getActivity()).getCourseDatapoints(courseID);
         if (grades != null && grades.size() > 0 ) {
-            LineData dataSet = constructDataSet(grades);
+            LineData dataSet = constructDataSet(grades, Constants.COLORS[index % Constants.COLORS.length]);
             l.setData(dataSet);
         }
     }
 
-    private LineData constructDataSet(ArrayList<DataPoint> grades) {
+    private LineData constructDataSet(ArrayList<DataPoint> grades,String color) {
         grades = colapseValues(grades);
         ArrayList<String> xVals = new ArrayList<String>();
         ArrayList<Entry> yVals = new ArrayList<Entry>();
@@ -69,12 +75,12 @@ public class GraphFragment extends Fragment {
         ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
         LineDataSet set1 = new LineDataSet(yVals, "Average Trend");
         set1.enableDashedLine(10f, 5f, 0f);
-        set1.setColor(Color.BLACK);
-        set1.setCircleColor(Color.BLACK);
+        set1.setColor(Color.parseColor(color));
+        set1.setCircleColor(Color.parseColor(color));
         set1.setLineWidth(1f);
         set1.setCircleSize(4f);
         set1.setFillAlpha(65);
-        set1.setFillColor(Color.BLACK);
+        set1.setFillColor(Color.parseColor(color));
         dataSets.add(set1);
         LineData dataout = new LineData(xVals,dataSets);
         return dataout;
