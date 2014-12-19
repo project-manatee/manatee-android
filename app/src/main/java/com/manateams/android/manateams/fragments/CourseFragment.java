@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.manateams.android.manateams.AssignmentActivity;
 import com.manateams.android.manateams.R;
@@ -24,9 +25,16 @@ import com.manateams.android.manateams.views.RecyclerItemClickListener;
 import com.quickhac.common.data.ClassGrades;
 import com.quickhac.common.data.Course;
 
+import org.ocpsoft.prettytime.PrettyTime;
+import org.w3c.dom.Text;
+
+import java.util.Date;
+
 public class CourseFragment extends Fragment implements AsyncTaskCompleteListener, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView coursesList;
+    private TextView lastUpdatedText;
+
     private Course[] courses;
     private DataManager dataManager;
     private CourseAdapter adapter;
@@ -51,6 +59,11 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
     }
 
     private void setupViews() {
+        lastUpdatedText = (TextView) getActivity().findViewById(R.id.text_lastupdated);
+        // Set relative time for last updated
+        PrettyTime p = new PrettyTime();
+        lastUpdatedText.setText("Last updated " + p.format(new Date(dataManager.getOverallGradesLastUpdated())) + " - pull down to refresh");
+
         coursesList = (RecyclerView) getActivity().findViewById(R.id.list_courses);
         coursesList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         coursesList.setItemAnimator(new DefaultItemAnimator());
@@ -90,6 +103,7 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
     public void onCoursesLoaded(Course[] courses) {
         if(courses != null) {
             dataManager.setCourseGrades(courses);
+            dataManager.setOverallGradesLastUpdated();
             //Todo Detection of current cycle
             for (Course c: courses){
                 dataManager.addCourseDatapoint(c.semesters[0].average,c.courseId);

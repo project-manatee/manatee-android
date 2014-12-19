@@ -125,6 +125,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
             }
             dataManager.setCourseGrades(courses);
             dataManager.setCredentials(username, password, studentId);
+            dataManager.setOverallGradesLastUpdated();
             Intent intent = new Intent(this, CoursesActivity.class);
             startActivity(intent);
             finish();

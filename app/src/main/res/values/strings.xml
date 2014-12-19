@@ -50,6 +50,7 @@
     <string name="pref_showNotifications_summ">Notify me when my grade changes in a class</string>
     <string name="text_gpa_unweighted">Unweighted GPA</string>
     <string name="text_gpa_weighted">Weighted</string>
+    <string name="text_lastupdated_default">Grades not updated - pull down to refresh</string>
 
 
 </resources>

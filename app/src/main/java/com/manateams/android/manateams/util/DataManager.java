@@ -72,6 +72,30 @@ public class DataManager {
         return prefs.getString("studentId", null);
     }
 
+    public long getOverallGradesLastUpdated() {
+        SharedPreferences preferences = context.getSharedPreferences(Constants.PREFERENCE_LASTUPDATED, Context.MODE_PRIVATE);
+        return preferences.getLong("overall", -1);
+    }
+
+    public void setOverallGradesLastUpdated() {
+        SharedPreferences preferences = context.getSharedPreferences(Constants.PREFERENCE_LASTUPDATED, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putLong("overall", System.currentTimeMillis());
+        edit.apply();
+    }
+
+    public long getCourseGradesLastUpdated(String courseId) {
+        SharedPreferences preferences = context.getSharedPreferences(Constants.PREFERENCE_LASTUPDATED, Context.MODE_PRIVATE);
+        return preferences.getLong(courseId, -1);
+    }
+
+    public void setOverallGradesLastUpdated(String courseId) {
+        SharedPreferences preferences = context.getSharedPreferences(Constants.PREFERENCE_LASTUPDATED, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putLong(courseId, System.currentTimeMillis());
+        edit.apply();
+    }
+
     public void setCourseGrades(Course[] courses) {
         writeToFile(Constants.FILE_COURSES, new Gson().toJson(courses));
     }
