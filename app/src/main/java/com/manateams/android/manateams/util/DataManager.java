@@ -107,16 +107,16 @@ public class DataManager {
     }
 
     public void addCourseDatapoint(GradeValue g,String courseID){
-        ArrayList<GradeValue> currentValues = getCourseDatapoints(courseID);
+        ArrayList<DataPoint> currentValues = getCourseDatapoints(courseID);
         if(currentValues == null){
-            currentValues = new ArrayList<GradeValue>();
+            currentValues = new ArrayList<DataPoint>();
         }
-        currentValues.add(g);
+        currentValues.add(new DataPoint(g,System.currentTimeMillis()));
         writeToFile(Constants.FILE_BASE_DATAPOINTS + courseID ,new Gson().toJson(currentValues));
     }
-    public ArrayList<GradeValue> getCourseDatapoints(String courseID){
+    public ArrayList<DataPoint> getCourseDatapoints(String courseID){
         String data = readFromFile(Constants.FILE_BASE_DATAPOINTS + courseID);
-        return new Gson().fromJson(data, new TypeToken<ArrayList<GradeValue>>(){}.getType());
+        return new Gson().fromJson(data, new TypeToken<ArrayList<DataPoint>>(){}.getType());
     }
 
     public void setClassGrades(ClassGrades[] grades, int courseIndex) {

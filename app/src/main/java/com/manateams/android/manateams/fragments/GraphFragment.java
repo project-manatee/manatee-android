@@ -3,6 +3,7 @@ package com.manateams.android.manateams.fragments;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,17 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.manateams.android.manateams.R;
 import com.manateams.android.manateams.util.DataManager;
+import com.manateams.android.manateams.util.DataPoint;
 import com.quickhac.common.data.GradeValue;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Ehsan on 12/18/2014.
@@ -38,20 +47,24 @@ public class GraphFragment extends Fragment {
 
     public void setupGraph(String courseID,View v) {
         LineChart l = (LineChart) v.findViewById(R.id.linechart);
-        ArrayList<GradeValue> grades = new DataManager(getActivity()).getCourseDatapoints(courseID);
+        ArrayList<DataPoint> grades = new DataManager(getActivity()).getCourseDatapoints(courseID);
         if (grades != null && grades.size() > 0 ) {
             LineData dataSet = constructDataSet(grades);
             l.setData(dataSet);
         }
     }
 
-    private LineData constructDataSet(ArrayList<GradeValue> grades) {
+    private LineData constructDataSet(ArrayList<DataPoint> grades) {
+        grades = colapseValues(grades);
         ArrayList<String> xVals = new ArrayList<String>();
         ArrayList<Entry> yVals = new ArrayList<Entry>();
 
         for(int i = 0; i < grades.size();i++){
-            xVals.add(String.valueOf(i));
-            yVals.add(new Entry(grades.get(i).value,i));
+            Date date = new Date(grades.get(i).time);
+            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd");
+            String formattedDate = format1.format(date);
+            xVals.add(formattedDate);
+            yVals.add(new Entry(grades.get(i).g.value,i));
         }
         ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
         LineDataSet set1 = new LineDataSet(yVals, "Average Trend");
@@ -65,5 +78,27 @@ public class GraphFragment extends Fragment {
         dataSets.add(set1);
         LineData dataout = new LineData(xVals,dataSets);
         return dataout;
+    }
+
+    private ArrayList<DataPoint> colapseValues(ArrayList<DataPoint> grades) {
+        ArrayList<DataPoint> out = new ArrayList<DataPoint>();
+        Map<String,List<DataPoint>> sortedGrades = new HashMap<String,List<DataPoint>>();
+        //Add each value to a map based on date
+        for(DataPoint d: grades){
+            Date date = new Date(d.time);
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = format1.format(date);
+            if(!sortedGrades.containsKey(formattedDate)){
+                sortedGrades.put(formattedDate, new ArrayList<DataPoint>());
+            }
+            sortedGrades.get(formattedDate).add(d);
+        }
+        //Choose the last value from each day to display
+        for (Map.Entry<String, List<DataPoint>> entry : sortedGrades.entrySet()) {
+            String key = entry.getKey();
+            List<DataPoint> value = entry.getValue();
+            out.add(value.get(value.size()-1));
+        }
+        return out;
     }
 }
