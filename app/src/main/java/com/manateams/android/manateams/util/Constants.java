@@ -9,6 +9,6 @@ public class Constants {
     public static final String FILE_COURSES = "courses";
     public static final String FILE_BASE_CLASSGRADES = "classgrades";
     public static final String FILE_BASE_DATAPOINTS = "datapoints";
-    public static final long INTERVAL_GRADE_SCRAPE = 20 * 1000 * 60; // 20 minutes
+    public static final long INTERVAL_GRADE_SCRAPE = 5 * 1000 * 60; // 5 minutes
     public static final String PREFERENCE_LASTUPDATED = "lastupdated";
 }
