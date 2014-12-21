@@ -18,6 +18,7 @@ import com.manateams.android.manateams.fragments.CourseFragment;
 import com.manateams.android.manateams.fragments.GPAFragment;
 import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.views.DrawerAdapter;
+import com.quickhac.common.data.Course;
 
 
 public class CoursesActivity extends ActionBarActivity {
@@ -127,6 +128,19 @@ public class CoursesActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        switch(id) {
+            case R.id.action_logout:
+                dataManager.setCredentials("", "", "");
+                Course[] courses = dataManager.getCourseGrades();
+                for(int i = 0; i < courses.length; i++) {
+                    dataManager.setClassGrades(null, i);
+                }
+                dataManager.setCourseGrades(null);
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+        }
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }

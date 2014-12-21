@@ -86,12 +86,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
         }
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
 
@@ -150,7 +145,6 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
             startActivity(intent);
             finish();
         } else {
-            loggingIn = false;
             usernameText.setFocusable(true);
             usernameText.setFocusableInTouchMode(true);
             usernameText.setClickable(true);
