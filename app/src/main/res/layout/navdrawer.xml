@@ -9,5 +9,5 @@
     android:choiceMode="singleChoice"
     android:paddingTop="12dp"
     android:divider="@android:color/transparent"
-    android:background="#ffffffff"
+    android:background="@color/white"
     android:dividerHeight="0dp"/>

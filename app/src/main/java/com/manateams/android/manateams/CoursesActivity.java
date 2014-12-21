@@ -1,6 +1,7 @@
 package com.manateams.android.manateams;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.manateams.android.manateams.fragments.AboutFragment;
 import com.manateams.android.manateams.fragments.CourseFragment;
 import com.manateams.android.manateams.fragments.GPAFragment;
 import com.manateams.android.manateams.util.DataManager;
@@ -45,12 +47,6 @@ public class CoursesActivity extends ActionBarActivity {
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
-
-    public void onGPAClick(View v) {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-    }
-
 
     private void setupDrawer() {
         //Define Toolbar
@@ -105,7 +101,10 @@ public class CoursesActivity extends ActionBarActivity {
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 break;
-
+            case 3:
+                AboutFragment aboutFragment = new AboutFragment();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, aboutFragment).commit();
+                break;
         }
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
@@ -157,5 +156,24 @@ public class CoursesActivity extends ActionBarActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
+    }
+
+    public void onGPAClick(View v) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    public void onNeilWebsiteClick(View v) {
+        String url = "http://patil215.github.io";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
+
+    public void onNeilEmailClick(View v) {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", "neilpatil215@gmail.com", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "EXTRA_SUBJECT");
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 }
