@@ -155,8 +155,8 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
         } else {
             if (!username.matches("^[sS]\\d{6,8}\\d?$") && tries < 2) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setTitle("Secondary Login");
-                alert.setMessage("It seems that this account is accessed with two sets of credentials. If this applies to you, enter the credentials for your TEAMS account below.");
+                alert.setTitle(R.string.secondary_login_title);
+                alert.setMessage( getString(R.string.secondary_login_info));
                 LayoutInflater inflater = getLayoutInflater();
                 final View v = inflater.inflate(R.layout.secondary_login_dialog, null);
                 alert.setView(v);
@@ -165,7 +165,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
                     public void onClick(DialogInterface dialog, int whichButton) {
                          TEAMSuser = ((EditText)v.findViewById(R.id.backupusername)).getText().toString();
                          TEAMSpass = ((EditText)v.findViewById(R.id.backuppassword)).getText().toString();
-                        new CourseLoadTask(MainActivity.this, getApplicationContext()).execute(username, password, studentId, TEAMSuser, TEAMSpass);
+                         new CourseLoadTask(MainActivity.this, getApplicationContext()).execute(username, password, studentId, TEAMSuser, TEAMSpass);
                     }
                 });
                 alert.show();

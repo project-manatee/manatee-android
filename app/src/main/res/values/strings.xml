@@ -53,6 +53,8 @@
     <string name="text_lastupdated_default">Grades not updated - pull down to refresh</string>
     <string name="text_course_lastupdated_default">Grades not updated yet</string>
     <string name="action_logout">Logout</string>
+    <string name="secondary_login_info">It seems that this account is accessed with two sets of credentials. If this applies to you, enter the credentials for your TEAMS account below.</string>
+    <string name="secondary_login_title">Secondary Login</string>
 
 
 </resources>

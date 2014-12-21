@@ -65,7 +65,11 @@ public class GraphFragment extends Fragment {
         grades = colapseValues(grades);
         ArrayList<String> xVals = new ArrayList<String>();
         ArrayList<Entry> yVals = new ArrayList<Entry>();
-
+        for(int i = 0; i < grades.size(); i++){
+            if (grades.get(i).g.value == -1){
+                return null;
+            }
+        }
         for(int i = 0; i < grades.size();i++){
             Date date = new Date(grades.get(i).time);
             SimpleDateFormat format1 = new SimpleDateFormat("MM/dd");
