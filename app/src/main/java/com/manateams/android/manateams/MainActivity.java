@@ -96,7 +96,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
 
     private void login() {
         if (!loggingIn) {
-            if (usernameText.getText().toString().length() > 0 && passwordText.getText().toString().length() > 0) {
+            if (usernameText.getText().toString().length() > 0 && passwordText.getText().toString().length() > 0 && studentIdText.getText().toString().length() > 0) {
                 loginTextLayout.setVisibility(View.GONE);
                 loggingIn = true;
                 loginLoadingLayout.setVisibility(View.VISIBLE);
