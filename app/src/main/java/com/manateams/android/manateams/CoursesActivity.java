@@ -46,6 +46,11 @@ public class CoursesActivity extends ActionBarActivity {
         mDrawerToggle.syncState();
     }
 
+    public void onGPAClick(View v) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
 
     private void setupDrawer() {
         //Define Toolbar

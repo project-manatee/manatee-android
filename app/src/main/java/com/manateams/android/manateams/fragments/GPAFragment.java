@@ -1,5 +1,6 @@
 package com.manateams.android.manateams.fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -10,11 +11,13 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.manateams.android.manateams.R;
+import com.manateams.android.manateams.SettingsActivity;
 import com.manateams.android.manateams.util.DataManager;
 import com.quickhac.common.GPACalc;
 import com.quickhac.common.data.Course;
@@ -29,6 +32,7 @@ public class GPAFragment extends Fragment {
     private LinearLayout rootLayout;
 
     private DataManager dataManager;
+    private Button gpaText;
     private Course[] courses;
     ViewPager pager;
 
@@ -55,6 +59,7 @@ public class GPAFragment extends Fragment {
 
     private void setupViews() {
         rootLayout = (LinearLayout) getActivity().findViewById(R.id.layout_root);
+        gpaText = (Button) getActivity().findViewById(R.id.text_gpa);
     }
     private void setupPager(DataManager dataManager){
         pager = (ViewPager)getActivity().findViewById(R.id.pager);
@@ -67,20 +72,7 @@ public class GPAFragment extends Fragment {
 
     private void populateGPASummaries() {
         if(courses != null) {
-            TextView unweightedTitle = new TextView(getActivity());
-            unweightedTitle.setText(getString(R.string.text_gpa_unweighted));
-            TextView unweightedText = new TextView(getActivity());
-            unweightedText.setText(String.valueOf(Numeric.round(GPACalc.unweighted(courses), 3)));
-            rootLayout.addView(unweightedTitle);
-            rootLayout.addView(unweightedText);
-
-
-            TextView weightedTitle = new TextView(getActivity());
-            weightedTitle.setText(getString(R.string.text_gpa_weighted));
-            TextView weightedText = new TextView(getActivity());
-            weightedText.setText(String.valueOf(Numeric.round(getWeightedGPA(), 3)));
-            rootLayout.addView(weightedTitle);
-            rootLayout.addView(weightedText);
+            gpaText.setText("GPA: " + String.valueOf(Numeric.round(GPACalc.unweighted(courses), 3)) + " / " + String.valueOf(Numeric.round(getWeightedGPA(), 3)));
         }
     }
 

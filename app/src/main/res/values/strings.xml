@@ -55,6 +55,7 @@
     <string name="action_logout">Logout</string>
     <string name="secondary_login_info">It seems that this account is accessed with two sets of credentials. If this applies to you, enter the credentials for your TEAMS account below.</string>
     <string name="secondary_login_title">Secondary Login</string>
+    <string name="text_gpa_default">GPA: 4.205 / 3.057</string>
 
 
 </resources>

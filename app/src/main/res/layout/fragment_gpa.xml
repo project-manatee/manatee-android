@@ -20,4 +20,16 @@
         android:layout_weight="1"
         android:background="@android:color/white"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:id="@+id/text_gpa"
+        android:gravity="center"
+        android:background="@color/app_primary"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:text="@string/text_gpa_default"
+        android:onClick="onGPAClick" />
+
 </LinearLayout>
