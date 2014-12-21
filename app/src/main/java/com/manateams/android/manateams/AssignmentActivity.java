@@ -54,6 +54,17 @@ public class AssignmentActivity extends ActionBarActivity {
         tabs.setTextColor(getResources().getColor(R.color.white));
         tabs.setBackgroundColor(getResources().getColor(R.color.app_primary));
         tabs.setViewPager(pager);
+
+        // Show the latest cycle
+        if(grades != null && grades.length > 0) {
+            int latestCycle = grades.length - 1;
+            while (grades[latestCycle] == null && latestCycle > 0) {
+                latestCycle--;
+            }
+            if (latestCycle >= 0) {
+                pager.setCurrentItem(latestCycle);
+            }
+        }
     }
 
 

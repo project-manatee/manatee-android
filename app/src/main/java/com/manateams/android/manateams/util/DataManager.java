@@ -37,6 +37,30 @@ public class DataManager {
         return new String[] { getUsername(), getPassword(), getStudentId(),getTEAMSuser(),getTEAMSpass() };
     }
 
+    public boolean isFirstTimeViewingGPA() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean("firstTimeGPA", true);
+    }
+
+    public boolean isFirstTimeViewingGraphs() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean("firstTimeGraphs", true);
+    }
+
+    public void setFirstTimeViewingGPA(boolean firstTime) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putBoolean("firstTimeGPA", firstTime);
+        edit.commit();
+    }
+
+    public void setFirstTimeViewingGraphs(boolean firstTime) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putBoolean("firstTimeGraphs", firstTime);
+        edit.commit();
+    }
+
     public void setUsername(String username) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = prefs.edit();
