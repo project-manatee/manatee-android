@@ -25,14 +25,16 @@ public class DataManager {
         this.context = context;
     }
 
-    public void setCredentials(String username, String password, String studentId) {
+    public void setCredentials(String username, String password, String studentId,String TEAMSuser,String TEAMSpass) {
         setUsername(username);
         setPassword(password);
         setStudentId(studentId);
+        setTEAMSuser(TEAMSuser);
+        setTEAMSpass(TEAMSpass);
     }
 
     public String[] getCredentials() {
-        return new String[] { getUsername(), getPassword(), getStudentId() };
+        return new String[] { getUsername(), getPassword(), getStudentId(),getTEAMSuser(),getTEAMSpass() };
     }
 
     public void setUsername(String username) {
@@ -46,6 +48,29 @@ public class DataManager {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString("username", null);
     }
+    public void setTEAMSuser(String TEAMSUsername) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("TEAMSuser", TEAMSUsername);
+        edit.commit();
+    }
+
+    public String getTEAMSuser() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString("TEAMSuser", null);
+    }
+    public void setTEAMSpass(String TEAMSpass) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("TEAMSpass", TEAMSpass);
+        edit.commit();
+    }
+
+    public String getTEAMSpass() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString("TEAMSpass", null);
+    }
+
 
     public void setPassword(String password) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

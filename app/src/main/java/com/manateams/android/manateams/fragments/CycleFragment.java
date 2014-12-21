@@ -48,6 +48,7 @@ public class CycleFragment extends Fragment {
             grades = null;
         }
         return inflater.inflate(R.layout.fragment_cycle, container, false);
+
     }
 
     @Override
@@ -59,7 +60,7 @@ public class CycleFragment extends Fragment {
     }
 
     private void setupViews() {
-        lastUpdatedText = (TextView) getActivity().findViewById(R.id.text_lastupdated);
+        lastUpdatedText = (TextView) getView().findViewById(R.id.text_lastupdated);
         // Set relative time for last updated
         PrettyTime p = new PrettyTime();
         lastUpdatedText.setText("Last updated " + p.format(new Date(dataManager.getCourseGradesLastUpdated(courseID))));

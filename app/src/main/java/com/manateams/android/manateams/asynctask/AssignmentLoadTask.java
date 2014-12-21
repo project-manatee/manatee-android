@@ -42,6 +42,8 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
         final String password = params[1];
         final String studentId = params[2];
         courseIndex = Integer.valueOf(params[3]);
+        final String TEAMSuser = params[4];
+        final String TEAMSpass = params[5];
         final TEAMSUserType userType;
         if (username.matches("^[sS]\\d{6,8}\\d?$")) {
             userType = new AustinISDStudent();
@@ -59,7 +61,14 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
             final String finalcookie = teamscookie + ';' + cstonecookie;
 
             //POST to login to TEAMS
-            String userIdentification = TEAMSGradeRetriever.postTEAMSLogin(username, password, finalcookie, userType);
+            String userIdentification;
+            if (TEAMSuser.length()>0){
+                //See if user has a seperate login for TEAMS/AISD
+                userIdentification = TEAMSGradeRetriever.postTEAMSLogin(TEAMSuser, TEAMSpass, studentId, finalcookie, userType);
+            }
+            else{
+                userIdentification = TEAMSGradeRetriever.postTEAMSLogin(username, password,studentId, finalcookie, userType);
+            }
             final String averageHtml = TEAMSGradeRetriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", finalcookie, userType, userIdentification);
             Course[] courses = p.parseAverages(averageHtml);
             ClassGrades[] grades = new ClassGrades[6]; // TODO don't hardcode length

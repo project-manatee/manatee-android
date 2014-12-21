@@ -52,6 +52,7 @@ public class GraphFragment extends Fragment {
         l.setDragEnabled(false);
         l.setPinchZoom(false);
         l.setDoubleTapToZoomEnabled(false);
+        l.setTouchEnabled(false);
         l.setStartAtZero(false);
         ArrayList<DataPoint> grades = new DataManager(getActivity()).getCourseDatapoints(courseID);
         if (grades != null && grades.size() > 0 ) {

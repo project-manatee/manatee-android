@@ -100,7 +100,7 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
     }
 
     public void loadAssignmentsForCourse(int position) {
-        new AssignmentLoadTask(this, getActivity()).execute(new String[] {dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(position)});
+        new AssignmentLoadTask(this, getActivity()).execute(new String[] {dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(position),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
     }
 
     @Override
@@ -139,6 +139,6 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
                 swipeRefreshLayout.setRefreshing(false);
             }
         }, 5000);
-        new CourseLoadTask(this, getActivity()).execute(dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId());
+        new CourseLoadTask(this, getActivity()).execute(dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(),dataManager.getTEAMSuser(),dataManager.getTEAMSpass());
     }
 }

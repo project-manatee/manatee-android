@@ -34,7 +34,7 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
         Log.d("BitBitBit", "scraping grades");
         dataManager = new DataManager(this);
         if (dataManager.getUsername() != null && dataManager.getPassword() != null && dataManager.getStudentId() != null) {
-            new CourseLoadTask(this, this).execute(dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId());
+            new CourseLoadTask(this, this).execute(dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(),dataManager.getTEAMSuser(),dataManager.getTEAMSpass());
         }
     }
 

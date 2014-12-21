@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/backupusername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_login_username"
+        android:padding="18dp"
+        android:singleLine="true" />
+    <EditText
+        android:id="@+id/backuppassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/backupusername"
+        android:hint="@string/hint_login_password"
+        android:inputType="textPassword"
+        android:padding="18dp"
+        android:singleLine="true" />
+</RelativeLayout>

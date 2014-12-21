@@ -1,8 +1,12 @@
 package com.manateams.android.manateams.asynctask;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.view.LayoutInflater;
+import android.view.View;
 
+import com.manateams.android.manateams.R;
 import com.quickhac.common.TEAMSGradeParser;
 import com.quickhac.common.TEAMSGradeRetriever;
 import com.quickhac.common.data.Course;
@@ -27,6 +31,8 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
         final String username = params[0];
         final String password = params[1];
         final String studentId = params[2];
+        final String TEAMSuser = params[3];
+        final String TEAMSpass = params[4];
         final TEAMSUserType userType;
         if (username.matches("^[sS]\\d{6,8}\\d?$")) {
             userType = new AustinISDStudent();
@@ -44,7 +50,14 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
             final String finalcookie = teamscookie + ';' + cstonecookie;
 
             //POST to login to TEAMS
-            String userIdentification = TEAMSGradeRetriever.postTEAMSLogin(username, password, finalcookie, userType);
+            String userIdentification;
+            if (TEAMSuser.length()>0){
+                //See if user has a seperate login for TEAMS/AISD
+                userIdentification = TEAMSGradeRetriever.postTEAMSLogin(TEAMSuser, TEAMSpass, studentId, finalcookie, userType);
+            }
+            else{
+                userIdentification = TEAMSGradeRetriever.postTEAMSLogin(username, password,studentId, finalcookie, userType);
+            }
             final String averageHtml = TEAMSGradeRetriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", finalcookie, userType, userIdentification);
             Course[] courses = p.parseAverages(averageHtml);
             return courses;

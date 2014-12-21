@@ -1,13 +1,18 @@
 package com.manateams.android.manateams;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +36,8 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     private String username;
     private String password;
     private String studentId;
+    private String TEAMSuser = "";
+    private String TEAMSpass = "";
 
     private RelativeLayout loginTextLayout;
     private RelativeLayout loginLoadingLayout;
@@ -39,8 +46,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     private TextView studentIdText;
 
     private DataManager dataManager;
-
-
+    private int tries;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +103,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     }
 
     private void login() {
+        tries = 0;
         if (!loggingIn) {
             if (usernameText.getText().toString().length() > 0 && passwordText.getText().toString().length() > 0) {
                 loginTextLayout.setVisibility(View.GONE);
@@ -105,7 +112,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
                 username = usernameText.getText().toString();
                 password = passwordText.getText().toString();
                 studentId = studentIdText.getText().toString();
-                new CourseLoadTask(this, this).execute(username, password, studentId);
+                new CourseLoadTask(this, this).execute(username, password, studentId,"","");
             } else {
                 Toast.makeText(this, getString(R.string.toast_fill_info), Toast.LENGTH_SHORT).show();
             }
@@ -118,22 +125,42 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
 
     @Override
     public void onCoursesLoaded(Course[] courses) {
+        tries ++;
         if(courses != null) {
             if(!Utils.isAlarmsSet(this)) {
                 Log.d("BitBitBit", "registering alarms");
                 Utils.setAlarms(Constants.INTERVAL_GRADE_SCRAPE, this);
             }
             dataManager.setCourseGrades(courses);
-            dataManager.setCredentials(username, password, studentId);
+            dataManager.setCredentials(username, password, studentId,TEAMSuser,TEAMSpass);
             dataManager.setOverallGradesLastUpdated();
             Intent intent = new Intent(this, CoursesActivity.class);
             startActivity(intent);
             finish();
         } else {
-            username = "";
-            password = "";
-            studentId = "";
-            Toast.makeText(this, getString(R.string.toast_login_failed), Toast.LENGTH_SHORT).show();
+            if (!username.matches("^[sS]\\d{6,8}\\d?$") && tries < 2) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("Secondary Login");
+                alert.setMessage("It seems that this account is accessed with two sets of credentials. If this applies to you, enter the credentials for your TEAMS account below.");
+                LayoutInflater inflater = getLayoutInflater();
+                final View v = inflater.inflate(R.layout.secondary_login_dialog, null);
+                alert.setView(v);
+                alert.setCancelable(false);
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                         TEAMSuser = ((EditText)v.findViewById(R.id.backupusername)).getText().toString();
+                         TEAMSpass = ((EditText)v.findViewById(R.id.backuppassword)).getText().toString();
+                        new CourseLoadTask(MainActivity.this, getApplicationContext()).execute(username, password, studentId, TEAMSuser, TEAMSpass);
+                    }
+                });
+                alert.show();
+            }
+            else{
+                username = "";
+                password = "";
+                studentId = "";
+                Toast.makeText(this, getString(R.string.toast_login_failed), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
