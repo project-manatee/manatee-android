@@ -130,7 +130,7 @@ public class CoursesActivity extends ActionBarActivity {
         int id = item.getItemId();
         switch(id) {
             case R.id.action_logout:
-                dataManager.setCredentials("", "", "");
+                dataManager.setCredentials(null, null, null);
                 Course[] courses = dataManager.getCourseGrades();
                 for(int i = 0; i < courses.length; i++) {
                     dataManager.setClassGrades(null, i);
