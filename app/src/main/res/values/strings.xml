@@ -38,7 +38,7 @@
     <string name="text_row_assignment_assignment_default">Object Oriented Test 4</string>
     <string name="text_row_assignment_grade_default">80</string>
     <string name="text_card_category_assignment_weight_null">N/A</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_settings">Settings</string>
     <string name="pref_category_grades">GRADES</string>
     <string name="pref_category_gpa">GPA</string>
     <string name="pref_showGradeColor">Highlight grades</string>
@@ -52,6 +52,7 @@
     <string name="text_gpa_weighted">Weighted</string>
     <string name="text_lastupdated_default">Grades not updated - pull down to refresh</string>
     <string name="text_course_lastupdated_default">Grades not updated yet</string>
+    <string name="action_logout">Logout</string>
 
 
 </resources>

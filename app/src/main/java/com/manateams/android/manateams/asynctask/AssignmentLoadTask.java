@@ -20,19 +20,23 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
     private Context context;
     private int courseIndex;
     ProgressDialog dialog;
+    private boolean showDialog;
 
-    public AssignmentLoadTask(AsyncTaskCompleteListener callback, Context context) {
+    public AssignmentLoadTask(AsyncTaskCompleteListener callback, Context context, boolean showDialog) {
         this.callback = callback;
         this.context = context;
+        this.showDialog = showDialog;
     }
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        if (dialog == null) {
-            this.dialog = new ProgressDialog(context);
-            this.dialog.setMessage(context.getString(R.string.dialog_assignment_loading));
-            this.dialog.setCancelable(false);
-            this.dialog.show();
+        if(showDialog) {
+            if (dialog == null) {
+                this.dialog = new ProgressDialog(context);
+                this.dialog.setMessage(context.getString(R.string.dialog_assignment_loading));
+                this.dialog.setCancelable(false);
+                this.dialog.show();
+            }
         }
     }
 
@@ -87,7 +91,9 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
 
     @Override
     protected void onPostExecute(ClassGrades[] grades) {
-        dialog.dismiss();
+        if(showDialog) {
+            dialog.dismiss();
+        }
         callback.onClassGradesLoaded(grades, courseIndex);
     }
 }

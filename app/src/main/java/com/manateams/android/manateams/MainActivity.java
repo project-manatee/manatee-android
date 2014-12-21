@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     private TextView usernameText;
     private TextView passwordText;
     private TextView studentIdText;
+    private Button loginButton;
 
     private DataManager dataManager;
     private int tries;
@@ -77,6 +79,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
         usernameText = (TextView) findViewById(R.id.edittext_login_username);
         passwordText = (TextView) findViewById(R.id.edittext_login_password);
         studentIdText = (TextView) findViewById(R.id.edittext_login_id);
+        loginButton = (Button) findViewById(R.id.button_login);
     }
 
     @Override
@@ -89,12 +92,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
         }
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
 
@@ -105,13 +103,30 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     private void login() {
         tries = 0;
         if (!loggingIn) {
-            if (usernameText.getText().toString().length() > 0 && passwordText.getText().toString().length() > 0) {
+            if (usernameText.getText().toString().length() > 0 && passwordText.getText().toString().length() > 0 && studentIdText.getText().toString().length() > 0) {
                 loginTextLayout.setVisibility(View.GONE);
                 loggingIn = true;
                 loginLoadingLayout.setVisibility(View.VISIBLE);
                 username = usernameText.getText().toString();
                 password = passwordText.getText().toString();
                 studentId = studentIdText.getText().toString();
+                // Annoying programmatic UI code
+                usernameText.setFocusable(false);
+                usernameText.setFocusableInTouchMode(false);
+                usernameText.setClickable(false);
+                usernameText.setEnabled(false);
+                passwordText.setFocusable(false);
+                passwordText.setFocusableInTouchMode(false);
+                passwordText.setClickable(false);
+                passwordText.setEnabled(false);
+                studentIdText.setFocusable(false);
+                studentIdText.setFocusableInTouchMode(false);
+                studentIdText.setClickable(false);
+                studentIdText.setEnabled(false);
+                loginButton.setFocusable(false);
+                loginButton.setFocusableInTouchMode(false);
+                loginButton.setClickable(false);
+                loginButton.setEnabled(false);
                 new CourseLoadTask(this, this).execute(username, password, studentId,"","");
             } else {
                 Toast.makeText(this, getString(R.string.toast_fill_info), Toast.LENGTH_SHORT).show();
@@ -159,6 +174,24 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
                 username = "";
                 password = "";
                 studentId = "";
+                usernameText.setFocusable(true);
+                usernameText.setFocusableInTouchMode(true);
+                usernameText.setClickable(true);
+                usernameText.setEnabled(true);
+                passwordText.setFocusable(true);
+                passwordText.setFocusableInTouchMode(true);
+                passwordText.setClickable(true);
+                passwordText.setEnabled(true);
+                studentIdText.setFocusable(true);
+                studentIdText.setFocusableInTouchMode(true);
+                studentIdText.setClickable(true);
+                studentIdText.setEnabled(true);
+                loginButton.setFocusable(true);
+                loginButton.setFocusableInTouchMode(true);
+                loginButton.setClickable(true);
+                loginButton.setEnabled(true);
+                loginTextLayout.setVisibility(View.VISIBLE);
+                loginLoadingLayout.setVisibility(View.GONE);
                 Toast.makeText(this, getString(R.string.toast_login_failed), Toast.LENGTH_SHORT).show();
             }
         }

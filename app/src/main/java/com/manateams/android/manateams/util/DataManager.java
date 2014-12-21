@@ -109,12 +109,12 @@ public class DataManager {
         edit.apply();
     }
 
-    public long getCourseGradesLastUpdated(String courseId) {
+    public long getClassGradesLastUpdated(String courseId) {
         SharedPreferences preferences = context.getSharedPreferences(Constants.PREFERENCE_LASTUPDATED, Context.MODE_PRIVATE);
         return preferences.getLong(courseId, -1);
     }
 
-    public void setCourseGradesLastUpdated(String courseId) {
+    public void setClassGradesLastUpdated(String courseId) {
         SharedPreferences preferences = context.getSharedPreferences(Constants.PREFERENCE_LASTUPDATED, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();
         edit.putLong(courseId, System.currentTimeMillis());

@@ -26,7 +26,6 @@ import com.quickhac.common.data.ClassGrades;
 import com.quickhac.common.data.Course;
 
 import org.ocpsoft.prettytime.PrettyTime;
-import org.w3c.dom.Text;
 
 import java.util.Date;
 
@@ -100,7 +99,7 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
     }
 
     public void loadAssignmentsForCourse(int position) {
-        new AssignmentLoadTask(this, getActivity()).execute(new String[] {dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(position),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
+        new AssignmentLoadTask(this, getActivity(), true).execute(new String[] {dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(position),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
     }
 
     @Override
@@ -119,7 +118,7 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
     @Override
     public void onClassGradesLoaded(ClassGrades[] grades, int courseIndex) {
         dataManager.setClassGrades(grades, courseIndex);
-        dataManager.setCourseGradesLastUpdated(courses[courseIndex].courseId);
+        dataManager.setClassGradesLastUpdated(courses[courseIndex].courseId);
         startAssignmentActivity(courseIndex);
     }
 

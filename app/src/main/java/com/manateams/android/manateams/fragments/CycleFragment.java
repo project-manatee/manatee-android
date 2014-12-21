@@ -63,7 +63,7 @@ public class CycleFragment extends Fragment {
         lastUpdatedText = (TextView) getView().findViewById(R.id.text_lastupdated);
         // Set relative time for last updated
         PrettyTime p = new PrettyTime();
-        lastUpdatedText.setText("Last updated " + p.format(new Date(dataManager.getCourseGradesLastUpdated(courseID))));
+        lastUpdatedText.setText("Last updated " + p.format(new Date(dataManager.getClassGradesLastUpdated(courseID))));
 
         categoryList = (RecyclerView) getView().findViewById(R.id.list_grades);
         categoryList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));

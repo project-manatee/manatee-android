@@ -4,6 +4,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.manateams.android.manateams.service.AlarmReceiver;
 
@@ -92,6 +94,14 @@ public class Utils {
         }
 
         return new int[] { (int) (r * 255), (int) (g * 255), (int) (b * 255) };
+    }
+
+    /* Returns true if the device is connected to the internet. */
+    public static boolean isInternetAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     /* Sets recurring alarms for running APIService. */

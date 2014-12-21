@@ -60,6 +60,8 @@ public class GPAFragment extends Fragment {
         pager = (ViewPager)getActivity().findViewById(R.id.pager);
         pager.setAdapter(new GraphAdapter (getChildFragmentManager(), dataManager));
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) getActivity().findViewById(R.id.tabs);
+        tabs.setTextColor(getResources().getColor(R.color.white));
+        tabs.setBackgroundColor(getResources().getColor(R.color.app_primary));
         tabs.setViewPager(pager);
     }
 

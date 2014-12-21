@@ -11,7 +11,8 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="48dip"
-        app:pstsIndicatorColor="@color/app_accent"/>
+        app:pstsIndicatorColor="@color/white"
+        app:pstsDividerColor="@android:color/transparent"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
