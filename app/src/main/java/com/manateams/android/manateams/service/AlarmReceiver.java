@@ -17,11 +17,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent nextIntent = new Intent(context, GradeScrapeService.class);
         context.stopService(nextIntent);
         context.startService(nextIntent);
-        if (!isRunning(context)) {
+        /*if (!isRunning(context)) {
             Intent activityIntent = new Intent(context, MainActivity.class);
             activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(activityIntent);
-        }
+        }*/
     }
 
     public boolean isRunning(Context ctx) {

@@ -105,7 +105,7 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
             builder.setContentTitle("New grade");
             builder.setContentText("You have a new " + newGrade.toString() + " in " + courses[courseIndex].title);
         }
-
+        Log.d("BitBitBit", "stuff");
         Intent resultIntent = new Intent(this, CoursesActivity.class);
         builder.setContentIntent(PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT));
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
