@@ -49,15 +49,17 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
 
     @Override
     public void onCoursesLoaded(Course[] courses) {
-        Course[] oldCourses = dataManager.getCourseGrades();
-        dataManager.setCourseGrades(courses);
-        dataManager.setOverallGradesLastUpdated();
+        if(courses != null) {
+            Course[] oldCourses = dataManager.getCourseGrades();
+            dataManager.setCourseGrades(courses);
+            dataManager.setOverallGradesLastUpdated();
 
-        checkForGradeChanges(oldCourses, courses);
+            checkForGradeChanges(oldCourses, courses);
 
-        //Todo Detection of current cycle
-        for (Course c : courses) {
-            dataManager.addCourseDatapoint(c.semesters[0].average, c.courseId);
+            //Todo Detection of current cycle
+            for (Course c : courses) {
+                dataManager.addCourseDatapoint(c.semesters[0].average, c.courseId);
+            }
         }
     }
 
