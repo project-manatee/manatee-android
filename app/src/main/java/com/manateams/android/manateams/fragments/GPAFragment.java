@@ -59,6 +59,12 @@ public class GPAFragment extends Fragment {
         populateGPASummaries();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        populateGPASummaries();
+    }
+
     private void setupViews() {
         rootLayout = (LinearLayout) getActivity().findViewById(R.id.layout_root);
         gpaText = (Button) getActivity().findViewById(R.id.text_gpa);
