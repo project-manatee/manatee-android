@@ -107,9 +107,23 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
         if(courses != null) {
             dataManager.setCourseGrades(courses);
             dataManager.setOverallGradesLastUpdated();
-            //Todo Detection of current cycle
             for (Course c: courses){
-                dataManager.addCourseDatapoint(c.semesters[0].average,c.courseId);
+                if (c.semesters[1].average.value != -1){
+                    for (int i = c.semesters[1].cycles.length-1; i >= 0; i--){
+                        if(c.semesters[1].cycles[i].average != null){
+                            dataManager.addCourseDatapoint(c.semesters[1].cycles[i].average,c.courseId);
+                            break;
+                        }
+                    }
+                }
+                else{
+                    for (int i = c.semesters[0].cycles.length-1; i >= 0; i--){
+                        if(c.semesters[0].cycles[i].average != null){
+                            dataManager.addCourseDatapoint(c.semesters[0].cycles[i].average,c.courseId);
+                            break;
+                        }
+                    }
+                }
             }
             restartActivity();
         }

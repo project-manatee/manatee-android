@@ -1,12 +1,14 @@
 package com.manateams.android.manateams.service;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -55,9 +57,22 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
 
         checkForGradeChanges(oldCourses, courses);
 
-        //Todo Detection of current cycle
         for (Course c : courses) {
-            dataManager.addCourseDatapoint(c.semesters[0].average, c.courseId);
+            if (c.semesters[1].average.value != -1) {
+                for (int i = c.semesters[1].cycles.length - 1; i >= 0; i--) {
+                    if (c.semesters[1].cycles[i].average != null) {
+                        dataManager.addCourseDatapoint(c.semesters[1].cycles[i].average, c.courseId);
+                        break;
+                    }
+                }
+            } else {
+                for (int i = c.semesters[0].cycles.length - 1; i >= 0; i--) {
+                    if (c.semesters[0].cycles[i].average != null) {
+                        dataManager.addCourseDatapoint(c.semesters[0].cycles[i].average, c.courseId);
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -95,8 +110,11 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
         Course[] courses = dataManager.getCourseGrades();
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_launcher).setLargeIcon(bm);
-
-
+        builder.setColor(getResources().getColor(R.color.app_primary));
+        if(Build.VERSION.SDK_INT >= 20) {
+            builder.setCategory(Notification.CATEGORY_SOCIAL);
+            builder.setVisibility(Notification.VISIBILITY_PRIVATE);
+        }
         if (!isNewGrade) {
             builder.setContentTitle("Grade changed");
             builder.setContentText("Your grade in " + courses[courseIndex].title + " has changed");
