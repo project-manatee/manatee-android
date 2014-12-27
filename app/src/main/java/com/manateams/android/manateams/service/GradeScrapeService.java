@@ -51,26 +51,28 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
 
     @Override
     public void onCoursesLoaded(Course[] courses) {
-        Course[] oldCourses = dataManager.getCourseGrades();
-        dataManager.setCourseGrades(courses);
-        dataManager.setOverallGradesLastUpdated();
+        if(courses != null) {
+            Course[] oldCourses = dataManager.getCourseGrades();
+            dataManager.setCourseGrades(courses);
+            dataManager.setOverallGradesLastUpdated();
 
-        checkForGradeChanges(oldCourses, courses);
+            checkForGradeChanges(oldCourses, courses);
+            for (Course c : courses) {
+                if (c.semesters[1].average.value != -1) {
+                    for (int i = c.semesters[1].cycles.length - 1; i >= 0; i--) {
+                        if (c.semesters[1].cycles[i].average != null) {
+                            dataManager.addCourseDatapoint(c.semesters[1].cycles[i].average, c.courseId);
+                            break;
+                        }
+                    }
+                } else {
+                    for (int i = c.semesters[0].cycles.length - 1; i >= 0; i--) {
+                        if (c.semesters[0].cycles[i].average != null) {
+                            dataManager.addCourseDatapoint(c.semesters[0].cycles[i].average, c.courseId);
+                            break;
+                        }
+                    }
 
-        for (Course c : courses) {
-            if (c.semesters[1].average.value != -1) {
-                for (int i = c.semesters[1].cycles.length - 1; i >= 0; i--) {
-                    if (c.semesters[1].cycles[i].average != null) {
-                        dataManager.addCourseDatapoint(c.semesters[1].cycles[i].average, c.courseId);
-                        break;
-                    }
-                }
-            } else {
-                for (int i = c.semesters[0].cycles.length - 1; i >= 0; i--) {
-                    if (c.semesters[0].cycles[i].average != null) {
-                        dataManager.addCourseDatapoint(c.semesters[0].cycles[i].average, c.courseId);
-                        break;
-                    }
                 }
             }
         }

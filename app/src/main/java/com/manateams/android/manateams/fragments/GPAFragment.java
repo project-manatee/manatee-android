@@ -1,6 +1,5 @@
 package com.manateams.android.manateams.fragments;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,13 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
 import com.manateams.android.manateams.R;
-import com.manateams.android.manateams.SettingsActivity;
 import com.manateams.android.manateams.util.DataManager;
 import com.quickhac.common.GPACalc;
 import com.quickhac.common.data.Course;
