@@ -1,5 +1,7 @@
 package com.manateams.android.manateams.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class GPAFragment extends Fragment {
+public class GPAFragment extends Fragment implements View.OnClickListener {
 
     private LinearLayout rootLayout;
 
@@ -65,6 +67,7 @@ public class GPAFragment extends Fragment {
     private void setupViews() {
         rootLayout = (LinearLayout) getActivity().findViewById(R.id.layout_root);
         gpaText = (Button) getActivity().findViewById(R.id.text_gpa);
+        gpaText.setOnClickListener(this);
     }
     private void setupPager(DataManager dataManager){
         pager = (ViewPager)getActivity().findViewById(R.id.pager);
@@ -74,7 +77,6 @@ public class GPAFragment extends Fragment {
         tabs.setBackgroundColor(getResources().getColor(R.color.app_primary));
         tabs.setViewPager(pager);
     }
-
     private void populateGPASummaries() {
         if(courses != null) {
             gpaText.setText("GPA: " + String.valueOf(Numeric.round(GPACalc.unweighted(courses), 3)) + " / " + String.valueOf(Numeric.round(getWeightedGPA(), 3)));
@@ -137,6 +139,58 @@ public class GPAFragment extends Fragment {
         }
         return GPACalc.weighted(courses, toWeighted, 0);
     }
+
+    @Override
+    public void onClick(View v) {
+        Course[] courses = new DataManager(getActivity()).getCourseGrades();
+        final CharSequence[] classes = new CharSequence[courses.length];
+        boolean[] isSelectedArray = new boolean[courses.length];
+        for (int i = 0; i < courses.length; i++) {
+            classes[i] = courses[i].title;
+        }
+        final SharedPreferences defaultPrefs = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
+        final Set<String> savedWeighted = defaultPrefs.getStringSet(
+                "pref_weightedClasses", null);
+        for (String s : savedWeighted){
+            for (int i = 0; i < classes.length; i++){
+                if (classes[i].equals(s)){
+                    isSelectedArray[i] = true;
+                }
+            }
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getResources().getString(R.string.pref_chooseWeighted));
+        builder.setMultiChoiceItems(classes,isSelectedArray,new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                if (isChecked){
+                    savedWeighted.add(String.valueOf(classes[which]));
+                }
+                else{
+                    savedWeighted.remove(String.valueOf(classes[which]));
+                }
+            }
+        });
+        builder.setPositiveButton(R.string.ok,new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences.Editor e = defaultPrefs.edit();
+                e.putStringSet("pref_weightedClasses",savedWeighted);
+                e.commit();
+                populateGPASummaries();
+
+            }
+        });
+        builder.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.create().show();
+    }
+
     public class GraphAdapter extends FragmentPagerAdapter {
         Course[] courses;
         public GraphAdapter(FragmentManager fm,DataManager d) {

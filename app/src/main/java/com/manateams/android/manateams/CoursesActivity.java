@@ -1,9 +1,14 @@
 package com.manateams.android.manateams;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -18,9 +23,14 @@ import android.widget.ListView;
 import com.manateams.android.manateams.fragments.AboutFragment;
 import com.manateams.android.manateams.fragments.CourseFragment;
 import com.manateams.android.manateams.fragments.GPAFragment;
+import com.manateams.android.manateams.fragments.SettingsFragment;
 import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.views.DrawerAdapter;
 import com.quickhac.common.data.Course;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 
 public class CoursesActivity extends ActionBarActivity {
@@ -98,8 +108,8 @@ public class CoursesActivity extends ActionBarActivity {
                 fragmentManager.beginTransaction().replace(R.id.content_frame, gpaFragment).commit();
                 break;
             case 2:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                SettingsFragment fragment = new SettingsFragment();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, (Fragment) fragment).commit();
                 break;
             case 3:
                 AboutFragment aboutFragment = new AboutFragment();
@@ -158,10 +168,6 @@ public class CoursesActivity extends ActionBarActivity {
         }
     }
 
-    public void onGPAClick(View v) {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-    }
 
     public void onNeilWebsiteClick(View v) {
         String url = "http://patil215.github.io";
@@ -173,7 +179,7 @@ public class CoursesActivity extends ActionBarActivity {
     public void onNeilEmailClick(View v) {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto", "neilpatil215@gmail.com", null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "EXTRA_SUBJECT");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "");
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 

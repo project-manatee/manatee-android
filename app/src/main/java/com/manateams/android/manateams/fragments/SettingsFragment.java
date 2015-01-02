@@ -1,19 +1,24 @@
-package com.manateams.android.manateams;
+package com.manateams.android.manateams.fragments;
+
+/**
+ * Created by Ehsan on 1/2/2015.
+ */
 
 import android.os.Bundle;
 import android.preference.MultiSelectListPreference;
-import android.preference.PreferenceActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 
+import com.manateams.android.manateams.R;
 import com.manateams.android.manateams.util.DataManager;
 import com.quickhac.common.data.Course;
+import android.support.v4.preference.PreferenceFragment;
 
 
-public class SettingsActivity extends PreferenceActivity {
+
+
+public class SettingsFragment extends PreferenceFragment {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.layout.activity_settings);
 
@@ -21,7 +26,7 @@ public class SettingsActivity extends PreferenceActivity {
 
         MultiSelectListPreference excludedPreference = (MultiSelectListPreference) findPreference("pref_excludedClasses");
 
-        Course[] courses = new DataManager(this).getCourseGrades();
+        Course[] courses = new DataManager(getActivity()).getCourseGrades();
 
         CharSequence[] classes = new CharSequence[courses.length];
         for (int i = 0; i < courses.length; i++) {
@@ -31,21 +36,5 @@ public class SettingsActivity extends PreferenceActivity {
         weightedPreference.setEntries(classes);
         excludedPreference.setEntryValues(classes);
         excludedPreference.setEntries(classes);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.settings, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

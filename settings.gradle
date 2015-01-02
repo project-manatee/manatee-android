@@ -1,2 +1,3 @@
-include ':app', ':scraper'
+include ':app', ':scraper', ':settingsupportfrag'
 project(':scraper').projectDir = new File('manatee-scraper-java/app')
+project(':settingsupportfrag').projectDir = new File('android-support-v4-preferencefragment-master')
