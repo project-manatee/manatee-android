@@ -153,6 +153,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
             startActivity(intent);
             finish();
         } else {
+            loggingIn = false;
             if (!username.matches("^[sS]\\d{6,8}\\d?$") && tries < 2) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 alert.setTitle(R.string.secondary_login_title);
@@ -163,7 +164,8 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
                 alert.setCancelable(false);
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                         TEAMSuser = ((EditText)v.findViewById(R.id.backupusername)).getText().toString();
+                        loggingIn = true;
+                        TEAMSuser = ((EditText)v.findViewById(R.id.backupusername)).getText().toString();
                          TEAMSpass = ((EditText)v.findViewById(R.id.backuppassword)).getText().toString();
                          new CourseLoadTask(MainActivity.this, getApplicationContext()).execute(username, password, studentId, TEAMSuser, TEAMSpass);
                     }
@@ -186,8 +188,8 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
                 studentIdText.setFocusableInTouchMode(true);
                 studentIdText.setClickable(true);
                 studentIdText.setEnabled(true);
-                loginButton.setFocusable(true);
-                loginButton.setFocusableInTouchMode(true);
+                loginButton.setFocusable(false);
+                loginButton.setFocusableInTouchMode(false);
                 loginButton.setClickable(true);
                 loginButton.setEnabled(true);
                 loginTextLayout.setVisibility(View.VISIBLE);
