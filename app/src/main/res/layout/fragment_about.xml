@@ -73,6 +73,25 @@
             android:textColor="@color/white"
             android:textSize="24sp" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/buttons_ehsan">
+            <ImageButton
+                android:layout_width="60dp"
+                android:src="@drawable/ic_email_white_48dp"
+                android:onClick="onEhsanEmailClick"
+                android:background="@color/app_primary"
+                android:layout_height="60dp" />
+            <ImageButton
+                android:layout_width="60dp"
+                android:src="@drawable/ic_launch_white_48dp"
+                android:onClick="onEhsanWebsiteClick"
+                android:background="@color/app_primary"
+                android:layout_height="60dp" />
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

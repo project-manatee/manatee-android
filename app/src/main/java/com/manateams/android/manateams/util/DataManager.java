@@ -17,7 +17,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DataManager {
     private Context context;
@@ -47,6 +52,10 @@ public class DataManager {
         return prefs.getBoolean("firstTimeGraphs", true);
     }
 
+    public boolean isFirstTimeViewingGrades() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean("firstTimeGrades", true);
+    }
     public void setFirstTimeViewingGPA(boolean firstTime) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = prefs.edit();
@@ -58,6 +67,12 @@ public class DataManager {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = prefs.edit();
         edit.putBoolean("firstTimeGraphs", firstTime);
+        edit.commit();
+    }
+    public void setFirstTimeViewingGrades(boolean firstTime) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putBoolean("firstTimeGrades", firstTime);
         edit.commit();
     }
 
@@ -161,7 +176,30 @@ public class DataManager {
             currentValues = new ArrayList<DataPoint>();
         }
         currentValues.add(new DataPoint(g,System.currentTimeMillis()));
+        currentValues = colapseValues(currentValues);
         writeToFile(Constants.FILE_BASE_DATAPOINTS + courseID ,new Gson().toJson(currentValues));
+    }
+
+    private ArrayList<DataPoint> colapseValues(ArrayList<DataPoint> grades) {
+        ArrayList<DataPoint> out = new ArrayList<DataPoint>();
+        Map<String,List<DataPoint>> sortedGrades = new HashMap<String,List<DataPoint>>();
+        //Add each value to a map based on date
+        for(DataPoint d: grades){
+            Date date = new Date(d.time);
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = format1.format(date);
+            if(!sortedGrades.containsKey(formattedDate)){
+                sortedGrades.put(formattedDate, new ArrayList<DataPoint>());
+            }
+            sortedGrades.get(formattedDate).add(d);
+        }
+        //Choose the last value from each day to display
+        for (Map.Entry<String, List<DataPoint>> entry : sortedGrades.entrySet()) {
+            String key = entry.getKey();
+            List<DataPoint> value = entry.getValue();
+            out.add(value.get(value.size()-1));
+        }
+        return out;
     }
     public ArrayList<DataPoint> getCourseDatapoints(String courseID){
         String data = readFromFile(Constants.FILE_BASE_DATAPOINTS + courseID);

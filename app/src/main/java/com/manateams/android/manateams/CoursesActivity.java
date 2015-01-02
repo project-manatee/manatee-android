@@ -176,4 +176,17 @@ public class CoursesActivity extends ActionBarActivity {
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "EXTRA_SUBJECT");
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
+
+    public void onEhsanWebsiteClick(View v) {
+        String url = "http://ehsandev.com";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
+    public void onEhsanEmailClick(View v) {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", "ehsan@ehsandev.com", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
+    }
 }

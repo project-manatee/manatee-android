@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.manateams.android.manateams.R;
 import com.manateams.android.manateams.util.DataManager;
 import com.quickhac.common.GPACalc;
@@ -77,6 +79,13 @@ public class GPAFragment extends Fragment {
         if(courses != null) {
             gpaText.setText("GPA: " + String.valueOf(Numeric.round(GPACalc.unweighted(courses), 3)) + " / " + String.valueOf(Numeric.round(getWeightedGPA(), 3)));
             if(dataManager.isFirstTimeViewingGPA()) {
+                ShowcaseView showcaseView = new ShowcaseView.Builder(getActivity())
+                        .setTarget(new ViewTarget(getView().findViewById(R.id.text_gpa)))
+                        .setContentTitle(getResources().getString(R.string.gpa_intro_title))
+                        .setContentText(getResources().getString(R.string.gpa_intro_content))
+                        .setStyle(R.style.CustomShowcaseTheme)
+                        .build();
+                dataManager.setFirstTimeViewingGPA(false);
                 //ShowcaseView.insertShowcaseView(R.id.text_gpa, getActivity(), "GPA", "Tap to adjust weighted classes.", null);
             }
         }

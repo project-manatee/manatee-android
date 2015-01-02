@@ -12,4 +12,19 @@
     <style name="AppTheme.Base" parent="AppTheme">
 
     </style>
+
+    <style name="CustomShowcaseTheme" parent="ShowcaseView.Light">
+        <item name="sv_backgroundColor">#512da8</item>
+        <item name="sv_showcaseColor">@color/app_accent</item>
+        <item name="sv_tintButtonColor">true</item>
+        <item name="sv_titleTextAppearance">@style/CustomShowcaseTitle</item>
+        <item name="sv_detailTextAppearance">@style/CustomShowcaseDetail</item>
+    </style>
+
+    <style name="CustomShowcaseTitle" parent="TextAppearance.ShowcaseView.Title">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+    <style name="CustomShowcaseDetail" parent="TextAppearance.ShowcaseView.Detail">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
 </resources>

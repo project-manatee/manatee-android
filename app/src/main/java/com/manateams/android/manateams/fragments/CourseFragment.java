@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.manateams.android.manateams.AssignmentActivity;
 import com.manateams.android.manateams.R;
 import com.manateams.android.manateams.asynctask.AssignmentLoadTask;
@@ -66,7 +68,6 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
         coursesList = (RecyclerView) getActivity().findViewById(R.id.list_courses);
         coursesList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         coursesList.setItemAnimator(new DefaultItemAnimator());
-
         // Set the grade cards
         adapter = new CourseAdapter(getActivity(), courses);
         coursesList.setAdapter(adapter);
@@ -86,6 +87,15 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(R.color.app_primary, R.color.app_accent);
         swipeRefreshLayout.setEnabled(true);
+        if(dataManager.isFirstTimeViewingGrades()){
+            ShowcaseView showcaseView = new ShowcaseView.Builder(getActivity())
+                    .setTarget(new ViewTarget(getView().findViewById(R.id.list_courses)))
+                    .setContentTitle(getResources().getString(R.string.grades_intro_title))
+                    .setContentText(getResources().getString(R.string.grades_intro_content))
+                    .setStyle(R.style.CustomShowcaseTheme)
+                    .build();
+            dataManager.setFirstTimeViewingGrades(false);
+        }
     }
 
     public void restartActivity() {

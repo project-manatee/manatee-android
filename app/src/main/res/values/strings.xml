@@ -53,7 +53,7 @@
     <string name="text_lastupdated_default">Grades not updated - pull down to refresh</string>
     <string name="text_course_lastupdated_default">Grades not updated yet</string>
     <string name="action_logout">Logout</string>
-    <string name="secondary_login_info">It seems that this account is accessed with two sets of credentials. If this applies to you, enter the credentials for your TEAMS account below.</string>
+    <string name="secondary_login_info">If you use separate credentials for your TEAMS account, enter them below</string>
     <string name="secondary_login_title">Secondary Login</string>
     <string name="text_gpa_default">GPA: 4.205 / 3.057</string>
     <string name="text_title">manaTEAMS</string>
@@ -62,6 +62,10 @@
     <string name="text_neil">Neil Patil</string>
     <string name="text_and">and</string>
     <string name="text_ehsan">Ehsan Asdar</string>
+    <string name="gpa_intro_title">GPA Display</string>
+    <string name="gpa_intro_content">Tap on the GPA to select your weighted classes</string>
+    <string name="grades_intro_title">View Assignments</string>
+    <string name="grades_intro_content">Tap a course to view assignment grades</string>
 
 
 </resources>

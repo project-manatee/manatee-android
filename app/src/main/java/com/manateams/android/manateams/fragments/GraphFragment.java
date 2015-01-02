@@ -49,12 +49,9 @@ public class GraphFragment extends Fragment {
 
     public void setupGraph(String courseID,int index,View v) {
         LineChart l = (LineChart) v.findViewById(R.id.linechart);
-        l.setDragEnabled(false);
-        l.setPinchZoom(false);
-        l.setDoubleTapToZoomEnabled(false);
-        l.setTouchEnabled(false);
         l.setStartAtZero(false);
         ArrayList<DataPoint> grades = new DataManager(getActivity()).getCourseDatapoints(courseID);
+        Log.d("SIZE",grades.size() + "");
         if (grades != null && grades.size() > 0 ) {
             LineData dataSet = constructDataSet(grades, Constants.COLORS[index % Constants.COLORS.length]);
             l.setData(dataSet);
@@ -62,7 +59,6 @@ public class GraphFragment extends Fragment {
     }
 
     private LineData constructDataSet(ArrayList<DataPoint> grades,String color) {
-        grades = colapseValues(grades);
         ArrayList<String> xVals = new ArrayList<String>();
         ArrayList<Entry> yVals = new ArrayList<Entry>();
         for(int i = 0; i < grades.size(); i++){
@@ -89,27 +85,5 @@ public class GraphFragment extends Fragment {
         dataSets.add(set1);
         LineData dataout = new LineData(xVals,dataSets);
         return dataout;
-    }
-
-    private ArrayList<DataPoint> colapseValues(ArrayList<DataPoint> grades) {
-        ArrayList<DataPoint> out = new ArrayList<DataPoint>();
-        Map<String,List<DataPoint>> sortedGrades = new HashMap<String,List<DataPoint>>();
-        //Add each value to a map based on date
-        for(DataPoint d: grades){
-            Date date = new Date(d.time);
-            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-            String formattedDate = format1.format(date);
-            if(!sortedGrades.containsKey(formattedDate)){
-                sortedGrades.put(formattedDate, new ArrayList<DataPoint>());
-            }
-            sortedGrades.get(formattedDate).add(d);
-        }
-        //Choose the last value from each day to display
-        for (Map.Entry<String, List<DataPoint>> entry : sortedGrades.entrySet()) {
-            String key = entry.getKey();
-            List<DataPoint> value = entry.getValue();
-            out.add(value.get(value.size()-1));
-        }
-        return out;
     }
 }
