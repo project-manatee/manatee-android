@@ -93,6 +93,7 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
                     .setContentTitle(getResources().getString(R.string.grades_intro_title))
                     .setContentText(getResources().getString(R.string.grades_intro_content))
                     .setStyle(R.style.CustomShowcaseTheme)
+                    .hideOnTouchOutside()
                     .build();
             dataManager.setFirstTimeViewingGrades(false);
         }

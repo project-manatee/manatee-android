@@ -50,8 +50,8 @@ public class GraphFragment extends Fragment {
     public void setupGraph(String courseID,int index,View v) {
         LineChart l = (LineChart) v.findViewById(R.id.linechart);
         l.setStartAtZero(false);
+        l.setDescription("");
         ArrayList<DataPoint> grades = new DataManager(getActivity()).getCourseDatapoints(courseID);
-        Log.d("SIZE",grades.size() + "");
         if (grades != null && grades.size() > 0 ) {
             LineData dataSet = constructDataSet(grades, Constants.COLORS[index % Constants.COLORS.length]);
             l.setData(dataSet);

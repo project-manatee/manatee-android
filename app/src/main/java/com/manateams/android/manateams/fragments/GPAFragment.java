@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.manateams.android.manateams.R;
@@ -25,6 +26,7 @@ import com.quickhac.common.data.Course;
 import com.quickhac.common.util.Numeric;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -86,6 +88,29 @@ public class GPAFragment extends Fragment implements View.OnClickListener {
                         .setContentTitle(getResources().getString(R.string.gpa_intro_title))
                         .setContentText(getResources().getString(R.string.gpa_intro_content))
                         .setStyle(R.style.CustomShowcaseTheme)
+                        .hideOnTouchOutside()
+                        .setShowcaseEventListener(new OnShowcaseEventListener() {
+                            @Override
+                            public void onShowcaseViewHide(ShowcaseView showcaseView) {
+
+                            }
+
+                            @Override
+                            public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                                    new ShowcaseView.Builder(getActivity())
+                                            .setTarget(new ViewTarget(getView().findViewById(R.id.linechart)))
+                                            .setContentTitle(getResources().getString(R.string.graph_intro_title))
+                                            .setContentText(getResources().getString(R.string.graph_intro_content))
+                                            .setStyle(R.style.CustomShowcaseTheme)
+                                            .hideOnTouchOutside()
+                                            .build();
+                            }
+
+                            @Override
+                            public void onShowcaseViewShow(ShowcaseView showcaseView) {
+
+                            }
+                        })
                         .build();
                 dataManager.setFirstTimeViewingGPA(false);
                 //ShowcaseView.insertShowcaseView(R.id.text_gpa, getActivity(), "GPA", "Tap to adjust weighted classes.", null);
@@ -151,11 +176,13 @@ public class GPAFragment extends Fragment implements View.OnClickListener {
         final SharedPreferences defaultPrefs = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());
         final Set<String> savedWeighted = defaultPrefs.getStringSet(
-                "pref_weightedClasses", null);
-        for (String s : savedWeighted){
-            for (int i = 0; i < classes.length; i++){
-                if (classes[i].equals(s)){
-                    isSelectedArray[i] = true;
+                "pref_weightedClasses", new HashSet<String>());
+        if (savedWeighted != null) {
+            for (String s : savedWeighted) {
+                for (int i = 0; i < classes.length; i++) {
+                    if (classes[i].equals(s)) {
+                        isSelectedArray[i] = true;
+                    }
                 }
             }
         }

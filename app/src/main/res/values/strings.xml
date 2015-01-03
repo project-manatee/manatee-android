@@ -62,11 +62,16 @@
     <string name="text_neil">Neil Patil</string>
     <string name="text_and">and</string>
     <string name="text_ehsan">Ehsan Asdar</string>
+    <string name="cancel">Cancel</string>
+
     <string name="gpa_intro_title">GPA Display</string>
-    <string name="gpa_intro_content">Tap on the GPA to select your weighted classes</string>
+    <string name="gpa_intro_content">Tap on your GPA to select weighted classes</string>
+
     <string name="grades_intro_title">View Assignments</string>
     <string name="grades_intro_content">Tap a course to view assignment grades</string>
-    <string name="cancel">Cancel</string>
+
+    <string name="graph_intro_title">Course Graph</string>
+    <string name="graph_intro_content">Charts your daily grade in a class over an extended period of time</string>
 
 
 </resources>
