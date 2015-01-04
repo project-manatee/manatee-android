@@ -6,4 +6,12 @@
     <color name="app_accent">#7c4dff</color>
     <color name="white">#FFFFFF</color>
     <color name="background">#E0E0E0</color>
+    <color name="pink">#e91e63</color>
+    <color name="red">#e51c23</color>
+    <color name="orange">#ff9800</color>
+    <color name="lightgreen">#8bc34a</color>
+    <color name="green">#259b24</color>
+    <color name="teal">#009688</color>
+    <color name="lightblue">#5677fc</color>
+    <color name="darkblue">#3f61b5</color>
 </resources>

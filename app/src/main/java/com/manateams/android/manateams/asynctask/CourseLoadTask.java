@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.manateams.android.manateams.R;
+import com.manateams.android.manateams.util.DataManager;
+import com.manateams.android.manateams.util.Utils;
 import com.quickhac.common.TEAMSGradeParser;
 import com.quickhac.common.TEAMSGradeRetriever;
 import com.quickhac.common.data.Course;
@@ -42,12 +44,8 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
         try {
             final TEAMSGradeParser p = new TEAMSGradeParser();
 
-            //Get cookies
-            final String cstonecookie = TEAMSGradeRetriever.getAustinisdCookie(username, password);
-            final String teamscookie = TEAMSGradeRetriever.getTEAMSCookie(cstonecookie, userType);
-
             //Generate final cookie
-            final String finalcookie = teamscookie + ';' + cstonecookie;
+            final String finalcookie = Utils.getTEAMSCookies(new DataManager(context), username, password, userType);
 
             //POST to login to TEAMS
             String userIdentification;

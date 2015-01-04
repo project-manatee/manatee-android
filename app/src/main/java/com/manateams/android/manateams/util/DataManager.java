@@ -152,6 +152,21 @@ public class DataManager {
         SharedPreferences preferences = context.getSharedPreferences(Constants.PREFERENCE_LASTUPDATED, Context.MODE_PRIVATE);
         return preferences.getLong(courseId, -1);
     }
+    public void setCookie(String cookie){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("cookie",cookie);
+        edit.putLong("cookieLastUpdated", System.currentTimeMillis());
+        edit.commit();
+    }
+    public long getCookieLastUpdated (){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getLong("cookieLastUpdated",-1);
+    }
+    public String getCookie(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString("cookie",null);
+    }
 
     public void setClassGradesLastUpdated(String courseId) {
         SharedPreferences preferences = context.getSharedPreferences(Constants.PREFERENCE_LASTUPDATED, Context.MODE_PRIVATE);

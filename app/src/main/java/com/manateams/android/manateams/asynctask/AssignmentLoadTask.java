@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.manateams.android.manateams.R;
+import com.manateams.android.manateams.util.DataManager;
+import com.manateams.android.manateams.util.Utils;
 import com.quickhac.common.TEAMSGradeParser;
 import com.quickhac.common.TEAMSGradeRetriever;
 import com.quickhac.common.data.ClassGrades;
@@ -57,12 +59,8 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
         try {
             final TEAMSGradeParser p = new TEAMSGradeParser();
 
-            //Get cookies
-            final String cstonecookie = TEAMSGradeRetriever.getAustinisdCookie(username, password);
-            final String teamscookie = TEAMSGradeRetriever.getTEAMSCookie(cstonecookie, userType);
-
             //Generate final cookie
-            final String finalcookie = teamscookie + ';' + cstonecookie;
+            final String finalcookie = Utils.getTEAMSCookies(new DataManager(context),username,password,userType);
 
             //POST to login to TEAMS
             String userIdentification;

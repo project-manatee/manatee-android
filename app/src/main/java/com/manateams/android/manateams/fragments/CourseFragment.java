@@ -85,7 +85,7 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
         );
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_container);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeColors(R.color.app_primary, R.color.app_accent);
+        swipeRefreshLayout.setColorSchemeResources(R.color.app_primary, R.color.app_accent, R.color.pink,R.color.red);
         swipeRefreshLayout.setEnabled(true);
         if(dataManager.isFirstTimeViewingGrades()){
             ShowcaseView showcaseView = new ShowcaseView.Builder(getActivity())
@@ -100,13 +100,18 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
     }
 
     public void restartActivity() {
-        Intent intent = getActivity().getIntent();
-        getActivity().overridePendingTransition(0, 0);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        getActivity().finish();
+        try {
+            Intent intent = getActivity().getIntent();
+            getActivity().overridePendingTransition(0, 0);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            getActivity().finish();
 
-        getActivity().overridePendingTransition(0, 0);
-        startActivity(intent);
+            getActivity().overridePendingTransition(0, 0);
+            startActivity(intent);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void loadAssignmentsForCourse(int position) {

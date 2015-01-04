@@ -23,6 +23,8 @@ import com.quickhac.common.data.GradeValue;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -59,6 +61,18 @@ public class GraphFragment extends Fragment {
     }
 
     private LineData constructDataSet(ArrayList<DataPoint> grades,String color) {
+        Collections.sort(grades,new Comparator<DataPoint>() {
+            @Override
+            public int compare(DataPoint lhs, DataPoint rhs) {
+                if (lhs.time > rhs.time){
+                    return 1;
+                }
+                else if (lhs.time < rhs.time){
+                    return -1;
+                }
+                return 0;
+            }
+        });
         ArrayList<String> xVals = new ArrayList<String>();
         ArrayList<Entry> yVals = new ArrayList<Entry>();
         for(int i = 0; i < grades.size(); i++){

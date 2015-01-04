@@ -1,8 +1,10 @@
 package com.manateams.android.manateams.views;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,10 +41,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     private int getGradeColor(GradeValue value) {
         // default of white
         int[] values = new int[] { 255, 255, 255 };
-        if (value.type == GradeValue.TYPE_DOUBLE) {
-            values = Utils.getGradeColorNumber((int) value.value_d, "#787878");
-        } else if (value.type == GradeValue.TYPE_INTEGER) {
-            values = Utils.getGradeColorNumber(value.value, "#787878");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (prefs.getBoolean("pref_showGradeColor", true)) {
+            if (value.type == GradeValue.TYPE_DOUBLE) {
+                values = Utils.getGradeColorNumber((int) value.value_d, "#787878");
+            } else if (value.type == GradeValue.TYPE_INTEGER) {
+                values = Utils.getGradeColorNumber(value.value, "#787878");
+            }
         }
         return Color.rgb(values[0], values[1], values[2]);
     }

@@ -6,8 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import com.manateams.android.manateams.service.AlarmReceiver;
+import com.quickhac.common.TEAMSGradeRetriever;
+import com.quickhac.common.districts.TEAMSUserType;
+
+import java.io.IOException;
 
 public class Utils {
 
@@ -120,5 +125,29 @@ public class Utils {
                 intent,
                 PendingIntent.FLAG_NO_CREATE) != null);
         return alarmsSet;
+    }
+
+    public static String getTEAMSCookies(DataManager dataManager,String username, String password, TEAMSUserType userType) {
+        long lastUpdateTime = dataManager.getCookieLastUpdated();
+        long fifteennmin = 1000*60*15;
+        if (Math.abs(lastUpdateTime -System.currentTimeMillis()) > fifteennmin){
+            //Get cookies
+            Log.d("cookiecache", "cache miss");
+            try {
+                final String cstonecookie = TEAMSGradeRetriever.getAustinisdCookie(username, password);
+                final String teamscookie = TEAMSGradeRetriever.getTEAMSCookie(cstonecookie, userType);
+                final String finalcookie = teamscookie + ';' + cstonecookie;
+                dataManager.setCookie(finalcookie);
+                return finalcookie;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            Log.d("cookiecache", "cache hit");
+            return dataManager.getCookie();
+        }
+
+        return "";
     }
 }
