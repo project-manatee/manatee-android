@@ -159,6 +159,11 @@ public class DataManager {
         edit.putLong("cookieLastUpdated", System.currentTimeMillis());
         edit.commit();
     }
+    public void invalidateCookie(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putLong("cookieLastUpdated", -1);
+    }
     public long getCookieLastUpdated (){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getLong("cookieLastUpdated",-1);
@@ -193,6 +198,9 @@ public class DataManager {
         currentValues.add(new DataPoint(g,System.currentTimeMillis()));
         currentValues = colapseValues(currentValues);
         writeToFile(Constants.FILE_BASE_DATAPOINTS + courseID ,new Gson().toJson(currentValues));
+    }
+    public void deleteDatapoints(String courseID){
+        writeToFile(Constants.FILE_BASE_DATAPOINTS + courseID ,new Gson().toJson(new ArrayList<DataPoint>()));
     }
 
     private ArrayList<DataPoint> colapseValues(ArrayList<DataPoint> grades) {

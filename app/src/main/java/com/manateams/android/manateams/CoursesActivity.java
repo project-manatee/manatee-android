@@ -148,8 +148,11 @@ public class CoursesActivity extends ActionBarActivity {
                 Course[] courses = dataManager.getCourseGrades();
                 for(int i = 0; i < courses.length; i++) {
                     dataManager.setClassGrades(null, i);
+                    dataManager.deleteDatapoints(courses[i].courseId);
                 }
                 dataManager.setCourseGrades(null);
+                dataManager.invalidateCookie();
+
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();
