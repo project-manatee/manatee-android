@@ -163,6 +163,7 @@ public class DataManager {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = prefs.edit();
         edit.putLong("cookieLastUpdated", -1);
+        edit.commit();
     }
     public long getCookieLastUpdated (){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
