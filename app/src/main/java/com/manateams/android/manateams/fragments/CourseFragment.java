@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.manateams.android.manateams.AssignmentActivity;
@@ -40,6 +41,7 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
     private DataManager dataManager;
     private CourseAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    public boolean allowAssignmentLoad;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,14 +90,34 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
         swipeRefreshLayout.setColorSchemeResources(R.color.app_primary, R.color.app_accent, R.color.pink,R.color.red);
         swipeRefreshLayout.setEnabled(true);
         if(dataManager.isFirstTimeViewingGrades()){
+            allowAssignmentLoad = false;
             ShowcaseView showcaseView = new ShowcaseView.Builder(getActivity())
                     .setTarget(new ViewTarget(getView().findViewById(R.id.list_courses)))
                     .setContentTitle(getResources().getString(R.string.grades_intro_title))
                     .setContentText(getResources().getString(R.string.grades_intro_content))
                     .setStyle(R.style.CustomShowcaseTheme)
                     .hideOnTouchOutside()
+                    .setShowcaseEventListener(new OnShowcaseEventListener() {
+                        @Override
+                        public void onShowcaseViewHide(ShowcaseView showcaseView) {
+
+                        }
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            allowAssignmentLoad = true;
+                        }
+
+                        @Override
+                        public void onShowcaseViewShow(ShowcaseView showcaseView) {
+
+                        }
+                    })
                     .build();
             dataManager.setFirstTimeViewingGrades(false);
+        }
+        else{
+            allowAssignmentLoad = true;
         }
     }
 
@@ -115,7 +137,8 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
     }
 
     public void loadAssignmentsForCourse(int position) {
-        new AssignmentLoadTask(this, getActivity(), true).execute(new String[] {dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(position),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
+        if (allowAssignmentLoad)
+            new AssignmentLoadTask(this, getActivity(), true).execute(new String[] {dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(position),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
     }
 
     @Override
