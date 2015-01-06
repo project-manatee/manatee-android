@@ -112,8 +112,8 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
 
     public void sendGradeChangeNotification(boolean isNewGrade, int courseIndex, int semesterIndex, int cycleIndex, GradeValue oldGrade, GradeValue newGrade) {
         Course[] courses = dataManager.getCourseGrades();
-        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_launcher).setLargeIcon(bm);
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_notification).setLargeIcon(bm);
         builder.setColor(getResources().getColor(R.color.app_primary));
         if(Build.VERSION.SDK_INT >= 20) {
             builder.setCategory(Notification.CATEGORY_SOCIAL);
