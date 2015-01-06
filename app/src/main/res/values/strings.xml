@@ -74,6 +74,7 @@
     <string name="graph_intro_content">Charts your daily grade in a class over an extended period of time</string>
     <string name="text_card_no_grades_title">No grades :(</string>
     <string name="text_no_grades">No grades :(</string>
+    <string name="text_login_instructions">Log in with the credentials you use to sign into my.austinisd.org.</string>
 
 
 </resources>
