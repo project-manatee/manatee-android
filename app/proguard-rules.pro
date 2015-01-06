@@ -15,3 +15,24 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-libraryjars ./libs/gson-2.2.4.jar
+-libraryjars ./libs/mpandroidchartlibrary-1-7-2.jar
+-libraryjars ./libs/prettytime-3.2.5.Final.jar
+
+##---------------Begin: proguard configuration for Gson  ----------
+# Gson uses generic type information stored in a class file when working with fields. Proguard
+# removes such information by default, so configure it to keep all of it.
+-keepattributes Signature
+
+# For using GSON @Expose annotation
+-keepattributes *Annotation*
+
+# Gson specific classes
+-keep class sun.misc.Unsafe { *; }
+#-keep class com.google.gson.stream.** { *; }
+
+# Application classes that will be serialized/deserialized over Gson
+-keep class com.asdar.lasaschedules.Schedule { *; }
+
+##---------------End: proguard configuration for Gson  ----------
+
