@@ -88,6 +88,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                     }
                 }
             }
+        } else {
+            viewHolder.titleText.setText("No grades :(");
         }
     }
 

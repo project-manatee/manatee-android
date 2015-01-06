@@ -3,6 +3,7 @@ package com.manateams.android.manateams.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +28,7 @@ public class CycleFragment extends Fragment {
 
     private RecyclerView categoryList;
     private TextView lastUpdatedText;
+    private TextView noGradesText;
 
     private DataManager dataManager;
     private ClassGrades grades;
@@ -65,11 +67,20 @@ public class CycleFragment extends Fragment {
         PrettyTime p = new PrettyTime();
         lastUpdatedText.setText("Last updated " + p.format(new Date(dataManager.getClassGradesLastUpdated(courseID))));
 
+        noGradesText = (TextView) getView().findViewById(R.id.text_no_grade);
+
         categoryList = (RecyclerView) getView().findViewById(R.id.list_grades);
         categoryList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         categoryList.setItemAnimator(new DefaultItemAnimator());
-        adapter = new CategoryAdapter(getActivity(), grades);
-        categoryList.setAdapter(adapter);
+        if(grades != null && grades.categories.length > 0) {
+            adapter = new CategoryAdapter(getActivity(), grades);
+            categoryList.setAdapter(adapter);
+            categoryList.setVisibility(View.VISIBLE);
+            noGradesText.setVisibility(View.GONE);
+        } else {
+            categoryList.setVisibility(View.GONE);
+            noGradesText.setVisibility(View.VISIBLE);
+        }
     }
 
 }

@@ -23,7 +23,19 @@
         android:id="@+id/list_grades"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="visible"
         android:layout_below="@id/text_lastupdated"></android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_no_grade"
+        android:textSize="24sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/text_lastupdated"
+        android:layout_marginTop="24dp"
+        android:visibility="gone"
+        android:text="@string/text_no_grades"/>
 
 
 </RelativeLayout>
