@@ -12,6 +12,7 @@ This work makes use of the following libraries
 * [Gson](https://code.google.com/p/google-gson/)
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
 * [prettytime](http://ocpsoft.org/prettytime/)
+* [qhac-common](https://github.com/quickhac/qhac-common)
 
 This work is licensed under the [GPL v3 License](http://choosealicense.com/licenses/gpl-v3/). See license file for full text.   
 Copyright (C) 2014 Ehsan Asdar and Neil Patil
