@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.manateams.android.manateams.asynctask.AsyncTaskCompleteListener;
 import com.manateams.android.manateams.asynctask.CourseLoadTask;
 import com.manateams.android.manateams.util.Constants;
@@ -52,6 +53,10 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Google Analytics stuff
+        ((MyApplication) getApplication())
+                .getTracker(MyApplication.TrackerName.APP_TRACKER);
+
         loggingIn = false;
         setContentView(R.layout.activity_main);
         setupViews();
@@ -71,6 +76,18 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
                 login();
             }
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
+
     }
 
     public void setupViews() {
@@ -155,6 +172,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
             finish();
         } else {
             loggingIn = false;
+            dataManager.invalidateCookie();
             if (!username.matches("^[sS]\\d{6,8}\\d?$") && tries < 2) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 alert.setTitle(R.string.secondary_login_title);
