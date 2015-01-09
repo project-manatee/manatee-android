@@ -61,6 +61,7 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
             return courses;
         } catch (Exception e) {
             e.printStackTrace();
+            new DataManager(context).invalidateCookie();
         }
         return null;
     }

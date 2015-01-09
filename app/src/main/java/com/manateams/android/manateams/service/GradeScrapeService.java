@@ -43,8 +43,13 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
             if(Utils.isInternetAvailable(this)) {
                 new CourseLoadTask(this, this).execute(dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(),dataManager.getTEAMSuser(),dataManager.getTEAMSpass());
                 // Start recursively loading assignment grades
-                Log.d("DibDib", "Loading class grades at index 0");
-                new AssignmentLoadTask(this, this, false).execute(new String[]{dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(0),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
+                if (Utils.isOnWifi(this) || (System.currentTimeMillis()-dataManager.getClassGradesLastUpdated(dataManager.getCourseGrades()[0].courseId)) > 3600000){
+                    Log.d("DibDib", "Loading class grades at index 0");
+                    new AssignmentLoadTask(this, this, false).execute(new String[]{dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(0),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
+                }
+                else{
+                    Log.d("DibDib", "Not loading class grades to conserve data");
+                }
             }
         }
     }

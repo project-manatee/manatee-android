@@ -83,6 +83,7 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
             return grades;
         } catch (Exception e) {
             e.printStackTrace();
+            new DataManager(context).invalidateCookie();
         }
         return null;
     }
