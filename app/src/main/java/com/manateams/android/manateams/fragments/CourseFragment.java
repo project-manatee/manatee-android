@@ -142,11 +142,17 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
             showcaseView.hide();
         }
         if (allowAssignmentLoad)
-            new AssignmentLoadTask(this, getActivity(), true).execute(new String[] {dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(position),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
+            new AssignmentLoadTask(this, getActivity(), true,true).execute(new String[] {dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(position),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
     }
 
     @Override
     public void onCoursesLoaded(Course[] courses) {
+        try{
+            swipeRefreshLayout.setRefreshing(false);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         if(courses != null) {
             dataManager.setCourseGrades(courses);
             dataManager.setOverallGradesLastUpdated();
@@ -190,11 +196,6 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override public void run() {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        }, 5000);
         new CourseLoadTask(this, getActivity()).execute(dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(),dataManager.getTEAMSuser(),dataManager.getTEAMSpass());
     }
 }

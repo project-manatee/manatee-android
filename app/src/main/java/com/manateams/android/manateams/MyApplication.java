@@ -2,6 +2,7 @@ package com.manateams.android.manateams;
 
 import android.app.Application;
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
 import java.util.HashMap;
 
@@ -11,9 +12,7 @@ public class MyApplication extends Application {
     private static final String PROPERTY_ID = "UA-58362107-1";
 
     //Logging TAG
-    private static final String TAG = "GA";
 
-    public static int GENERAL_TRACKER = 0;
 
     public enum TrackerName {
         APP_TRACKER, // Tracker used only in this app.
@@ -31,9 +30,14 @@ public class MyApplication extends Application {
         if (!mTrackers.containsKey(trackerId)) {
 
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            analytics.setDryRun(false);
+            analytics.getLogger().setLogLevel(Logger.LogLevel.INFO);
+            analytics.setLocalDispatchPeriod(30);
             Tracker t = (trackerId == TrackerName.APP_TRACKER) ? analytics.newTracker(R.xml.app_tracker)
-                    : (trackerId == TrackerName.GLOBAL_TRACKER) ? analytics.newTracker(PROPERTY_ID)
-                    : analytics.newTracker(R.xml.global_tracker);
+                    : null;
+            if (t != null) {
+                t.enableAdvertisingIdCollection(false);
+            }
             mTrackers.put(trackerId, t);
 
         }

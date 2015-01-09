@@ -75,6 +75,7 @@
     <string name="text_card_no_grades_title">No grades :(</string>
     <string name="text_no_grades">No grades :(</string>
     <string name="text_login_instructions">Log in with the credentials you use to sign into my.austinisd.org.</string>
+    <string name="action_refresh">Refresh</string>
 
 
 </resources>

@@ -45,7 +45,7 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
                 // Start recursively loading assignment grades
                 if (Utils.isOnWifi(this) || (System.currentTimeMillis()-dataManager.getClassGradesLastUpdated(dataManager.getCourseGrades()[0].courseId)) > 3600000){
                     Log.d("DibDib", "Loading class grades at index 0");
-                    new AssignmentLoadTask(this, this, false).execute(new String[]{dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(0),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
+                    new AssignmentLoadTask(this, this, false,false).execute(new String[]{dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(0),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
                 }
                 else{
                     Log.d("DibDib", "Not loading class grades to conserve data");
@@ -155,7 +155,7 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
             if (courseIndex < courses.length - 1) {
                 // Recursively load the next course class grades
                 Log.d("DibDib", "Loading class grades at index " + String.valueOf(courseIndex + 1));
-                new AssignmentLoadTask(this, this, false).execute(new String[]{dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(courseIndex + 1),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
+                new AssignmentLoadTask(this, this, false,false).execute(new String[]{dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(courseIndex + 1),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.manateams.android.manateams;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,13 +14,16 @@ import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.google.gson.Gson;
+import com.manateams.android.manateams.asynctask.AssignmentLoadTask;
+import com.manateams.android.manateams.asynctask.AsyncTaskCompleteListener;
 import com.manateams.android.manateams.fragments.CycleFragment;
 import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
 import com.quickhac.common.data.ClassGrades;
+import com.quickhac.common.data.Course;
 
 
-public class AssignmentActivity extends ActionBarActivity {
+public class AssignmentActivity extends ActionBarActivity implements AsyncTaskCompleteListener {
 
     private DataManager dataManager;
     private ClassGrades[] grades;
@@ -81,12 +85,33 @@ public class AssignmentActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        switch(id) {
+            case R.id.action_refresh:
+                int courseIndex = getIntent().getIntExtra(Constants.EXTRA_COURSEINDEX, 0);
+                new AssignmentLoadTask(this, this, true,true).execute(new String[]{dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(courseIndex), dataManager.getTEAMSuser(), dataManager.getTEAMSpass()});
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onCoursesLoaded(Course[] courses) {
+
+    }
+
+    @Override
+    public void onClassGradesLoaded(ClassGrades[] grades, int courseIndex) {
+        Intent intent = new Intent(this, AssignmentActivity.class);
+        intent.putExtra(Constants.EXTRA_COURSEINDEX, courseIndex);
+        intent.putExtra(Constants.EXTRA_COURSETITLE, getIntent().getStringExtra(Constants.EXTRA_COURSETITLE));
+        intent.putExtra(Constants.EXTRA_COURSEID,  courseID);
+        startActivity(intent);
+        finish();
     }
 
     public class Adapter extends FragmentPagerAdapter {

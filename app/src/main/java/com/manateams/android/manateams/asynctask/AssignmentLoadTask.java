@@ -23,11 +23,13 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
     private int courseIndex;
     ProgressDialog dialog;
     private boolean showDialog;
+    private final boolean fullRefresh;
 
-    public AssignmentLoadTask(AsyncTaskCompleteListener callback, Context context, boolean showDialog) {
+    public AssignmentLoadTask(AsyncTaskCompleteListener callback, Context context, boolean showDialog,boolean fullRefresh) {
         this.callback = callback;
         this.context = context;
         this.showDialog = showDialog;
+        this.fullRefresh = fullRefresh;
     }
     @Override
     protected void onPreExecute() {
@@ -73,14 +75,35 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
             }
             final String averageHtml = TEAMSGradeRetriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", finalcookie, userType, userIdentification);
             Course[] courses = p.parseAverages(averageHtml);
-            ClassGrades[] grades = new ClassGrades[6]; // TODO don't hardcode length
-            for(int i = 0; i < grades.length; i++) {
-                grades[i] = TEAMSGradeRetriever.getCycleClassGrades(courses[courseIndex], i, averageHtml, finalcookie, userType, userIdentification);
+            DataManager dataManager = new DataManager(context);
+            long lastUpdated = dataManager.getClassGradesLastUpdated(courses[courseIndex].courseId);
+            //If the first time loading this class or manual refresh, load all grades, otherwise load only current cycle to conserve data
+            if (lastUpdated == -1 || fullRefresh){
+                ClassGrades[] grades = new ClassGrades[6]; // TODO don't hardcode length
+                for(int i = 0; i < grades.length; i++) {
+                    grades[i] = TEAMSGradeRetriever.getCycleClassGrades(courses[courseIndex], i, averageHtml, finalcookie, userType, userIdentification);
+                }
+
+                if(grades == null) {
+                    Log.d("WATWAT", "grades null at load");
+                }
+                return grades;
             }
-            if(grades == null) {
-                Log.d("WATWAT", "grades null at load");
+            else{
+                ClassGrades[] grades = dataManager.getClassGrades(courseIndex);
+                if(grades != null && grades.length > 0) {
+                    int latestCycle = grades.length - 1;
+                    while (grades[latestCycle] == null && latestCycle > 0) {
+                        latestCycle--;
+                    }
+                    if (latestCycle >= 0) {
+                        Log.d("BitBit", "Loading only cycle " + latestCycle);
+                        grades[latestCycle] = TEAMSGradeRetriever.getCycleClassGrades(courses[courseIndex], latestCycle, averageHtml, finalcookie, userType, userIdentification);
+                        return grades;
+                    }
+                }
             }
-            return grades;
+
         } catch (Exception e) {
             e.printStackTrace();
             new DataManager(context).invalidateCookie();
