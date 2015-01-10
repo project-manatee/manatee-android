@@ -36,6 +36,8 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
         final String TEAMSuser = params[3];
         final String TEAMSpass = params[4];
         final TEAMSUserType userType;
+        DataManager dataManager = new DataManager(context);
+
         if (username.matches("^[sS]\\d{6,8}\\d?$")) {
             userType = new AustinISDStudent();
         } else {
@@ -48,15 +50,20 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
             final String finalcookie = Utils.getTEAMSCookies(new DataManager(context), username, password, userType);
 
             //POST to login to TEAMS
-            String userIdentification;
-            if (TEAMSuser.length()>0){
-                //See if user has a seperate login for TEAMS/AISD
-                userIdentification = TEAMSGradeRetriever.postTEAMSLogin(TEAMSuser, TEAMSpass, studentId, finalcookie, userType);
+            String userIdentification = dataManager.getUserIdentification();
+            if (userIdentification == null){
+                if (TEAMSuser.length()>0){
+                    //See if user has a seperate login for TEAMS/AISD
+                    userIdentification = TEAMSGradeRetriever.postTEAMSLogin(TEAMSuser, TEAMSpass, studentId, finalcookie, userType);
+                }
+                else{
+                    userIdentification = TEAMSGradeRetriever.postTEAMSLogin(username, password,studentId, finalcookie, userType);
+                }
+                dataManager.setUserIdentification(userIdentification);
             }
-            else{
-                userIdentification = TEAMSGradeRetriever.postTEAMSLogin(username, password,studentId, finalcookie, userType);
-            }
+
             final String averageHtml = TEAMSGradeRetriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", finalcookie, userType, userIdentification);
+            dataManager.setAverageHtml(averageHtml);
             Course[] courses = p.parseAverages(averageHtml);
             return courses;
         } catch (Exception e) {

@@ -87,6 +87,19 @@ public class DataManager {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString("username", null);
     }
+
+    public void setUserIdentification(String userIdentification) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("userIdentification", userIdentification);
+        edit.commit();
+    }
+
+    public String getUserIdentification() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString("userIdentification", null);
+    }
+
     public void setTEAMSuser(String TEAMSUsername) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = prefs.edit();
@@ -136,6 +149,17 @@ public class DataManager {
         return prefs.getString("studentId", null);
     }
 
+
+    public void setAverageHtml(String averageHtml) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("averagehtml", averageHtml);
+        edit.commit();
+    }
+    public String getAverageHtml() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString("averagehtml", null);
+    }
     public long getOverallGradesLastUpdated() {
         SharedPreferences preferences = context.getSharedPreferences(Constants.PREFERENCE_LASTUPDATED, Context.MODE_PRIVATE);
         return preferences.getLong("overall", -1);
@@ -283,4 +307,5 @@ public class DataManager {
             Log.e("DataManager", "File write failed: " + e.toString());
         }
     }
+
 }

@@ -41,9 +41,10 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
     protected void onHandleIntent(Intent intent) {
         Log.d("BitBitBit", "scraping grades");
         dataManager = new DataManager(this);
-        if (dataManager.getLastFullUpdate() == -1 || dataManager.getLastFullUpdate() > Constants.Full_UPDATE_INTERVAL){
+        if (dataManager.getLastFullUpdate() == -1 ||( System.currentTimeMillis() - dataManager.getLastFullUpdate() ) > Constants.Full_UPDATE_INTERVAL){
             Log.d("BitBitBit", "Full update initiated");
             isFullUpdate = true;
+            dataManager.setLastFullUpdate();
         }
         else {
             isFullUpdate = false;
@@ -109,11 +110,13 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
                         if ((oldCycle == null || oldCycle.average == null) && (newCycle == null || newCycle.average == null)) {
                             // No change
                         } else if ((oldCycle == null || oldCycle.average == null) && (newCycle != null && newCycle.average != null)) {
+                            new AssignmentLoadTask(this, this, false,true).execute(new String[]{dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(i),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
                             sendGradeChangeNotification(true, i, d, k, oldCycle.average, newCycle.average);
                         } else if ((oldCycle != null && oldCycle.average != null) && (newCycle == null || newCycle.average == null)) {
                             // This shouldn't happen, unless a teacher takes out a grade...
                         } else if (!oldCycle.average.toString().equals(newCycle.average.toString())) {
                             // Grade has changed
+                            new AssignmentLoadTask(this, this, false,false).execute(new String[]{dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(i),dataManager.getTEAMSuser(),dataManager.getTEAMSpass()});
                             sendGradeChangeNotification(false, i, d, k, oldCycle.average, newCycle.average);
                         } else {
                             // Grades already exist but nothing changed

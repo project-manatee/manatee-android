@@ -53,6 +53,8 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
         final String TEAMSuser = params[4];
         final String TEAMSpass = params[5];
         final TEAMSUserType userType;
+        DataManager dataManager = new DataManager(context);
+
         if (username.matches("^[sS]\\d{6,8}\\d?$")) {
             userType = new AustinISDStudent();
         } else {
@@ -64,18 +66,24 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
             //Generate final cookie
             final String finalcookie = Utils.getTEAMSCookies(new DataManager(context),username,password,userType);
 
+            String userIdentification = dataManager.getUserIdentification();
             //POST to login to TEAMS
-            String userIdentification;
-            if (TEAMSuser.length()>0){
-                //See if user has a seperate login for TEAMS/AISD
-                userIdentification = TEAMSGradeRetriever.postTEAMSLogin(TEAMSuser, TEAMSpass, studentId, finalcookie, userType);
+            if (userIdentification == null){
+                if (TEAMSuser.length()>0){
+                    //See if user has a seperate login for TEAMS/AISD
+                    userIdentification = TEAMSGradeRetriever.postTEAMSLogin(TEAMSuser, TEAMSpass, studentId, finalcookie, userType);
+                }
+                else{
+                    userIdentification = TEAMSGradeRetriever.postTEAMSLogin(username, password,studentId, finalcookie, userType);
+                }
+                dataManager.setUserIdentification(userIdentification);
             }
-            else{
-                userIdentification = TEAMSGradeRetriever.postTEAMSLogin(username, password,studentId, finalcookie, userType);
+            String averageHtml = dataManager.getAverageHtml();
+            if (averageHtml == null){
+                averageHtml = TEAMSGradeRetriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", finalcookie, userType, userIdentification);
+                dataManager.setAverageHtml(averageHtml);
             }
-            final String averageHtml = TEAMSGradeRetriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", finalcookie, userType, userIdentification);
             Course[] courses = p.parseAverages(averageHtml);
-            DataManager dataManager = new DataManager(context);
             long lastUpdated = dataManager.getClassGradesLastUpdated(courses[courseIndex].courseId);
             //If the first time loading this class or manual refresh, load all grades, otherwise load only current cycle to conserve data
             if (lastUpdated == -1 || fullRefresh){
