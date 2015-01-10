@@ -11,4 +11,6 @@ public class Constants {
     public static final String FILE_BASE_DATAPOINTS = "datapoints";
     public static final long INTERVAL_GRADE_SCRAPE = 20 * 1000 * 60; // 20 minutes
     public static final String PREFERENCE_LASTUPDATED = "lastupdated";
+    public static final long Full_UPDATE_INTERVAL = 24*60*1000*60; //1 day
+    public static final long ASSIGNMENT_UPDATE_ON_MOBILE_INTERVAL = 60*60*1000 ; //1 hour
 }

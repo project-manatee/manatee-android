@@ -148,6 +148,18 @@ public class DataManager {
         edit.apply();
     }
 
+    public long getLastFullUpdate() {
+        SharedPreferences preferences = context.getSharedPreferences(Constants.PREFERENCE_LASTUPDATED, Context.MODE_PRIVATE);
+        return preferences.getLong("lastfullupdate", -1);
+    }
+
+    public void setLastFullUpdate() {
+        SharedPreferences preferences = context.getSharedPreferences(Constants.PREFERENCE_LASTUPDATED, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putLong("lastfullupdate", System.currentTimeMillis());
+        edit.apply();
+    }
+
     public long getClassGradesLastUpdated(String courseId) {
         SharedPreferences preferences = context.getSharedPreferences(Constants.PREFERENCE_LASTUPDATED, Context.MODE_PRIVATE);
         return preferences.getLong(courseId, -1);
