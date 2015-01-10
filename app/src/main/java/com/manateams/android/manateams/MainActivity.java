@@ -66,6 +66,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
         dataManager = new DataManager(this);
         if(dataManager.getCourseGrades() != null) {
             Intent intent = new Intent(this, CoursesActivity.class);
+            Utils.setAlarms(Constants.INTERVAL_GRADE_SCRAPE, this);
             startActivity(intent);
             finish();
         } else {

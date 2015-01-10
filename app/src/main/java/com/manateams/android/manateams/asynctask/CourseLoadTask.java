@@ -63,8 +63,8 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
             }
 
             final String averageHtml = TEAMSGradeRetriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", finalcookie, userType, userIdentification);
-            dataManager.setAverageHtml(averageHtml);
             Course[] courses = p.parseAverages(averageHtml);
+            dataManager.setAverageHtml(averageHtml);
             return courses;
         } catch (Exception e) {
             e.printStackTrace();

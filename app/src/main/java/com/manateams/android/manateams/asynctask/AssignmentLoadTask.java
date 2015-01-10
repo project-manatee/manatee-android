@@ -83,7 +83,7 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
                 averageHtml = TEAMSGradeRetriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", finalcookie, userType, userIdentification);
                 dataManager.setAverageHtml(averageHtml);
             }
-            Course[] courses = p.parseAverages(averageHtml);
+            Course[] courses = dataManager.getCourseGrades();
             long lastUpdated = dataManager.getClassGradesLastUpdated(courses[courseIndex].courseId);
             //If the first time loading this class or manual refresh, load all grades, otherwise load only current cycle to conserve data
             if (lastUpdated == -1 || fullRefresh){

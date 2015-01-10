@@ -11,6 +11,8 @@ import android.util.Log;
 import com.manateams.android.manateams.service.AlarmReceiver;
 import com.quickhac.common.TEAMSGradeRetriever;
 import com.quickhac.common.districts.TEAMSUserType;
+import com.quickhac.common.districts.impl.AustinISDParent;
+import com.quickhac.common.districts.impl.AustinISDStudent;
 
 import java.io.IOException;
 
@@ -127,6 +129,7 @@ public class Utils {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        alarmManager.cancel(alarmIntent);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, 0, interval, alarmIntent);
     }
 
@@ -142,14 +145,14 @@ public class Utils {
 
     public static String getTEAMSCookies(DataManager dataManager,String username, String password, TEAMSUserType userType) {
         long lastUpdateTime = dataManager.getCookieLastUpdated();
-        long fifteennmin = 1000*60*15;
-        if (Math.abs(lastUpdateTime -System.currentTimeMillis()) > fifteennmin){
+        if (Math.abs(lastUpdateTime -System.currentTimeMillis()) > Constants.COOKIE_EXPIRE_INTERVAL){
             //Get cookies
             Log.d("cookiecache", "cache miss");
             try {
                 final String cstonecookie = TEAMSGradeRetriever.getAustinisdCookie(username, password);
                 final String teamscookie = TEAMSGradeRetriever.getTEAMSCookie(cstonecookie, userType);
                 final String finalcookie = teamscookie + ';' + cstonecookie;
+                TEAMSGradeRetriever.postTEAMSLogin(username, password,dataManager.getStudentId(), finalcookie, userType);
                 dataManager.setCookie(finalcookie);
                 return finalcookie;
             } catch (IOException e) {
