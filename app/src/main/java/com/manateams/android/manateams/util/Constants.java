@@ -11,8 +11,10 @@ public class Constants {
     public static final String FILE_BASE_DATAPOINTS = "datapoints";
     public static final String PREFERENCE_LASTUPDATED = "lastupdated";
     //Time Configuration
-    public static final long INTERVAL_GRADE_SCRAPE = 20 * 1000 * 60; // 20 minutes
-    public static final long Full_UPDATE_INTERVAL = 24*60*60*1000; //1 day
+    public static final long FUll_UPDATE_INTERVAL = 24*60*60*1000; //1 day
+    public static final long COOKIE_EXPIRE_INTERVAL = 25*60*1000; //1 day
     public static final long ASSIGNMENT_UPDATE_ON_MOBILE_INTERVAL = 2*60*60*1000 ; //2 hours
-    public static final long COOKIE_EXPIRE_INTERVAL = 15*60*1000; //15 Minutes
+    public static final long AVERAGE_UPDATE_ON_MOBILE_INTERVAL = 1*60*60*1000 ; //1 hour
+    public static final long INTERVAL_GRADE_SCRAPE = 20 * 1000 * 60; // 20 minutes
+
 }

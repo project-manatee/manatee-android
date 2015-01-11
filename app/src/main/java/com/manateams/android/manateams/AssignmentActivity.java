@@ -106,6 +106,13 @@ public class AssignmentActivity extends ActionBarActivity implements AsyncTaskCo
 
     @Override
     public void onClassGradesLoaded(ClassGrades[] grades, int courseIndex) {
+        Course[] courses = dataManager.getCourseGrades();
+        if(courses != null) {
+            if (grades != null) {
+                dataManager.setClassGrades(grades, courseIndex);
+                dataManager.setClassGradesLastUpdated(courses[courseIndex].courseId);
+            }
+        }
         Intent intent = new Intent(this, AssignmentActivity.class);
         intent.putExtra(Constants.EXTRA_COURSEINDEX, courseIndex);
         intent.putExtra(Constants.EXTRA_COURSETITLE, getIntent().getStringExtra(Constants.EXTRA_COURSETITLE));

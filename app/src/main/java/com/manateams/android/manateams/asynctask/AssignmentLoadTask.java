@@ -91,10 +91,6 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
                 for(int i = 0; i < grades.length; i++) {
                     grades[i] = TEAMSGradeRetriever.getCycleClassGrades(courses[courseIndex], i, averageHtml, finalcookie, userType, userIdentification);
                 }
-
-                if(grades == null) {
-                    Log.d("WATWAT", "grades null at load");
-                }
                 return grades;
             }
             else{
