@@ -41,7 +41,7 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
     protected void onHandleIntent(Intent intent) {
         Log.d("BitBitBit", "scraping grades");
         dataManager = new DataManager(this);
-        if (dataManager.getLastFullUpdate() == -1 || (System.currentTimeMillis() - dataManager.getLastFullUpdate()) > Constants.FUll_UPDATE_INTERVAL) {
+        if (dataManager.getLastFullUpdate() == -1 || (System.currentTimeMillis() - dataManager.getLastFullUpdate()) > Constants.INTERVAL_UPDATE_FULL) {
             Log.d("BitBitBit", "Full update initiated");
             isFullUpdate = true;
             dataManager.setLastFullUpdate();
@@ -50,13 +50,13 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
         }
         if (dataManager.getUsername() != null && dataManager.getPassword() != null && dataManager.getStudentId() != null) {
             if (Utils.isInternetAvailable(this)) {
-                if (isFullUpdate || Utils.isOnWifi(this) || (Math.abs(System.currentTimeMillis() - dataManager.getOverallGradesLastUpdated()) > Constants.AVERAGE_UPDATE_ON_MOBILE_INTERVAL)) {
+                if (isFullUpdate || Utils.isOnWifi(this) || (Math.abs(System.currentTimeMillis() - dataManager.getOverallGradesLastUpdated()) > Constants.INTERVAL_MOBILE_UPDATE_AVERAGE)) {
                     new CourseLoadTask(this, this).execute(dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), dataManager.getTEAMSuser(), dataManager.getTEAMSpass());
                 } else {
                     Log.d("DibDib", "Not loading averages to conserve data");
                 }
                 // Start recursively loading assignment grades
-                if (isFullUpdate || Utils.isOnWifi(this) || (Math.abs(System.currentTimeMillis() - dataManager.getClassGradesLastUpdated(dataManager.getCourseGrades()[0].courseId)) > Constants.ASSIGNMENT_UPDATE_ON_MOBILE_INTERVAL)) {
+                if (isFullUpdate || Utils.isOnWifi(this) || (Math.abs(System.currentTimeMillis() - dataManager.getClassGradesLastUpdated(dataManager.getCourseGrades()[0].courseId)) > Constants.INTERVAL_MOBILE_UPDATE_ASSIGNMENT)) {
                     Log.d("DibDib", "Loading class grades at index 0");
                     new AssignmentLoadTask(this, this, false, isFullUpdate).execute(new String[]{dataManager.getUsername(), dataManager.getPassword(), dataManager.getStudentId(), String.valueOf(0), dataManager.getTEAMSuser(), dataManager.getTEAMSpass()});
                 } else {

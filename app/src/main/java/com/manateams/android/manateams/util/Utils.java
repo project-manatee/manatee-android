@@ -11,8 +11,6 @@ import android.util.Log;
 import com.manateams.android.manateams.service.AlarmReceiver;
 import com.quickhac.common.TEAMSGradeRetriever;
 import com.quickhac.common.districts.TEAMSUserType;
-import com.quickhac.common.districts.impl.AustinISDParent;
-import com.quickhac.common.districts.impl.AustinISDStudent;
 
 import java.io.IOException;
 
@@ -145,7 +143,7 @@ public class Utils {
 
     public static String getTEAMSCookies(DataManager dataManager,String username, String password, TEAMSUserType userType) {
         long lastUpdateTime = dataManager.getCookieLastUpdated();
-        if (Math.abs(lastUpdateTime -System.currentTimeMillis()) > Constants.COOKIE_EXPIRE_INTERVAL){
+        if (Math.abs(lastUpdateTime -System.currentTimeMillis()) > Constants.INTERVAL_EXPIRE_COOKIE){
             //Get cookies
             Log.d("cookiecache", "cache miss");
             try {
