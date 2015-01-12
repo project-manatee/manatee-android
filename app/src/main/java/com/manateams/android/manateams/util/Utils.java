@@ -126,6 +126,7 @@ public class Utils {
 
     /* Sets recurring alarms for running APIService. */
     public static void setAlarms(long interval, Context context) {
+        Log.d("cookiecache", "registering alarms");
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
@@ -136,7 +137,6 @@ public class Utils {
     /* Returns true if alarms are already set. */
     public static boolean isAlarmsSet(Context context) {
         Intent intent = new Intent(context, AlarmReceiver.class);
-
         boolean alarmsSet = (PendingIntent.getBroadcast(context, 0,
                 intent,
                 PendingIntent.FLAG_NO_CREATE) != null);

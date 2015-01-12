@@ -58,7 +58,11 @@ public class AssignmentActivity extends ActionBarActivity implements AsyncTaskCo
         tabs.setTextColor(getResources().getColor(R.color.white));
         tabs.setBackgroundColor(getResources().getColor(R.color.app_primary));
         tabs.setViewPager(pager);
-
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        ViewPager pager = (ViewPager) findViewById(R.id.pager);
         // Show the latest cycle
         if(grades != null && grades.length > 0) {
             int latestCycle = grades.length - 1;

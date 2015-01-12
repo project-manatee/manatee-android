@@ -60,6 +60,14 @@ public class CycleFragment extends Fragment {
         courseID = getArguments().getString(Constants.EXTRA_COURSEID);
         setupViews();
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        lastUpdatedText = (TextView) getView().findViewById(R.id.text_lastupdated);
+        // Set relative time for last updated
+        PrettyTime p = new PrettyTime();
+        lastUpdatedText.setText("Last updated " + p.format(new Date(dataManager.getClassGradesLastUpdated(courseID))));
+    }
 
     private void setupViews() {
         lastUpdatedText = (TextView) getView().findViewById(R.id.text_lastupdated);

@@ -121,7 +121,14 @@ public class CourseFragment extends Fragment implements AsyncTaskCompleteListene
             allowAssignmentLoad = true;
         }
     }
-
+    @Override
+    public void onResume(){
+        super.onResume();
+        lastUpdatedText = (TextView) getActivity().findViewById(R.id.text_lastupdated);
+        // Set relative time for last updated
+        PrettyTime p = new PrettyTime();
+        lastUpdatedText.setText("Last updated " + p.format(new Date(dataManager.getOverallGradesLastUpdated())) + " - pull down to refresh");
+    }
     public void restartActivity() {
         try {
             Intent intent = getActivity().getIntent();

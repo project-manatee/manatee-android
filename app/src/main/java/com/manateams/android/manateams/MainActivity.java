@@ -162,7 +162,6 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
         tries ++;
         if(courses != null) {
             if(!Utils.isAlarmsSet(this)) {
-                Log.d("BitBitBit", "registering alarms");
                 Utils.setAlarms(Constants.INTERVAL_GRADE_SCRAPE, this);
             }
             dataManager.setCourseGrades(courses);
