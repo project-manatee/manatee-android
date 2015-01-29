@@ -94,7 +94,7 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
                 return grades;
             }
             else{
-                ClassGrades[] grades = dataManager.getClassGrades(courseIndex);
+                ClassGrades[] grades = dataManager.getClassGrades(courses[courseIndex].courseId);
                 if(grades != null && grades.length > 0) {
                     int latestCycle = grades.length - 1;
                     while (grades[latestCycle] == null && latestCycle > 0) {

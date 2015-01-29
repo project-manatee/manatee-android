@@ -45,9 +45,9 @@ public class AssignmentActivity extends ActionBarActivity implements AsyncTaskCo
 
         int courseIndex = getIntent().getIntExtra(Constants.EXTRA_COURSEINDEX, 0);
         dataManager = new DataManager(this);
-        grades = dataManager.getClassGrades(courseIndex);
-
         courseID = getIntent().getStringExtra(Constants.EXTRA_COURSEID);
+        grades = dataManager.getClassGrades(courseID);
+
 
         // Initialize the ViewPager and set an adapter
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
@@ -113,7 +113,7 @@ public class AssignmentActivity extends ActionBarActivity implements AsyncTaskCo
         Course[] courses = dataManager.getCourseGrades();
         if(courses != null) {
             if (grades != null) {
-                dataManager.setClassGrades(grades, courseIndex);
+                dataManager.setClassGrades(grades, courses[courseIndex].courseId);
                 dataManager.setClassGradesLastUpdated(courses[courseIndex].courseId);
             }
         }

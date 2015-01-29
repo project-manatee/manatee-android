@@ -114,12 +114,6 @@ MERGED from com.google.android.gms:play-services:6.5.87:21:9
 		ADDED from AndroidManifest.xml:49:20
 	android:value
 		ADDED from AndroidManifest.xml:50:13
-meta-data#com.google.android.gms.analytics.globalConfigResource
-ADDED from AndroidManifest.xml:52:9
-	android:resource
-		ADDED from AndroidManifest.xml:53:13
-	android:name
-		ADDED from AndroidManifest.xml:52:20
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from manaTEAMS:scraper:unspecified:7:5

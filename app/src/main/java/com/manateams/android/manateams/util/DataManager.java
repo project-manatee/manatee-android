@@ -266,12 +266,12 @@ public class DataManager {
         return new Gson().fromJson(data, new TypeToken<ArrayList<DataPoint>>(){}.getType());
     }
 
-    public void setClassGrades(ClassGrades[] grades, int courseIndex) {
-        writeToFile(Constants.FILE_BASE_CLASSGRADES + String.valueOf(courseIndex), new Gson().toJson(grades));
+    public void setClassGrades(ClassGrades[] grades, String courseID) {
+        writeToFile(Constants.FILE_BASE_CLASSGRADES + courseID, new Gson().toJson(grades));
     }
 
-    public ClassGrades[] getClassGrades(int courseIndex) {
-        String data = readFromFile(Constants.FILE_BASE_CLASSGRADES + String.valueOf(courseIndex));
+    public ClassGrades[] getClassGrades(String courseID) {
+        String data = readFromFile(Constants.FILE_BASE_CLASSGRADES + courseID);
         return new Gson().fromJson(data, new TypeToken<ClassGrades[]>(){}.getType());
     }
 

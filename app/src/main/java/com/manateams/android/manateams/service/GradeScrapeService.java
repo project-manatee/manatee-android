@@ -162,7 +162,7 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
         Course[] courses = dataManager.getCourseGrades();
         if(courses != null) {
             if(grades != null) {
-                dataManager.setClassGrades(grades, courseIndex);
+                dataManager.setClassGrades(grades, courses[courseIndex].courseId);
                 dataManager.setClassGradesLastUpdated(courses[courseIndex].courseId);
             }
             if (courseIndex < courses.length - 1) {

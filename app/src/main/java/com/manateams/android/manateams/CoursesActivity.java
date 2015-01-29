@@ -147,7 +147,7 @@ public class CoursesActivity extends ActionBarActivity {
                 dataManager.setCredentials(null, null, null,null,null);
                 Course[] courses = dataManager.getCourseGrades();
                 for(int i = 0; i < courses.length; i++) {
-                    dataManager.setClassGrades(null, i);
+                    dataManager.setClassGrades(null, courses[i].courseId);
                     dataManager.deleteDatapoints(courses[i].courseId);
                 }
                 dataManager.setCourseGrades(null);
