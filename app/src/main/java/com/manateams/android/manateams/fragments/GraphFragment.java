@@ -31,9 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Ehsan on 12/18/2014.
- */
 public class GraphFragment extends Fragment {
 
     @Override
