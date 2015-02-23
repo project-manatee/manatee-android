@@ -38,37 +38,38 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
         final TEAMSUserType userType;
         DataManager dataManager = new DataManager(context);
 
-        if (username.matches("^[sS]\\d{6,8}\\d?$")) {
-            userType = new AustinISDStudent();
-        } else {
-            userType = new AustinISDParent();
-        }
-        try {
-            final TEAMSGradeParser p = new TEAMSGradeParser();
-
-            //Generate final cookie
-            final String finalcookie = Utils.getTEAMSCookies(new DataManager(context), username, password, userType);
-
-            //POST to login to TEAMS
-            String userIdentification = dataManager.getUserIdentification();
-            if (userIdentification == null){
-                if (TEAMSuser.length()>0){
-                    //See if user has a seperate login for TEAMS/AISD
-                    userIdentification = TEAMSGradeRetriever.postTEAMSLogin(TEAMSuser, TEAMSpass, studentId, finalcookie, userType);
-                }
-                else{
-                    userIdentification = TEAMSGradeRetriever.postTEAMSLogin(username, password,studentId, finalcookie, userType);
-                }
-                dataManager.setUserIdentification(userIdentification);
+        if(username != null) {
+            if (username.matches("^[sS]\\d{6,8}\\d?$")) {
+                userType = new AustinISDStudent();
+            } else {
+                userType = new AustinISDParent();
             }
+            try {
+                final TEAMSGradeParser p = new TEAMSGradeParser();
 
-            final String averageHtml = TEAMSGradeRetriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", finalcookie, userType, userIdentification);
-            Course[] courses = p.parseAverages(averageHtml);
-            dataManager.setAverageHtml(averageHtml);
-            return courses;
-        } catch (Exception e) {
-            e.printStackTrace();
-            new DataManager(context).invalidateCookie();
+                //Generate final cookie
+                final String finalcookie = Utils.getTEAMSCookies(new DataManager(context), username, password, userType);
+
+                //POST to login to TEAMS
+                String userIdentification = dataManager.getUserIdentification();
+                if (userIdentification == null) {
+                    if (TEAMSuser.length() > 0) {
+                        //See if user has a seperate login for TEAMS/AISD
+                        userIdentification = TEAMSGradeRetriever.postTEAMSLogin(TEAMSuser, TEAMSpass, studentId, finalcookie, userType);
+                    } else {
+                        userIdentification = TEAMSGradeRetriever.postTEAMSLogin(username, password, studentId, finalcookie, userType);
+                    }
+                    dataManager.setUserIdentification(userIdentification);
+                }
+
+                final String averageHtml = TEAMSGradeRetriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", finalcookie, userType, userIdentification);
+                Course[] courses = p.parseAverages(averageHtml);
+                dataManager.setAverageHtml(averageHtml);
+                return courses;
+            } catch (Exception e) {
+                e.printStackTrace();
+                new DataManager(context).invalidateCookie();
+            }
         }
         return null;
     }
