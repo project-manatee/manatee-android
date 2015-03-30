@@ -161,9 +161,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     public void onCoursesLoaded(Course[] courses) {
         tries ++;
         if(courses != null) {
-            if(!Utils.isAlarmsSet(this)) {
-                Utils.setAlarms(Constants.INTERVAL_GRADE_SCRAPE, this);
-            }
+            Utils.setAlarms(Constants.INTERVAL_GRADE_SCRAPE, this);
             dataManager.setCourseGrades(courses);
             dataManager.setCredentials(username, password, studentId,TEAMSuser,TEAMSpass);
             dataManager.setOverallGradesLastUpdated();
