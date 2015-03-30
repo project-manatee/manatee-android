@@ -152,7 +152,7 @@ public class CoursesActivity extends ActionBarActivity {
                 }
                 dataManager.setCourseGrades(null);
                 dataManager.invalidateCookie();
-
+                dataManager.setUserIdentification(null);
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();

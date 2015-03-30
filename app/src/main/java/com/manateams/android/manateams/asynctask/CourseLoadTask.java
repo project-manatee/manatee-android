@@ -37,7 +37,6 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
         final String TEAMSpass = params[4];
         final TEAMSUserType userType;
         DataManager dataManager = new DataManager(context);
-
         if(username != null) {
             if (username.matches("^[sS]\\d{6,8}\\d?$")) {
                 userType = new AustinISDStudent();
@@ -48,11 +47,11 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
                 final TEAMSGradeParser p = new TEAMSGradeParser();
 
                 //Generate final cookie
-                final String finalcookie = Utils.getTEAMSCookies(new DataManager(context), username, password, userType);
-
+                final String finalcookie = Utils.getTEAMSCookies(new DataManager(context), username, password,userType);
+                System.out.println(studentId);
                 //POST to login to TEAMS
                 String userIdentification = dataManager.getUserIdentification();
-                if (userIdentification == null) {
+                if ((userIdentification == null)||(userIdentification.equals("-1"))) {
                     if (TEAMSuser.length() > 0) {
                         //See if user has a seperate login for TEAMS/AISD
                         userIdentification = TEAMSGradeRetriever.postTEAMSLogin(TEAMSuser, TEAMSpass, studentId, finalcookie, userType);
