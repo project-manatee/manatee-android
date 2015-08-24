@@ -81,7 +81,12 @@ public class GPAFragment extends Fragment implements View.OnClickListener {
     }
     private void populateGPASummaries() {
         if(courses != null) {
-            gpaText.setText("GPA: " + String.valueOf(Numeric.round(GPACalc.unweighted(courses), 3)) + " / " + String.valueOf(Numeric.round(getWeightedGPA(), 3)));
+            try {
+                gpaText.setText("GPA: " + String.valueOf(Numeric.round(GPACalc.unweighted(courses), 3)) + " / " + String.valueOf(Numeric.round(getWeightedGPA(), 3)));
+            }
+            catch(Exception e){
+                gpaText.setText("GPA: N/A");
+            }
             if(dataManager.isFirstTimeViewingGPA()) {
                 ShowcaseView showcaseView = new ShowcaseView.Builder(getActivity())
                         .setTarget(new ViewTarget(getView().findViewById(R.id.text_gpa)))
