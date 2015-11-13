@@ -1,13 +1,24 @@
 package com.manateams.android.manateams.util;
 
+import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 
+import com.manateams.android.manateams.R;
+import com.manateams.android.manateams.asynctask.CourseLoadTask;
 import com.manateams.android.manateams.service.AlarmReceiver;
 import com.quickhac.common.TEAMSGradeRetriever;
 import com.quickhac.common.districts.TEAMSUserType;
@@ -16,8 +27,46 @@ import java.io.IOException;
 
 public class Utils {
 
+    /* Miscellaneous utility methods */
 
+    private static boolean isConnectedToAISDGuest(final Context context) {
+        final WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        if (manager.isWifiEnabled()) {
+            Log.d("dibdib", "enabled");
+            final WifiInfo wifiInfo = manager.getConnectionInfo();
+            if (wifiInfo != null) {
+                Log.d("dibdib", "enableddd");
+                final NetworkInfo.DetailedState state = WifiInfo.getDetailedStateOf(wifiInfo.getSupplicantState());
+                if (state == NetworkInfo.DetailedState.CONNECTED || state == NetworkInfo.DetailedState.OBTAINING_IPADDR) {
+                    Log.d("dibdib", "enabwefled");
+                    final String SSID = wifiInfo.getSSID();
+                    Log.d("dibdib", SSID);
+                    if(SSID.contains("AISD-GUEST")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
+    public static void showConnectedtoAISDGuestDialog(final Activity activity, final Context context) {
+        if (isConnectedToAISDGuest(context)) {
+            final AlertDialog.Builder alert = new AlertDialog.Builder(context).setTitle(R.string.dialog_aisd_wifi_title)
+                    .setMessage(context.getString(R.string.dialog_aisd_wifi_message)).setCancelable(false)
+                    .setPositiveButton(R.string.dialog_aisd_wifi_change_network, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            context.startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                        }
+                    })
+                    .setNegativeButton(R.string.dialog_aisd_wifi_close, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            activity.finish();
+                        }
+                    });
+            alert.show();
+        }
+    }
 
     /*
 	 * Returns a color for a grade. Colors according to severity. Returned is an

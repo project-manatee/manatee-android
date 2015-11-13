@@ -32,6 +32,10 @@
     <string name="text_navigation_default">Grades</string>
     <string name="title_activity_assignment">AssignmentActivity</string>
     <string name="dialog_assignment_loading">Loading assignments…</string>
+    <string name="dialog_aisd_wifi_title">Connected to AISD-GUEST</string>
+    <string name="dialog_aisd_wifi_message">You\'re currently connected to AISD-GUEST Wi-Fi network, but AISD blocks TEAMS on this network. \n\nIn order to view your grades, please switch to cellular data or another Wi-Fi source.</string>
+    <string name="dialog_aisd_wifi_close">Close</string>
+    <string name="dialog_aisd_wifi_change_network">Change network</string>
     <string name="text_card_category_assignment_title_default">Tests and Projects</string>
     <string name="text_card_category_assignment_weight_default">40%</string>
     <string name="text_card_category_assignment_average_default">Category Average: 92</string>

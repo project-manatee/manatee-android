@@ -25,6 +25,7 @@ import com.manateams.android.manateams.fragments.CourseFragment;
 import com.manateams.android.manateams.fragments.GPAFragment;
 import com.manateams.android.manateams.fragments.SettingsFragment;
 import com.manateams.android.manateams.util.DataManager;
+import com.manateams.android.manateams.util.Utils;
 import com.manateams.android.manateams.views.DrawerAdapter;
 import com.quickhac.common.data.Course;
 
@@ -56,6 +57,12 @@ public class CoursesActivity extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.showConnectedtoAISDGuestDialog(this, this);
     }
 
     private void setupDrawer() {

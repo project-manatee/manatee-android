@@ -19,6 +19,7 @@ import com.manateams.android.manateams.asynctask.AsyncTaskCompleteListener;
 import com.manateams.android.manateams.fragments.CycleFragment;
 import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
+import com.manateams.android.manateams.util.Utils;
 import com.quickhac.common.data.ClassGrades;
 import com.quickhac.common.data.Course;
 
@@ -62,6 +63,7 @@ public class AssignmentActivity extends ActionBarActivity implements AsyncTaskCo
     @Override
     protected void onResume(){
         super.onResume();
+        Utils.showConnectedtoAISDGuestDialog(this, this);
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         // Show the latest cycle
         if(grades != null && grades.length > 0) {
