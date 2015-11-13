@@ -134,6 +134,7 @@ public class GradeScrapeService extends IntentService implements AsyncTaskComple
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_notification);
         builder.setColor(getResources().getColor(R.color.app_primary));
+        builder.setAutoCancel(true);
         if(Build.VERSION.SDK_INT >= 20) {
             builder.setCategory(Notification.CATEGORY_SOCIAL);
             builder.setVisibility(Notification.VISIBILITY_PRIVATE);
