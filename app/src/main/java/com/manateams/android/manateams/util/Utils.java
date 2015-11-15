@@ -13,15 +13,10 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
 
 import com.manateams.android.manateams.R;
-import com.manateams.android.manateams.asynctask.CourseLoadTask;
 import com.manateams.android.manateams.service.AlarmReceiver;
-import com.quickhac.common.TEAMSGradeRetriever;
-import com.quickhac.common.districts.TEAMSUserType;
+import com.manateams.scraper.districts.TEAMSUserType;
 
 import java.io.IOException;
 
@@ -188,29 +183,5 @@ public class Utils {
                 intent,
                 PendingIntent.FLAG_NO_CREATE) != null);
         return alarmsSet;
-    }
-
-    public static String getTEAMSCookies(DataManager dataManager,String username, String password, TEAMSUserType userType) {
-        long lastUpdateTime = dataManager.getCookieLastUpdated();
-        if (Math.abs(lastUpdateTime -System.currentTimeMillis()) > Constants.INTERVAL_EXPIRE_COOKIE){
-            //Get cookies
-            Log.d("cookiecache", "cache miss");
-            try {
-                final String cstonecookie = TEAMSGradeRetriever.getAustinisdCookie(username, password);
-                final String teamscookie = TEAMSGradeRetriever.getTEAMSCookie(cstonecookie, userType);
-                final String finalcookie = teamscookie + ';' + cstonecookie;
-                TEAMSGradeRetriever.postTEAMSLogin(username, password,dataManager.getStudentId(), finalcookie, userType);
-                dataManager.setCookie(finalcookie);
-                return finalcookie;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else{
-            Log.d("cookiecache", "cache hit");
-            return dataManager.getCookie();
-        }
-
-        return "";
     }
 }

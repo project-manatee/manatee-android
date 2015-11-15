@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -23,8 +22,8 @@ import com.manateams.android.manateams.asynctask.CourseLoadTask;
 import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.util.Utils;
-import com.quickhac.common.data.ClassGrades;
-import com.quickhac.common.data.Course;
+import com.manateams.scraper.data.ClassGrades;
+import com.manateams.scraper.data.Course;
 
 
 public class MainActivity extends ActionBarActivity implements AsyncTaskCompleteListener {

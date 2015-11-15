@@ -9,7 +9,7 @@ import android.preference.MultiSelectListPreference;
 
 import com.manateams.android.manateams.R;
 import com.manateams.android.manateams.util.DataManager;
-import com.quickhac.common.data.Course;
+import com.manateams.scraper.data.Course;
 import android.support.v4.preference.PreferenceFragment;
 
 

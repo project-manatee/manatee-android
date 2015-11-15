@@ -20,8 +20,8 @@ import com.manateams.android.manateams.fragments.CycleFragment;
 import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.util.Utils;
-import com.quickhac.common.data.ClassGrades;
-import com.quickhac.common.data.Course;
+import com.manateams.scraper.data.ClassGrades;
+import com.manateams.scraper.data.Course;
 
 
 public class AssignmentActivity extends ActionBarActivity implements AsyncTaskCompleteListener {

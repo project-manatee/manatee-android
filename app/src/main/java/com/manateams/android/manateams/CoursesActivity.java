@@ -1,13 +1,9 @@
 package com.manateams.android.manateams;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -27,11 +23,7 @@ import com.manateams.android.manateams.fragments.SettingsFragment;
 import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.util.Utils;
 import com.manateams.android.manateams.views.DrawerAdapter;
-import com.quickhac.common.data.Course;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import com.manateams.scraper.data.Course;
 
 
 public class CoursesActivity extends ActionBarActivity {

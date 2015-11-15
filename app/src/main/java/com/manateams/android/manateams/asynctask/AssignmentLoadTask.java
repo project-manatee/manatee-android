@@ -3,18 +3,17 @@ package com.manateams.android.manateams.asynctask;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.manateams.android.manateams.R;
+import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
-import com.manateams.android.manateams.util.Utils;
-import com.quickhac.common.TEAMSGradeParser;
-import com.quickhac.common.TEAMSGradeRetriever;
-import com.quickhac.common.data.ClassGrades;
-import com.quickhac.common.data.Course;
-import com.quickhac.common.districts.TEAMSUserType;
-import com.quickhac.common.districts.impl.AustinISDParent;
-import com.quickhac.common.districts.impl.AustinISDStudent;
+import com.manateams.scraper.TEAMSGradeParser;
+import com.manateams.scraper.TEAMSGradeRetriever;
+import com.manateams.scraper.data.ClassGrades;
+import com.manateams.scraper.data.Course;
+import com.manateams.scraper.districts.TEAMSUserType;
+
+import java.io.IOException;
 
 public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]> {
 
@@ -48,66 +47,71 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
     protected ClassGrades[] doInBackground(String... params) {
         final String username = params[0];
         final String password = params[1];
-        final String studentId = params[2];
+        final String studentID = params[2];
         courseIndex = Integer.valueOf(params[3]);
         final String TEAMSuser = params[4];
         final String TEAMSpass = params[5];
-        final TEAMSUserType userType;
-        DataManager dataManager = new DataManager(context);
 
-        if (username.matches("^[sS]\\d{6,8}\\d?$")) {
-            userType = new AustinISDStudent();
-        } else {
-            userType = new AustinISDParent();
-        }
+        final DataManager dataManager = new DataManager(context);
+        final TEAMSGradeRetriever retriever = new TEAMSGradeRetriever();
+
         try {
-            final TEAMSGradeParser p = new TEAMSGradeParser();
+            // Get the user type
+            final TEAMSUserType userType = retriever.getUserType(username);
 
-            //Generate final cookie
-            final String finalcookie = Utils.getTEAMSCookies(new DataManager(context),username,password,userType);
+            // Get the appropriate cookie
+            final String cookie;
+            if (Math.abs(dataManager.getCookieLastUpdated() - System.currentTimeMillis()) > Constants.INTERVAL_EXPIRE_COOKIE) {
+                final String newCookie = retriever.getNewCookie(username, password, userType);
+                dataManager.setCookie(newCookie);
+                cookie = newCookie;
+            } else {
+                cookie = dataManager.getCookie();
+            }
 
-            String userIdentification = dataManager.getUserIdentification();
-            //POST to login to TEAMS
-            if (userIdentification == null){
-                if (TEAMSuser.length()>0){
-                    //See if user has a seperate login for TEAMS/AISD
-                    userIdentification = TEAMSGradeRetriever.postTEAMSLogin(TEAMSuser, TEAMSpass, studentId, finalcookie, userType);
+            // Get the appropriate user identification info
+            final String userIdentification;
+            final String newUserIdentification = retriever.getNewUserIdentification(username, password, studentID, TEAMSuser, TEAMSpass, cookie, userType);
+            userIdentification = newUserIdentification;
+            dataManager.setUserIdentification(newUserIdentification);
+
+            // Get the HTML of the main page
+            final String averageHTML;
+            if(dataManager.getAverageHtml() == null) {
+                final String newAverageHTML = retriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", cookie, userType, userIdentification);
+                if(newAverageHTML != null) {
+                    averageHTML = newAverageHTML;
+                    dataManager.setAverageHtml(newAverageHTML);
+                } else {
+                    return null;
                 }
-                else{
-                    userIdentification = TEAMSGradeRetriever.postTEAMSLogin(username, password,studentId, finalcookie, userType);
-                }
-                dataManager.setUserIdentification(userIdentification);
+            } else {
+                averageHTML = dataManager.getAverageHtml();
             }
-            String averageHtml = dataManager.getAverageHtml();
-            if (averageHtml == null){
-                averageHtml = TEAMSGradeRetriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", finalcookie, userType, userIdentification);
-                dataManager.setAverageHtml(averageHtml);
-            }
-            Course[] courses = dataManager.getCourseGrades();
-            long lastUpdated = dataManager.getClassGradesLastUpdated(courses[courseIndex].courseId);
-            //If the first time loading this class or manual refresh, load all grades, otherwise load only current cycle to conserve data
-            if (lastUpdated == -1 || fullRefresh){
-                ClassGrades[] grades = new ClassGrades[6]; // TODO don't hardcode length
-                for(int i = 0; i < grades.length; i++) {
-                    grades[i] = TEAMSGradeRetriever.getCycleClassGrades(courses[courseIndex], i, averageHtml, finalcookie, userType, userIdentification);
+
+            // Get individual course grades
+            final Course[] courses = dataManager.getCourseGrades();
+            final long lastUpdated = dataManager.getClassGradesLastUpdated(courses[courseIndex].courseId);
+            // If the first time loading this class or manual refresh, load all grades, otherwise load only current cycle to conserve data
+            if (lastUpdated == -1 || fullRefresh) {
+                final ClassGrades[] grades = new ClassGrades[6];
+                for (int i = 0; i < grades.length; i++) {
+                    grades[i] = retriever.getCycleClassGrades(courses[courseIndex], i, averageHTML, cookie, userType, userIdentification);
                 }
                 return grades;
-            }
-            else{
-                ClassGrades[] grades = dataManager.getClassGrades(courses[courseIndex].courseId);
-                if(grades != null && grades.length > 0) {
+            } else {
+                final ClassGrades[] grades = dataManager.getClassGrades(courses[courseIndex].courseId);
+                if (grades != null && grades.length > 0) {
                     int latestCycle = grades.length - 1;
                     while (grades[latestCycle] == null && latestCycle > 0) {
                         latestCycle--;
                     }
                     if (latestCycle >= 0) {
-                        Log.d("BitBit", "Loading only cycle " + latestCycle);
-                        grades[latestCycle] = TEAMSGradeRetriever.getCycleClassGrades(courses[courseIndex], latestCycle, averageHtml, finalcookie, userType, userIdentification);
+                        grades[latestCycle] = retriever.getCycleClassGrades(courses[courseIndex], latestCycle, averageHTML, cookie, userType, userIdentification);
                         return grades;
                     }
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             new DataManager(context).invalidateCookie();

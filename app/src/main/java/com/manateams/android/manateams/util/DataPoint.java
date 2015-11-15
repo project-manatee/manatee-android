@@ -1,6 +1,6 @@
 package com.manateams.android.manateams.util;
 
-import com.quickhac.common.data.GradeValue;
+import com.manateams.scraper.data.GradeValue;
 
 /**
  * Created by Ehsan on 12/19/2014.

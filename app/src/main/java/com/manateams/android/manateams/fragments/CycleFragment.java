@@ -3,7 +3,6 @@ package com.manateams.android.manateams.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,7 @@ import com.manateams.android.manateams.R;
 import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.views.CategoryAdapter;
-import com.quickhac.common.data.ClassGrades;
+import com.manateams.scraper.data.ClassGrades;
 
 import org.ocpsoft.prettytime.PrettyTime;
 

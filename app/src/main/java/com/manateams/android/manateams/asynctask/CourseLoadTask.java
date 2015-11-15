@@ -1,20 +1,16 @@
 package com.manateams.android.manateams.asynctask;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.view.LayoutInflater;
-import android.view.View;
 
-import com.manateams.android.manateams.R;
+import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
-import com.manateams.android.manateams.util.Utils;
-import com.quickhac.common.TEAMSGradeParser;
-import com.quickhac.common.TEAMSGradeRetriever;
-import com.quickhac.common.data.Course;
-import com.quickhac.common.districts.TEAMSUserType;
-import com.quickhac.common.districts.impl.AustinISDParent;
-import com.quickhac.common.districts.impl.AustinISDStudent;
+import com.manateams.scraper.TEAMSGradeParser;
+import com.manateams.scraper.TEAMSGradeRetriever;
+import com.manateams.scraper.data.Course;
+import com.manateams.scraper.districts.TEAMSUserType;
+
+import java.io.IOException;
 
 public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
 
@@ -35,40 +31,38 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
         final String studentId = params[2];
         final String TEAMSuser = params[3];
         final String TEAMSpass = params[4];
-        final TEAMSUserType userType;
-        DataManager dataManager = new DataManager(context);
-        if(username != null) {
-            if (username.matches("^[sS]\\d{6,8}\\d?$")) {
-                userType = new AustinISDStudent();
+
+
+        final DataManager dataManager = new DataManager(context);
+        final TEAMSGradeRetriever retriever = new TEAMSGradeRetriever();
+        final TEAMSGradeParser parser = new TEAMSGradeParser();
+
+        try {
+            // Get the user type
+            final TEAMSUserType userType = retriever.getUserType(username);
+
+            // Get the appropriate cookie
+            final String cookie;
+            if (Math.abs(dataManager.getCookieLastUpdated() - System.currentTimeMillis()) > Constants.INTERVAL_EXPIRE_COOKIE) {
+                final String newCookie = retriever.getNewCookie(username, password, userType);
+                dataManager.setCookie(newCookie);
+                cookie = newCookie;
             } else {
-                userType = new AustinISDParent();
+                cookie = dataManager.getCookie();
             }
-            try {
-                final TEAMSGradeParser p = new TEAMSGradeParser();
 
-                //Generate final cookie
-                final String finalcookie = Utils.getTEAMSCookies(new DataManager(context), username, password,userType);
-                System.out.println(studentId);
-                //POST to login to TEAMS
-                String userIdentification = dataManager.getUserIdentification();
-                if ((userIdentification == null)||(userIdentification.equals("-1"))) {
-                    if (TEAMSuser.length() > 0) {
-                        //See if user has a seperate login for TEAMS/AISD
-                        userIdentification = TEAMSGradeRetriever.postTEAMSLogin(TEAMSuser, TEAMSpass, studentId, finalcookie, userType);
-                    } else {
-                        userIdentification = TEAMSGradeRetriever.postTEAMSLogin(username, password, studentId, finalcookie, userType);
-                    }
-                    dataManager.setUserIdentification(userIdentification);
-                }
+            // Get the appropriate user identification info
+            final String userIdentification;
+            final String newUserIdentification = retriever.getNewUserIdentification(username, password, studentId, TEAMSuser, TEAMSpass, cookie, userType);
+            userIdentification = newUserIdentification;
+            dataManager.setUserIdentification(newUserIdentification);
 
-                final String averageHtml = TEAMSGradeRetriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", finalcookie, userType, userIdentification);
-                Course[] courses = p.parseAverages(averageHtml);
-                dataManager.setAverageHtml(averageHtml);
-                return courses;
-            } catch (Exception e) {
-                e.printStackTrace();
-                new DataManager(context).invalidateCookie();
-            }
+            // Get the HTML of the main page
+            final String averageHTML = retriever.getTEAMSPage("/selfserve/PSSViewReportCardsAction.do", "", cookie, userType, userIdentification);
+            dataManager.setAverageHtml(averageHTML);
+            return parser.parseAverages(averageHTML);
+        } catch(Exception e) {
+            dataManager.invalidateCookie();
         }
         return null;
     }

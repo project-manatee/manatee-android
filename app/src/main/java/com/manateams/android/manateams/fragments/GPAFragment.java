@@ -21,9 +21,9 @@ import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.manateams.android.manateams.R;
 import com.manateams.android.manateams.util.DataManager;
-import com.quickhac.common.GPACalc;
-import com.quickhac.common.data.Course;
-import com.quickhac.common.util.Numeric;
+import com.manateams.scraper.GPACalc;
+import com.manateams.scraper.data.Course;
+import com.manateams.scraper.util.Numeric;
 
 import java.util.ArrayList;
 import java.util.HashSet;

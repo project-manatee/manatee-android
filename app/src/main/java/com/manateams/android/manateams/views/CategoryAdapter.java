@@ -14,9 +14,9 @@ import android.widget.TextView;
 
 import com.manateams.android.manateams.R;
 import com.manateams.android.manateams.util.Constants;
-import com.quickhac.common.data.Assignment;
-import com.quickhac.common.data.Category;
-import com.quickhac.common.data.ClassGrades;
+import com.manateams.scraper.data.Assignment;
+import com.manateams.scraper.data.Category;
+import com.manateams.scraper.data.ClassGrades;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 

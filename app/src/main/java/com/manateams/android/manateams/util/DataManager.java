@@ -7,9 +7,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.quickhac.common.data.ClassGrades;
-import com.quickhac.common.data.Course;
-import com.quickhac.common.data.GradeValue;
+import com.manateams.scraper.data.ClassGrades;
+import com.manateams.scraper.data.Course;
+import com.manateams.scraper.data.GradeValue;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

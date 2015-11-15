@@ -18,8 +18,8 @@ import android.widget.TextView;
 import com.manateams.android.manateams.R;
 import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.Utils;
-import com.quickhac.common.data.Course;
-import com.quickhac.common.data.GradeValue;
+import com.manateams.scraper.data.Course;
+import com.manateams.scraper.data.GradeValue;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
 

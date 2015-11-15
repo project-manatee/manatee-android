@@ -2,7 +2,6 @@ package com.manateams.android.manateams.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -25,8 +24,8 @@ import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.views.CourseAdapter;
 import com.manateams.android.manateams.views.RecyclerItemClickListener;
-import com.quickhac.common.data.ClassGrades;
-import com.quickhac.common.data.Course;
+import com.manateams.scraper.data.ClassGrades;
+import com.manateams.scraper.data.Course;
 
 import org.ocpsoft.prettytime.PrettyTime;
 

@@ -22,11 +22,11 @@ import com.manateams.android.manateams.asynctask.CourseLoadTask;
 import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.util.Utils;
-import com.quickhac.common.data.ClassGrades;
-import com.quickhac.common.data.Course;
-import com.quickhac.common.data.Cycle;
-import com.quickhac.common.data.GradeValue;
-import com.quickhac.common.data.Semester;
+import com.manateams.scraper.data.ClassGrades;
+import com.manateams.scraper.data.Course;
+import com.manateams.scraper.data.Cycle;
+import com.manateams.scraper.data.GradeValue;
+import com.manateams.scraper.data.Semester;
 
 public class GradeScrapeService extends IntentService implements AsyncTaskCompleteListener {
 
