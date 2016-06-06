@@ -1,8 +1,6 @@
 package com.manateams.android.manateams;
 
 import android.app.Application;
-import android.content.Context;
-import android.support.multidex.MultiDex;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Logger;
@@ -45,11 +43,5 @@ public class MyApplication extends Application {
 
         }
         return mTrackers.get(trackerId);
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
     }
 }

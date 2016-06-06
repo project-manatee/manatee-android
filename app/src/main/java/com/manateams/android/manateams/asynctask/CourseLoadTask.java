@@ -62,6 +62,7 @@ public class CourseLoadTask extends AsyncTask<String, String, Course[]> {
             dataManager.setAverageHtml(averageHTML);
             return parser.parseAverages(averageHTML);
         } catch(Exception e) {
+            e.printStackTrace();
             dataManager.invalidateCookie();
         }
         return null;

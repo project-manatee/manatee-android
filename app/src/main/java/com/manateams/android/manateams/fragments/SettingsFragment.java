@@ -1,26 +1,27 @@
 package com.manateams.android.manateams.fragments;
 
-/**
- * Created by Ehsan on 1/2/2015.
- */
-
 import android.os.Bundle;
-import android.preference.MultiSelectListPreference;
+import android.support.v14.preference.MultiSelectListPreference;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.manateams.android.manateams.R;
 import com.manateams.android.manateams.util.DataManager;
 import com.manateams.scraper.data.Course;
-import android.support.v4.preference.PreferenceFragment;
 
 
 
 
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.layout.activity_settings);
+
+    }
+
+    @Override
+    public void onCreatePreferences(Bundle bundle, String s) {
+        addPreferencesFromResource(R.xml.settings);
 
         MultiSelectListPreference weightedPreference = (MultiSelectListPreference) findPreference("pref_weightedClasses");
 
