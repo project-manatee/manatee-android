@@ -1,7 +1,7 @@
-manaTEAMS
+manaTEAMS for Android
 =========
 
-An easy way to view grades and assignments for AISD's TEAMS.
+An easy way to view grades and assignments for AISD's TEAMS on your Android device.
 
 Libraries
 -----
@@ -14,5 +14,6 @@ This work makes use of the following libraries
 * [prettytime](http://ocpsoft.org/prettytime/)
 * [qhac-common](https://github.com/quickhac/qhac-common)
 
-This work is licensed under the [GPL v3 License](http://choosealicense.com/licenses/gpl-v3/). See license file for full text.   
+This work is licensed under the [GPL v3 License](http://choosealicense.com/licenses/gpl-v3/). See license file for full text.
+
 Copyright (C) 2014 Ehsan Asdar and Neil Patil
