@@ -96,7 +96,7 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
             if (lastUpdated == -1 || fullRefresh) {
                 final ClassGrades[] grades = new ClassGrades[6];
                 for (int i = 0; i < grades.length; i++) {
-                    grades[i] = retriever.getCycleClassGrades(courses[courseIndex], i, averageHTML, cookie, userType, userIdentification);
+                    grades[i] = retriever.getCycleClassGrades(courses[courseIndex], i, cookie, userType, userIdentification);
                 }
                 return grades;
             } else {
@@ -107,7 +107,7 @@ public class AssignmentLoadTask extends AsyncTask<String, String, ClassGrades[]>
                         latestCycle--;
                     }
                     if (latestCycle >= 0) {
-                        grades[latestCycle] = retriever.getCycleClassGrades(courses[courseIndex], latestCycle, averageHTML, cookie, userType, userIdentification);
+                        grades[latestCycle] = retriever.getCycleClassGrades(courses[courseIndex], latestCycle, cookie, userType, userIdentification);
                         return grades;
                     }
                 }
