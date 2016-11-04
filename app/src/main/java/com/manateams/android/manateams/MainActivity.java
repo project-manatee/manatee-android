@@ -80,7 +80,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     @Override
     public void onResume() {
         super.onResume();
-        Utils.showConnectedtoAISDGuestDialog(this, this);
+        //Utils.showConnectedtoAISDGuestDialog(this, this);
     }
 
 

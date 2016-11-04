@@ -54,7 +54,7 @@ public class CoursesActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Utils.showConnectedtoAISDGuestDialog(this, this);
+        //Utils.showConnectedtoAISDGuestDialog(this, this);
     }
 
     private void setupDrawer() {
