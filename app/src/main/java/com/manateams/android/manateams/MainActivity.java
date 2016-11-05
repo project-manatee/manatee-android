@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.manateams.android.manateams.asynctask.AsyncTaskCompleteListener;
 import com.manateams.android.manateams.asynctask.CourseLoadTask;
+import com.manateams.android.manateams.service.GradeScrapeService;
 import com.manateams.android.manateams.util.Constants;
 import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.util.Utils;
@@ -168,8 +169,11 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
         if(courses != null) {
             Utils.setAlarms(Constants.INTERVAL_GRADE_SCRAPE, this);
             dataManager.setCourseGrades(courses);
-            dataManager.setCredentials(username, password, studentId,TEAMSuser,TEAMSpass);
+            dataManager.setCredentials(username, password, studentId, TEAMSuser, TEAMSpass);
             dataManager.setOverallGradesLastUpdated();
+            Intent gradeScrape = new Intent(this, GradeScrapeService.class);
+            this.stopService(gradeScrape);
+            this.startService(gradeScrape); //scrape assignments in background immediately after entering app
             Intent intent = new Intent(this, CoursesActivity.class);
             startActivity(intent);
             finish();
