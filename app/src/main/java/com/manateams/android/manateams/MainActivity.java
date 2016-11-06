@@ -1,11 +1,13 @@
 package com.manateams.android.manateams;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.security.ProviderInstaller;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.manateams.android.manateams.asynctask.AsyncTaskCompleteListener;
 import com.manateams.android.manateams.asynctask.CourseLoadTask;
 import com.manateams.android.manateams.service.GradeScrapeService;
@@ -81,6 +87,7 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     @Override
     public void onResume() {
         super.onResume();
+        updateSecurityProvider();
         //Utils.showConnectedtoAISDGuestDialog(this, this);
     }
 
@@ -228,5 +235,18 @@ public class MainActivity extends ActionBarActivity implements AsyncTaskComplete
     @Override
     public void onClassGradesLoaded(ClassGrades[] grades, int courseIndex) {
 
+    }
+
+    //update the Android security provider for devices version <5.0 to enable TLSv1.1 and TLSv1.2
+    private void updateSecurityProvider() {
+        try {
+            ProviderInstaller.installIfNeeded(this);
+        } catch (GooglePlayServicesRepairableException e) {
+            //google play services is not installed or up-to-date
+            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), this, 0);
+            dialog.show();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            Log.e("SecurityException", "Google Play Services not available.");
+        }
     }
 }
