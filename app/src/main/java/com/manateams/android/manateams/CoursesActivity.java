@@ -54,6 +54,7 @@ public class CoursesActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Utils.updateSecurityProvider(this);
         //Utils.showConnectedtoAISDGuestDialog(this, this);
     }
 

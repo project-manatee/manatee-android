@@ -63,6 +63,7 @@ public class AssignmentActivity extends ActionBarActivity implements AsyncTaskCo
     @Override
     protected void onResume(){
         super.onResume();
+        Utils.updateSecurityProvider(this);
         //Utils.showConnectedtoAISDGuestDialog(this, this);
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         // Show the latest cycle
