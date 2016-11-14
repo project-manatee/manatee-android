@@ -57,6 +57,7 @@
     <string name="text_lastupdated_default">Grades not updated - pull down to refresh</string>
     <string name="text_course_lastupdated_default">Grades not updated yet</string>
     <string name="action_logout">Logout</string>
+    <string name="action_share">Share</string>
     <string name="secondary_login_info">If you use separate credentials for your TEAMS account, enter them below</string>
     <string name="secondary_login_title">Secondary Login</string>
     <string name="text_gpa_default">GPA: 4.205 / 3.057</string>
@@ -80,6 +81,12 @@
     <string name="text_no_grades">No grades :(</string>
     <string name="text_login_instructions">Log in with the credentials you use to sign into my.austinisd.org.</string>
     <string name="action_refresh">Refresh</string>
+
+    <string name="rate_dialog_title">Share this app</string>
+    <string name="rate_dialog_message">If you enjoy playing this app, would you mind taking a moment to share it with your friends? It won\'t take more than a minute. Thanks for your support!</string>
+    <string name="rate_dialog_ok">Share It Now</string>
+    <string name="rate_dialog_cancel">Remind Me Later</string>
+    <string name="rate_dialog_no">No, Thanks</string>
 
 
 </resources>

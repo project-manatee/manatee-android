@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,9 @@ import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.util.Utils;
 import com.manateams.scraper.data.ClassGrades;
 import com.manateams.scraper.data.Course;
+
+import hotchemi.android.rate.AppRate;
+import hotchemi.android.rate.OnClickButtonListener;
 
 
 public class MainActivity extends AppCompatActivity implements AsyncTaskCompleteListener {
@@ -76,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskComplete
                 login();
             }
         }
+
     }
 
     @Override

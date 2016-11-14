@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,11 @@ import com.manateams.android.manateams.util.DataManager;
 import com.manateams.android.manateams.util.Utils;
 import com.manateams.android.manateams.views.DrawerAdapter;
 import com.manateams.scraper.data.Course;
+
+import hotchemi.android.rate.AppRate;
+import hotchemi.android.rate.OnClickButtonListener;
+
+import static android.content.DialogInterface.BUTTON_POSITIVE;
 
 
 public class CoursesActivity extends AppCompatActivity {
@@ -157,6 +163,9 @@ public class CoursesActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 break;
+            case R.id.action_share:
+                sendShareIntent();
+                break;
         }
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
@@ -171,6 +180,13 @@ public class CoursesActivity extends AppCompatActivity {
         }
     }
 
+    public void sendShareIntent() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "Check your grades with manaTEAMS http://manateams.com");
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+    }
 
     public void onNeilWebsiteClick(View v) {
         String url = "http://patil215.github.io";
