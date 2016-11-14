@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -24,7 +24,7 @@ import com.manateams.scraper.data.ClassGrades;
 import com.manateams.scraper.data.Course;
 
 
-public class AssignmentActivity extends ActionBarActivity implements AsyncTaskCompleteListener {
+public class AssignmentActivity extends AppCompatActivity implements AsyncTaskCompleteListener {
 
     private DataManager dataManager;
     private ClassGrades[] grades;

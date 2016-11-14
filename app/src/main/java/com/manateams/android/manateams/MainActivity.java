@@ -4,7 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,7 +27,7 @@ import com.manateams.scraper.data.ClassGrades;
 import com.manateams.scraper.data.Course;
 
 
-public class MainActivity extends ActionBarActivity implements AsyncTaskCompleteListener {
+public class MainActivity extends AppCompatActivity implements AsyncTaskCompleteListener {
 
 
     /* Solely used for login. If the user is already logged in, forwards to showing the grades. */
