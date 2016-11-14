@@ -62,11 +62,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                                 TextView assignmentText = (TextView) row.findViewById(R.id.text_assignment);
                                 TextView gradeText = (TextView) row.findViewById(R.id.text_grade);
                                 assignmentText.setText(assignment.title);
-                                if(!assignment.pointsString().equals("0")) {
-                                    gradeText.setText(assignment.pointsString());
-                                } else {
-                                    gradeText.setText(" ");
-                                }
+                                gradeText.setText(assignment.pointsString());
                                 assignmentRow.addView(row);
                                 viewHolder.assignmentTable.addView(assignmentRow);
                             }
