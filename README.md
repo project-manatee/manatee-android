@@ -6,7 +6,6 @@ An easy way to view grades and assignments for AISD's TEAMS on your Android devi
 Libraries
 -----
 This work makes use of the following libraries
-* [android-support-v4-preferencefragment] (https://github.com/kolavar/android-support-v4-preferencefragment)
 * [ShowcaseView](https://github.com/amlcurran/Showcaseview)
 * [PagerSlidingTabStrip](https://github.com/astuetz/PagerSlidingTabStrip)
 * [Gson](https://code.google.com/p/google-gson/)
