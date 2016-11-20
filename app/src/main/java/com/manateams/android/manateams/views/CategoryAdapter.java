@@ -40,46 +40,58 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         viewHolder.setIsRecyclable(false);
         if (viewHolder.assignmentTable.getChildCount() == 0) {
             if (grades != null && grades.categories != null) {
-                Category category = grades.categories[position];
-                if (category != null) {
-                    Assignment[] assignments = category.assignments;
-                    if (assignments != null) {
-                        viewHolder.titleText.setText(category.title);
-                        // Set a different color
-                        viewHolder.colorBar.setBackgroundColor(Color.parseColor(Constants.COLORS[position % Constants.COLORS.length]));
+                if (position >= grades.categories.length) {
+                    viewHolder.titleText.setText(context.getString(R.string.misc_average));
+                    if (grades.average != -1) {
+                        viewHolder.weightText.setText(Integer.toString(grades.average));
+                    } else {
+                        viewHolder.weightText.setText("");
+                    }
+                    viewHolder.colorBar.setBackgroundColor(Color.BLACK);
 
-                        if(category.weight >= 0) {
-                            viewHolder.weightText.setText(((int) category.weight) + "%");
-                        } else {
-                            viewHolder.weightText.setText(context.getString(R.string.text_card_category_assignment_weight_null));
-                        }
+                    viewHolder.assignmentTable.setPadding(0, 0, 0, 0);
+                } else {
+                    Category category = grades.categories[position];
+                    if (category != null) {
+                        Assignment[] assignments = category.assignments;
+                        if (assignments != null) {
+                            viewHolder.titleText.setText(category.title);
+                            // Set a different color
+                            viewHolder.colorBar.setBackgroundColor(Color.parseColor(Constants.COLORS[position % Constants.COLORS.length]));
 
-                        for (int i = 0; i < assignments.length; i++) {
-                            TableRow assignmentRow = new TableRow(context);
-                            Assignment assignment = assignments[i];
-                            if (assignment != null) {
+                            if (category.weight >= 0) {
+                                viewHolder.weightText.setText(((int) category.weight) + "%");
+                            } else {
+                                viewHolder.weightText.setText(context.getString(R.string.text_card_category_assignment_weight_null));
+                            }
+
+                            for (int i = 0; i < assignments.length; i++) {
+                                TableRow assignmentRow = new TableRow(context);
+                                Assignment assignment = assignments[i];
+                                if (assignment != null) {
+                                    LinearLayout row = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.row_assignment, null);
+                                    TextView assignmentText = (TextView) row.findViewById(R.id.text_assignment);
+                                    TextView gradeText = (TextView) row.findViewById(R.id.text_grade);
+                                    assignmentText.setText(assignment.title);
+                                    gradeText.setText(assignment.pointsString());
+                                    assignmentRow.addView(row);
+                                    viewHolder.assignmentTable.addView(assignmentRow);
+                                }
+                            }
+
+                            if (category.average != null) {
+                                // Add category average
+                                TableRow averageRow = new TableRow(context);
                                 LinearLayout row = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.row_assignment, null);
                                 TextView assignmentText = (TextView) row.findViewById(R.id.text_assignment);
                                 TextView gradeText = (TextView) row.findViewById(R.id.text_grade);
-                                assignmentText.setText(assignment.title);
-                                gradeText.setText(assignment.pointsString());
-                                assignmentRow.addView(row);
-                                viewHolder.assignmentTable.addView(assignmentRow);
+                                assignmentText.setText(context.getString(R.string.misc_average));
+                                assignmentText.setTypeface(assignmentText.getTypeface(), Typeface.BOLD);
+                                gradeText.setText(String.valueOf(category.average.intValue()));
+                                gradeText.setTypeface(assignmentText.getTypeface(), Typeface.BOLD);
+                                averageRow.addView(row);
+                                viewHolder.assignmentTable.addView(averageRow);
                             }
-                        }
-
-                        if(category.average != null) {
-                            // Add category average
-                            TableRow averageRow = new TableRow(context);
-                            LinearLayout row = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.row_assignment, null);
-                            TextView assignmentText = (TextView) row.findViewById(R.id.text_assignment);
-                            TextView gradeText = (TextView) row.findViewById(R.id.text_grade);
-                            assignmentText.setText(context.getString(R.string.misc_average));
-                            assignmentText.setTypeface(assignmentText.getTypeface(), Typeface.BOLD);
-                            gradeText.setText(String.valueOf(category.average.intValue()));
-                            gradeText.setTypeface(assignmentText.getTypeface(), Typeface.BOLD);
-                            averageRow.addView(row);
-                            viewHolder.assignmentTable.addView(averageRow);
                         }
                     }
                 }
@@ -92,7 +104,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @Override
     public int getItemCount() {
         if (grades != null && grades.categories != null) {
-            return grades.categories.length;
+            return grades.categories.length + 1; //one more card for course average
         } else {
             return 0;
         }
