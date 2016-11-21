@@ -7,10 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.EditText;
 
 import com.manateams.android.manateams.R;
 import com.manateams.android.manateams.util.Constants;
@@ -69,13 +73,26 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                                 TableRow assignmentRow = new TableRow(context);
                                 Assignment assignment = assignments[i];
                                 if (assignment != null) {
-                                    LinearLayout row = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.row_assignment, null);
-                                    TextView assignmentText = (TextView) row.findViewById(R.id.text_assignment);
-                                    TextView gradeText = (TextView) row.findViewById(R.id.text_grade);
-                                    assignmentText.setText(assignment.title);
-                                    gradeText.setText(assignment.pointsString());
-                                    assignmentRow.addView(row);
-                                    viewHolder.assignmentTable.addView(assignmentRow);
+                                    if (assignment.ptsEarned != null && assignment.ptsEarned.value != -1) {
+                                        LinearLayout row = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.row_assignment, null);
+                                        TextView assignmentText = (TextView) row.findViewById(R.id.text_assignment);
+                                        TextView gradeText = (TextView) row.findViewById(R.id.text_grade);
+                                        assignmentText.setText(assignment.title);
+                                        gradeText.setText(assignment.pointsString());
+                                        assignmentRow.addView(row);
+                                        viewHolder.assignmentTable.addView(assignmentRow);
+                                    } else {
+                                        LinearLayout row = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.row_assignment_editable, null);
+                                        TextView assignmentText = (TextView) row.findViewById(R.id.text_assignment);
+
+                                        EditText gradeText = (EditText) row.findViewById(R.id.text_grade);
+                                        TextView.OnEditorActionListener listener = new EditorActionListener();
+                                        gradeText.setOnEditorActionListener(listener);
+
+                                        assignmentText.setText(assignment.title);
+                                        assignmentRow.addView(row);
+                                        viewHolder.assignmentTable.addView(assignmentRow);
+                                    }
                                 }
                             }
 
@@ -108,6 +125,20 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         } else {
             return 0;
         }
+    }
+
+    public class EditorActionListener implements TextView.OnEditorActionListener { //callback for EditText event
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if(actionId == EditorInfo.IME_ACTION_DONE){ //user clicks done
+                //lose focus and hide the keyboard
+                v.clearFocus();
+                InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            }
+            return false;
+        }
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
