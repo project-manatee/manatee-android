@@ -21,6 +21,7 @@ import com.manateams.android.manateams.util.Constants;
 import com.manateams.scraper.data.Assignment;
 import com.manateams.scraper.data.Category;
 import com.manateams.scraper.data.ClassGrades;
+import com.manateams.scraper.util.Numeric;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
@@ -82,12 +83,30 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                                         assignmentRow.addView(row);
                                         viewHolder.assignmentTable.addView(assignmentRow);
                                     } else {
+                                        assignmentRow.setTag(i);
                                         LinearLayout row = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.row_assignment_editable, null);
                                         TextView assignmentText = (TextView) row.findViewById(R.id.text_assignment);
 
                                         EditText gradeText = (EditText) row.findViewById(R.id.text_grade);
                                         TextView.OnEditorActionListener listener = new EditorActionListener();
-                                        gradeText.setOnEditorActionListener(listener);
+                                        gradeText.setOnEditorActionListener(listener); //listen for actions in the EditText
+
+                                        TextView ptsPossibleText = (TextView) row.findViewById(R.id.text_ptspossible);
+                                        if (assignment.ptsPossible != 100) {
+                                            ptsPossibleText.setText("/" + Numeric.doubleToPrettyString(assignment.ptsPossible));
+                                            //listen for clicking on the ptspossible TextView
+                                            ptsPossibleText.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    //focus the EditText and bring up the keyboard
+                                                    LinearLayout parentRow = (LinearLayout) v.getParent();
+                                                    EditText childEditText = (EditText) parentRow.getChildAt(1);
+                                                    childEditText.requestFocus();
+                                                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                                    imm.showSoftInput(childEditText, InputMethodManager.SHOW_IMPLICIT);
+                                                }
+                                            });
+                                        }
 
                                         assignmentText.setText(assignment.title);
                                         assignmentRow.addView(row);
@@ -95,20 +114,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                                     }
                                 }
                             }
-
+                            // Add category average
+                            TableRow averageRow = new TableRow(context);
+                            LinearLayout row = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.row_assignment, null);
+                            TextView assignmentText = (TextView) row.findViewById(R.id.text_assignment);
+                            assignmentText.setText(context.getString(R.string.misc_average));
+                            assignmentText.setTypeface(assignmentText.getTypeface(), Typeface.BOLD);
                             if (category.average != null) {
-                                // Add category average
-                                TableRow averageRow = new TableRow(context);
-                                LinearLayout row = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.row_assignment, null);
-                                TextView assignmentText = (TextView) row.findViewById(R.id.text_assignment);
                                 TextView gradeText = (TextView) row.findViewById(R.id.text_grade);
-                                assignmentText.setText(context.getString(R.string.misc_average));
-                                assignmentText.setTypeface(assignmentText.getTypeface(), Typeface.BOLD);
                                 gradeText.setText(String.valueOf(category.average.intValue()));
                                 gradeText.setTypeface(assignmentText.getTypeface(), Typeface.BOLD);
-                                averageRow.addView(row);
-                                viewHolder.assignmentTable.addView(averageRow);
                             }
+                            averageRow.addView(row);
+                            viewHolder.assignmentTable.addView(averageRow);
                         }
                     }
                 }

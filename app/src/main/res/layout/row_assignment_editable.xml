@@ -19,26 +19,35 @@
         android:textSize="16sp"
         android:layout_weight="100"
         android:ellipsize="end"
-        android:id="@+id/text_assignment"
-        android:text="@string/text_row_assignment_assignment_default" />
+        android:id="@+id/text_assignment" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_weight="0"
         android:hint="@string/hint_add_grade"
+        android:textColorHint="@color/red"
         android:inputType="number"
         android:imeOptions="actionDone"
         android:id="@+id/text_grade"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:paddingLeft="6dp"
-        android:paddingRight="6dp"
+        android:paddingRight="0dp"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
         android:textSize="14sp"
         android:textColor="@color/red"
-        android:gravity="right"
+        android:gravity="right|center_vertical"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:id="@+id/text_ptspossible"
+        android:paddingRight="6dp"
+        android:textSize="14sp"
+        />
 
 </LinearLayout>

@@ -22,7 +22,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_weight="25"
-        android:text="@string/text_row_assignment_grade_default"
         android:gravity="end"
         android:id="@+id/text_grade"
         android:layout_height="wrap_content"
