@@ -47,7 +47,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                     } else {
                         viewHolder.weightText.setText("");
                     }
-                    viewHolder.colorBar.setBackgroundColor(Color.BLACK);
+                    viewHolder.colorBar.setBackgroundColor(context.getResources().getColor(R.color.app_primary));
 
                     viewHolder.assignmentTable.setPadding(0, 0, 0, 0);
                 } else {
