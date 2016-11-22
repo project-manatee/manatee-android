@@ -109,7 +109,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                                             }
                                         });
 
-                                        TextView.OnEditorActionListener listener = new EditorActionListener(position, i, assignment.ptsPossible, this);
+                                        TextView.OnEditorActionListener listener = new EditorActionListener(context, this, position, i, assignment.ptsPossible);
                                         gradeText.setOnEditorActionListener(listener); //listen for actions in the EditText
 
                                         if (assignment.isProjected && assignment.ptsEarned != null && assignment.ptsEarned.value != -1) {
@@ -162,7 +162,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 }
             }
         } else {
-            viewHolder.titleText.setText("No grades :(");
+            viewHolder.titleText.setText(context.getString(R.string.text_no_grades));
         }
     }
 
@@ -197,45 +197,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             category.projectedAverage = GradeCalc.categoryAverage(grades.categories[categoryIndex].assignments);
             grades.projectedAverage = GradeCalc.cycleAverage(grades).value;
         }
-    }
-
-
-    public class EditorActionListener implements TextView.OnEditorActionListener { //callback for EditText event
-        private int categoryIndex;
-        private int assignmentIndex;
-        private double ptsPossible;
-        private CategoryAdapter adapter;
-
-        public EditorActionListener(int categoryIndex, int assignmentIndex, double ptsPossible, CategoryAdapter adapter) {
-            super();
-            this.categoryIndex = categoryIndex;
-            this.assignmentIndex = assignmentIndex;
-            this.ptsPossible = ptsPossible;
-            this.adapter = adapter;
-        }
-
-        @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            if(actionId == EditorInfo.IME_ACTION_DONE){ //user clicks done
-                //lose focus and hide the keyboard
-                v.clearFocus();
-                InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-
-                //add or remove projected grade
-                String newValue = v.getText().toString();
-                if (newValue.isEmpty()) {
-                    adapter.updateProjectedGrade(categoryIndex, assignmentIndex, null);
-                } else {
-                    double scaledNewValue = (Integer.parseInt(newValue)/ptsPossible)*100.0;
-                    adapter.updateProjectedGrade(categoryIndex, assignmentIndex, new GradeValue(scaledNewValue));
-                }
-                adapter.updateProjectedAverages(categoryIndex);
-                adapter.notifyDataSetChanged(); //refresh the views
-            }
-            return false;
-        }
-
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
