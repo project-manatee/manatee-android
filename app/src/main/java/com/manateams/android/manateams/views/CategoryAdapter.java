@@ -147,9 +147,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                             assignmentText.setText(context.getString(R.string.misc_average));
                             assignmentText.setTypeface(assignmentText.getTypeface(), Typeface.BOLD);
                             TextView gradeText = (TextView) row.findViewById(R.id.text_grade);
+                            gradeText.setTypeface(assignmentText.getTypeface(), Typeface.BOLD);
                             if (category.average != null) {
                                 gradeText.setText(String.valueOf(category.average.intValue()));
-                                gradeText.setTypeface(assignmentText.getTypeface(), Typeface.BOLD);
                             }
                             if (category.projectedAverage != null) {
                                 gradeText.setTextColor(context.getResources().getColor(R.color.red));
