@@ -27,6 +27,7 @@
         android:hint="@string/hint_add_grade"
         android:textColorHint="@color/red"
         android:inputType="number"
+        android:maxLength="3"
         android:imeOptions="actionDone"
         android:id="@+id/text_grade"
         android:layout_height="wrap_content"
