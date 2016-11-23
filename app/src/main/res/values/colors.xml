@@ -8,6 +8,7 @@
     <color name="background">#E0E0E0</color>
     <color name="pink">#e91e63</color>
     <color name="red">#e51c23</color>
+    <color name="light_red">#ff4242</color>
     <color name="orange">#ff9800</color>
     <color name="lightgreen">#8bc34a</color>
     <color name="green">#259b24</color>

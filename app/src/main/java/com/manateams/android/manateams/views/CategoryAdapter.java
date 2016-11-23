@@ -51,7 +51,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                     if (grades.average != -1 && grades.projectedAverage == -1) {
                         viewHolder.weightText.setText(Integer.toString(grades.average));
                     } else if (grades.projectedAverage != -1){
-                        viewHolder.weightText.setTextColor(context.getResources().getColor(R.color.red));
+                        viewHolder.weightText.setTextColor(context.getResources().getColor(R.color.light_red));
                         viewHolder.weightText.setText(Integer.toString(grades.projectedAverage));
                     } else {
                         viewHolder.weightText.setText("");
