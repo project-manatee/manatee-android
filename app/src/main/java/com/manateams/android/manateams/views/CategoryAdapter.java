@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -90,25 +92,22 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                                         LinearLayout row = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.row_assignment_editable, null);
                                         TextView assignmentText = (TextView) row.findViewById(R.id.text_assignment);
 
-                                        final EditText gradeText = (EditText) row.findViewById(R.id.text_grade);
-                                        //bring up the keyboard and make sure the cursor is at the end
-                                        gradeText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                                            @Override
-                                            public void onFocusChange(View v, boolean hasFocus) {
-                                                if (hasFocus) {
-                                                    EditText e = (EditText) v;
-                                                    String s = e.getText().toString();
-                                                    e.setText("");
-                                                    e.append(s);
-                                                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                                                    imm.showSoftInput(e, InputMethodManager.SHOW_IMPLICIT);
+                                        EditText gradeText = (EditText) row.findViewById(R.id.text_grade);
+                                        View.OnFocusChangeListener focusListener = new FocusChangeListener(context, this, position, i, assignment.ptsPossible);
+                                        gradeText.setOnFocusChangeListener(focusListener);
 
+                                        gradeText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                                            @Override
+                                            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                                                if (actionId == EditorInfo.IME_ACTION_DONE) { //user clicks done
+                                                    //lose focus and hide the keyboard
+                                                    v.clearFocus();
+                                                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                                                 }
+                                                return false;
                                             }
                                         });
-
-                                        TextView.OnEditorActionListener listener = new EditorActionListener(context, this, position, i, assignment.ptsPossible);
-                                        gradeText.setOnEditorActionListener(listener); //listen for actions in the EditText
 
                                         if (assignment.isProjected && assignment.ptsEarned != null && assignment.ptsEarned.value != -1) {
                                             gradeText.setText(Numeric.doubleToPrettyString(Math.round(assignment.ptsEarned.value_d*(assignment.ptsPossible/100))));
@@ -125,7 +124,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                                                     LinearLayout parentRow = (LinearLayout) v.getParent();
                                                     EditText childEditText = (EditText) parentRow.getChildAt(1);
                                                     childEditText.requestFocus();
-                                                    childEditText.setSelection(childEditText.getText().length());
+                                                    childEditText.setSelection(childEditText.getText().length()); //move cursor to end
                                                     InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                                                     imm.showSoftInput(childEditText, InputMethodManager.SHOW_IMPLICIT);
                                                 }
